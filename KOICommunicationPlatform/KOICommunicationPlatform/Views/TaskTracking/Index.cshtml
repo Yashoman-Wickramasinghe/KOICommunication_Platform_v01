@@ -1,0 +1,782 @@
+﻿ <!-- Content Wrapper. Contains page content -->
+<script src="~/plugins/sprintjs/drag.js"></script>
+<script src="~/plugins/sprintjs/todo.js"></script>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Task Tracker</h1>
+            </div>
+            <div class="col-sm-6 d-none d-sm-block">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Create Tasks</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card">
+                    @*  <div class="card-header">
+                        <h3 class="card-title">Assign KOI Project Tracker Roles</h3>
+                    </div> *@
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Course Name</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">MIT - Master of Information Technology</option>
+                                        <option>BIT - Bachelor of Information Technology</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Trimester</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">T124</option>
+                                        <option>T121</option>
+                                        <option>T122</option>
+                                        <option>T123</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Capstone</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">Capstone Project 01</option>
+                                        <option>Capstone Project 02</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Tutorial Class</label>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Tuesday 12:00 pm - 2:00 pm</option>
+                                            <option>Tuesday  2:00 pm - 4:00 pm</option>
+                                            <option>Wednesday 1:00 pm - 3:00 pm</option>
+                                            <option>Wednesday 3:00 pm - 5:00 pm</option>
+                                            <option>Wednesday 3:00 pm - 5:00 pm - Newcastle</option>
+                                            <option>Tuesday - All</option>
+                                            <option>Wednesday - All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Group</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">LAT2-3</option>
+                                        <option>LAT2-1</option>
+                                        <option>LAT2-2</option>
+                                        <option>LAT2-4</option>
+                                        <option>LBT1-1</option>
+                                        <option>LBT1-2</option>
+                                        <option>LBT1-3</option>
+                                        <option>LBT1-4</option>
+                                        <option>LBT1-5</option>
+                                        <option>LBT2-1</option>
+                                        <option>LBT2-2</option>
+                                        <option>LBT2-3</option>
+                                        <option>LBT2-4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-print">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-success float-right"> Clear All </button>
+                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">Load Task Tracker</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </div>
+    </div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card">
+                    <div class="card-header">
+                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-lg" style="background-color:green;border-color:green"> + Create Task</button>
+                            <button type="button" class="btn btn-danger float-right" style="margin-right:5px">Clear Sprint</button>
+                    </div>
+                        <div class="modal fade" id="modal-lg">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Create Task</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Assign To</label>
+                                                    <select class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected">12203888 - Wickrama Arachchige Yashoman Wickramasinghe</option>
+                                                        <option>11901352 - Gaurav Khadka</option>
+                                                        <option>12203264 - Sujal Poudel</option>
+                                                        <option>12301598 - Ivan Renaldo Suryantono</option>
+                                                        <option>12100180 - Enseh Singh</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Assign By</label>
+                                                <select class="form-control select2" style="width: 100%;" disabled>
+                                                    <option selected="selected">Adbc Lecturer</option>
+                                                    <option selected="selected">Adbc Lecturer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label for="TaskTiltle">Task Title</label>
+                                                        <input type="text" class="form-control" id="clientNamr" placeholder="Task Title" value="Task Title">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Status</label>
+                                                <select class="form-control select2" style="width: 100%;">
+                                                    <option selected="selected">Backlog</option>
+                                                    <option selected="selected">To Do</option>
+                                                    <option selected="selected">In Progress</option>
+                                                    <option selected="selected">Done</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Estimated Time</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Time Spent</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Priority</label>
+                                                    <select class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected">Low</option>
+                                                        <option selected="selected">Medium</option>
+                                                        <option selected="selected">High</option>
+                                                    </select>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Type</label>
+                                                    <select class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected">Feature</option>
+                                                        <option selected="selected">Bug</option>
+                                                    </select>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="description">Description (Optional)</label>
+                                                    <textarea class="form-control" rows="3" placeholder="Enter description" id="description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Create Task</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                    <div class="lanes card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="swim-lane card card-row card-secondary" id="todo-lane">
+                                    <div class="card-header bg-warning">
+                                        <h3 class="card-title" style="color:#FFFFFF">
+                                            Backlog
+                                        </h3>
+                                    </div>
+                                        <div class="task card-body" draggable="true">
+                                            <div class="card card-warning card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Merge Final Report</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Merge everyones tasks into single word file.</p>
+                                                    <p>2 days</p>
+                                                    <p>11/May/2024 11:48AM</p>
+                                                    <p style="color:green; font-weight:bold">L</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFM002</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> YW </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="task card-body" draggable="true">
+                                            <div class="card card-warning card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red">Requirements</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Describe functional and non-functional requirements</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 11:40AM</p>
+                                                    <p style="color:red; font-weight:bold">H</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFR002</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> GK </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="task card-body" draggable="true">
+                                            <div class="card card-warning card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red">Project Scope</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Discribe project scope.</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 11:42AM</p>
+                                                    <p style="color:green; font-weight:bold">L</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFS002</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> GK </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="swim-lane card card-row card-danger">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            To Do
+                                        </h3>
+                                    </div>
+                                     <div class="task card-body" draggable="true">
+                                            <div class="card card-danger card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red">Database Design</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Generate database digram by designing the database.</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 09:20AM</p>
+                                                     <p style="color:red; font-weight:bold">H</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFD02</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> SP </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="task card-body" draggable="true">
+                                            <div class="card card-danger card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Project Evaluation</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Project evaluation and ethical issues.</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 09:26AM</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFE02</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> ES </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="task card-body" draggable="true">
+                                            <div class="card card-danger card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red;">Project Time Line</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Project timeline and project design methodology</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 09:25AM</p>
+                                                    <p style="color:red; font-weight:bold">H</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFP05</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> IR </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="swim-lane card card-row card-default">
+                                    <div class="card-header bg-info">
+                                        <h3 class="card-title">
+                                            In Progress
+                                        </h3>
+                                    </div>
+                                    <div class="task card-body" draggable="true">
+                                            <div class="card card-info card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red">UI Design</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool"  data-toggle="modal" data-target="#modal-cm" >
+                                                            <i class="fas fa-comment"></i>
+                                                            <span class="badge badge-danger navbar-badge" style="background-color: red;font-weight:bold">1</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>UI design with a prototype.</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 09:30AM</p>
+                                                     <p style="color:red; font-weight:bold">H</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFU02</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> YW </button>
+                                                                    <button type="button" class="btn btn float-right" data-toggle="modal" data-target="#modal-detail" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="task card-body" draggable="true">
+                                            <div class="card card-info card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red">WBC</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Work breakdown structure.</p>
+                                                    <p>1 week</p>
+                                                    <p>02/May/2024 09:35AM</p>
+                                                     <p style="color:red; font-weight:bold">H</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                    <label for="customCheckbox1" class="custom-control-label">RFW02</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> IR </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="swim-lane card card-row card-success">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Done
+                                        </h3>
+                                    </div>
+                                        <div class="card-body">
+                                            <div class="card card-success card-outline">
+                                                <div class="card-header">
+                                                    <h5 class="card-title" style="color:red;">Final Report Template</h5>
+                                                    <div class="card-tools">
+                                                        <a href="#" class="btn btn-tool">
+                                                            <i class="fas fa-comment"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>Final report template with 20% of complete work.</p>
+                                                    <p>1 week</p>
+                                                    <p>26/Apr/2024 11:48AM</p>
+                                                    <p style="color:red; font-weight:bold">H</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked>
+                                                                <label for="customCheckbox1" class="custom-control-label">RFP001</label>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="row no-print">
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold"> GK </button>
+                                                                    <button type="button" class="btn btn float-right" style="background-color:#64646c4d;color:black;font-weight:bold; margin-right:5px">Details</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<div class="modal fade" id="modal-cm">
+                            <div class="modal-dialog modal-cm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Add Comment</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                               
+                                             <div class="form-group">
+                                                 <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Abcd Lecturer  03/May/2024 09:49AM <br />
+                                                                Please change the font sizes of texts</th>
+                                                            <th> <a href="#" style="color:blue">Edit </a></th>
+                                                         </tr>
+                                                    </thead>
+                                                 </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                              
+                                 
+                                     
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="description">Write your comment</label>
+                                                    <textarea class="form-control" rows="3" placeholder="Enter description" id="description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+
+
+<div class="modal fade" id="modal-detail">
+                            <div class="modal-dialog modal-detail">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Create Task</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Assign To</label>
+                                                    <select class="form-control select2" style="width: 100%;" disabled>
+                                                        <option selected="selected">12203888 - Wickrama Arachchige Yashoman Wickramasinghe</option>
+                                                        <option>11901352 - Gaurav Khadka</option>
+                                                        <option>12203264 - Sujal Poudel</option>
+                                                        <option>12301598 - Ivan Renaldo Suryantono</option>
+                                                        <option>12100180 - Enseh Singh</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Assign By</label>
+                                                <select class="form-control select2" style="width: 100%;" disabled>
+                                                    <option selected="selected">Adbc Lecturer</option>
+                                                    <option selected="selected">Adbc Lecturer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label for="TaskTiltle">Task Title</label>
+                                                        <input type="text" class="form-control" id="clientNamr" placeholder="Task Title" value="UI Design">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Status</label>
+                                                <select class="form-control select2" style="width: 100%;">
+                                                    <option selected="selected" selected>In Progress</option>
+                                                    <option>Backlog</option>
+                                                    <option>To Do</option>
+                                                    <option>Done</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Estimated Time</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                        <input type="text" value="2 weeks" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Time Spent</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Priority</label>
+                                                    <select class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected" selected>High</option>
+                                                        <option selected="selected">Low</option>
+                                                        <option selected="selected">Medium</option>
+
+                                                    </select>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Type</label>
+                                                    <select class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected" selected>Design</option>
+                                                        <option>Feature</option>
+                                                        <option>Bug</option>
+                                                        <option>Reporting</option>
+                                                    </select>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="description">Description (Optional)</label>
+                                                    <textarea class="form-control" rows="3"  id="description">UI design with a prototype.</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Edit Task</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>

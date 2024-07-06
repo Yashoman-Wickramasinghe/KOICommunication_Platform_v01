@@ -1,0 +1,214 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">View Registered Clients</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">User Roles</a></li>
+                    <li class="breadcrumb-item active">View Registered Clients</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-danger">
+                    <div class="card-header">
+                        @* <h3 class="card-title">View clients</h3> *@
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here" value="">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                       @*  <div class="form-group">
+                            <label>Search by Name</label>
+                            <select class="form-control select2" style="width: 100%;">
+                                <option selected="selected">GLIA Diagnostics</option>
+                                <option>Queen of Snow Globes</option>
+                                <option>Mrs Oh</option>
+                                <option>Mark Wesley Media</option>
+                                <option>ImpexDocs</option>
+                                <option>Kruchchilli</option>
+                                <option>Docushop</option>
+                                <option>Community Rideshare</option>
+                                <option>Communication Platform</option>
+                                <option>Indeed Care</option>
+                                <option>Da Vinchii AI</option>
+                                <option>CheatSheets</option>
+                                <option>In the Light Counselling</option>
+                                <option>Glow in Wellness</option>
+                                <option>Source Your Own Project</option>
+                            </select>
+                        </div> *@
+                        @* <div class="form-group">
+                        <label>Sort</label>
+                        <select class="form-control select2" style="width: 100%;">
+                        <option selected="selected">Date (Newest - Oldest)</option>
+                        <option>Date (Oldest - Newest)</option>
+                        <option>A - Z</option>
+                        </select>
+                        </div> *@
+                        <div class="row">
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                        <div class="row no-print">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-primary float-right">Search</button>
+                                <button type="button" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <!-- /.col (left) -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">View User Roles</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Client Name</th>
+                                            <th>Contact Person 01</th>
+                                            <th>Contact Number 01</th>
+                                            <th>Contact Person 02</th>
+                                            <th>Contact Number 02</th>
+                                            <th>Email</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>GLIA Diagnostics</td>
+                                            <td>Mr. Jacobs Scott</td>
+                                            <td>0288689780</td>
+                                            <td>Mis. Ann Maretiz</td>
+                                            <td>0288689781</td>
+                                            <td>gliaDiag@gliad.com.au</td>
+                                            <td>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Queen of Snow Globes</td>
+                                            <td>Mr. Ravi Iyer</td>
+                                            <td>0249587620</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>qsglobes@info.com.au</td>
+                                            <td>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>CheatSheets</td>
+                                            <td>Mr. David Kad</td>
+                                            <td>0249587111</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>info@cheatsheet.com.au</td>
+                                            <td>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>In the Light Counselling</td>
+                                            <td>Mrs. Pavithra Athukorala</td>
+                                            <td>0229564870</td>
+                                            <td>Mr. D K Athukorala</td>
+                                            <td>0244587552</td>
+                                            <td>info@lightCouncelling.com.au</td>
+                                            <td>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Glow in Wellness</td>
+                                            <td>Mrs. Nirosha Perera</td>
+                                            <td>0249588880</td>
+                                            <td>Mrs. Palika </td>
+                                            <td>-</td>
+                                            <td>qsglobes@info.com.au</td>
+                                            <td>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Source Your Own Project</td>
+                                            <td>Mr. Cliford James</td>
+                                            <td>0249587644</td>
+                                            <td>Mrs.Julliet Liz</td>
+                                            <td>0249587555</td>
+                                            <td>info@syop.com.au</td>
+                                            <td>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                                <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div><!-- /.container-fluid -->
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
