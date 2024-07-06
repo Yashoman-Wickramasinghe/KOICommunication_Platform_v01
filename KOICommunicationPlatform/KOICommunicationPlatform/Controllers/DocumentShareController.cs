@@ -10,7 +10,7 @@ namespace KOICommunicationPlatform.Controllers
         }
 
         public IActionResult UploadDocuments()
-        {
+        {//test
             return View();
         }
     }
