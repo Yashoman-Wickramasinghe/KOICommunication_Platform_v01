@@ -21,28 +21,35 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            //List<Client> _objClientList = _clientRepository.GetAll().ToList();
-            //return View(_objClientList);
-
+            // Fetch the list of clients
             var _objClientList = _clientRepository.GetAll().ToList();
 
+            // Create a dictionary to store file names by client ID
             var clientFiles = new Dictionary<int, List<string>>();
 
+            // Iterate over each client to collect file information
             foreach (var client in _objClientList)
             {
+                // Check if SubmissionLink is not empty and directory exists
                 if (!string.IsNullOrEmpty(client.SubmissionLink) && Directory.Exists(client.SubmissionLink))
                 {
+                    // Get the list of files in the directory
                     var files = Directory.GetFiles(client.SubmissionLink);
+
+                    // Extract file names and add to dictionary
                     clientFiles[client.Id] = files.Select(Path.GetFileName).ToList();
                 }
                 else
                 {
+                    // If no files are found, initialize with an empty list
                     clientFiles[client.Id] = new List<string>();
                 }
             }
 
+            // Pass the client files information to the view via ViewBag
             ViewBag.ClientFiles = clientFiles;
 
+            // Return the view with the list of clients
             return View(_objClientList);
         }
 
@@ -217,6 +224,29 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             TempData["success"] = "Client record deleted successfully";
             return RedirectToAction("Index");
         }
-        
+
+        public IActionResult DownloadFile(int clientId, string fileName)
+        {
+            // Retrieve the client to get the SubmissionLink
+            var client = _clientRepository.GetAll().FirstOrDefault(c => c.Id == clientId);
+
+            if (client == null || string.IsNullOrEmpty(client.SubmissionLink))
+            {
+                return NotFound();
+            }
+
+            var filePath = Path.Combine(client.SubmissionLink, fileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var contentType = "application/octet-stream"; // Default MIME type for binary files
+            return File(fileBytes, contentType, fileName);
+        }
+
+
     }
 }

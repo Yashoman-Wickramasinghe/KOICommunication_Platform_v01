@@ -28,13 +28,9 @@
         </div>
     </div><!-- /.container-fluid -->
     <br />
-  @*   @if (TempData["success"] != null)
-    {
-        <h4 style="color:green;font-weight:bold">@TempData["success"]</h4>
-    } *@
 </div>
 <section class="content">
-    <from method="post">
+    <form method="post">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -93,59 +89,60 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.OrderBy(u => u.Id))
-                                            {
-                                                var files = ViewBag.ClientFiles as Dictionary<int, List<string>>;
-                                                var fileNames = files != null && files.ContainsKey(item.Id) ? files[item.Id] : new List<string>();
-                                                <tr>
-                                                    <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson01Name)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson01Contact)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson02Name)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson02Contact)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                                    <td>
-                                                        @if (fileNames.Any())
-                                                        {
-                                                            <ul>
-                                                                @foreach (var fileName in fileNames)
-                                                                {
-                                                                    <li>
-                                                                        @(fileName.Length > 20 ? fileName.Substring(0, 20) + "..." : fileName)
-                                                                    </li>
-                                                                }
-                                                            </ul>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        <div class="w-75 btn-group" role="group">
-                                                            <a asp-controller="ClientRegister" asp-action="Edit" asp-route-id="@item.Id"
-                                                               class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                                                            <a asp-controller="ClientRegister" asp-action="Delete" asp-route-id="@item.Id"
-                                                               class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
+                                    <tbody>
+                                        @foreach (var item in Model.OrderBy(u => u.Id))
+                                        {
+                                            var files = ViewBag.ClientFiles as Dictionary<int, List<string>>;
+                                            var fileNames = files != null && files.ContainsKey(item.Id) ? files[item.Id] : new List<string>();
+
+                                            <tr>
+                                                <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson01Name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson01Contact)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson02Name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson02Contact)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                                <td>
+                                                    @if (fileNames.Any())
+                                                    {
+                                                        <ul>
+                                                            @foreach (var fileName in fileNames)
+                                                            {
+                                                                var shortenedFileName = fileName.Length > 20 ? fileName.Substring(0, 20) + "..." : fileName;
+                                                                <li>
+                                                                    <a href="@Url.Action("DownloadFile", new { clientId = item.Id, fileName = fileName })" 
+                                                                       download
+                                                                       title="@fileName">
+                                                                       @(shortenedFileName)
+                                                                    </a>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <div class="w-75 btn-group" role="group">
+                                                        <a asp-controller="ClientRegister" asp-action="Edit" asp-route-id="@item.Id"
+                                                           class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                                        <a asp-controller="ClientRegister" asp-action="Delete" asp-route-id="@item.Id"
+                                                           class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
                                 </table>
-                                @* <cs-pager gees-pager cs-paging-pagesize=(int)Model.PageSize
-                                          cs-paging-pagenumber=(int)Model.PageNumber cs-paging-totalitems=(int)Model.TotalItems cs-pagenumber-paran="pageNumber" asp-controller="RoomType"
-                                          asp-action="Index" cs-pager-Li-current-class="page-item active" cs-pager-li-other-class="page-item" [ cs-pager-li-non-active-class="page-item disabled" cs-pager-Link-current-class="page-link" cs-pager-Link-other-class="page-Link">
-                                </cs-pager> *@
                             </div>
                         </div>
                     </div>
                     <!-- /.col -->
                 </div>
             </div><!-- /.container-fluid -->
-
         </div>
     </div>
     <!-- /.container-fluid -->
-    </from>
+    </form>
 </section>
 <script>
     function reloadPage() {
