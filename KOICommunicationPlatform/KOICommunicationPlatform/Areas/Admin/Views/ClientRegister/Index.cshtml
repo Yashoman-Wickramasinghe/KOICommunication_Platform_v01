@@ -1,8 +1,4 @@
 ﻿@model List<Client>
-@{
-    ViewData["Title"] = "Index";
-}
-
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -31,6 +27,11 @@
             </div><!-- /.col -->
         </div>
     </div><!-- /.container-fluid -->
+    <br />
+  @*   @if (TempData["success"] != null)
+    {
+        <h4 style="color:green;font-weight:bold">@TempData["success"]</h4>
+    } *@
 </div>
 <section class="content">
     <from method="post">
@@ -88,44 +89,47 @@
                                             <th>Contact Person 02</th>
                                             <th>Contact Number 02</th>
                                             <th>Email</th>
-                                            <th>SubmissionLink</th>
+                                            <th>Files</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.OrderBy(u => u.Id))
-                                        {
-                                            <tr>
-                                                <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson01Name)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson01Contact)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson02Name)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.ContactPerson02Contact)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.SubmissionLink)</td>
-                                                <td>
-                                                    <style>
-                                                        .link {
-                                                            color: blue;
-                                                            text-decoration: underline;
-                                                            cursor: pointer;
+                                        <tbody>
+                                            @foreach (var item in Model.OrderBy(u => u.Id))
+                                            {
+                                                var files = ViewBag.ClientFiles as Dictionary<int, List<string>>;
+                                                var fileNames = files != null && files.ContainsKey(item.Id) ? files[item.Id] : new List<string>();
+                                                <tr>
+                                                    <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson01Name)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson01Contact)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson02Name)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson02Contact)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                                    <td>
+                                                        @if (fileNames.Any())
+                                                        {
+                                                            <ul>
+                                                                @foreach (var fileName in fileNames)
+                                                                {
+                                                                    <li>
+                                                                        @(fileName.Length > 20 ? fileName.Substring(0, 20) + "..." : fileName)
+                                                                    </li>
+                                                                }
+                                                            </ul>
                                                         }
-                                                    </style>
-                                                    @*   <button class="link" id="loadClientDetailsButton" onclick="loadClientDetails(@item.Id)">Load Client Details</button> *@
-                                                    @* <a href="javascript:void(0);" onclick="loadClientDetails(@item.Id)">Details</a> |
-                                                    <a href="#">Edit</a> |
-                                                    <a href="#">Delete</a> *@
-                                                    <div class="w-75 btn-group" role="group">
+                                                    </td>
+                                                    <td>
+                                                        <div class="w-75 btn-group" role="group">
                                                             <a asp-controller="ClientRegister" asp-action="Edit" asp-route-id="@item.Id"
-                                                           class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                                               class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
                                                             <a asp-controller="ClientRegister" asp-action="Delete" asp-route-id="@item.Id"
-                                                           class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
+                                                               class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
                                 </table>
                                 @* <cs-pager gees-pager cs-paging-pagesize=(int)Model.PageSize
                                           cs-paging-pagenumber=(int)Model.PageNumber cs-paging-totalitems=(int)Model.TotalItems cs-pagenumber-paran="pageNumber" asp-controller="RoomType"
@@ -143,3 +147,8 @@
     <!-- /.container-fluid -->
     </from>
 </section>
+<script>
+    function reloadPage() {
+        location.reload();
+    }
+</script>

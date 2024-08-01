@@ -32,8 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\KOICommunicationPlatform.Repositories\KOICommunicationPlatform.Repositories.csproj" />
-	  <ProjectReference Include="..\KOICommunicationPlatform.Services\KOICommunicationPlatform.Services.csproj" />
+	  <ProjectReference Include="..\KOICommunicationPlatform.DataAccess\KOICommunicationPlatform.DataAccess.csproj" />
 	  <ProjectReference Include="..\KOICommunicationPlatform.Utilities\KOICommunicationPlatform.Utilities.csproj" />
 	</ItemGroup>
 

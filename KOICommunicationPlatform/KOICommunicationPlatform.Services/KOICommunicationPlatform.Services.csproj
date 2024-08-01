@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KOICommunicationPlatform.Repositories\KOICommunicationPlatform.Repositories.csproj" />
     <ProjectReference Include="..\KOICommunicationPlatform.Utilities\KOICommunicationPlatform.Utilities.csproj" />
     <ProjectReference Include="..\KOICommunicationPlatform.ViewModels\KOICommunicationPlatform.ViewModels.csproj" />
   </ItemGroup>

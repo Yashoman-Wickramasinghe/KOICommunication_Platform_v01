@@ -32,7 +32,7 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <form asp-action="Create">
+            <form asp-action="Create" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6">
@@ -84,19 +84,14 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-
-                            <div class="form-group">
-                                @* <label asp-for="SubmissionLink" for="description">Description</label>
-                                <textarea asp-for="SubmissionLink" class="form-control" rows="3" placeholder="Enter description" id="description"></textarea>
-                                <span asp-validation-for="SubmissionLink" class="text-danger"></span> *@
-                            </div>
                             <div class="form-group">
                                 <label asp-for="SubmissionLink" for="description">File Upload</label>
-                                <input type="file" class="form-control border-0 shadow" />
+                                <input type="file" name="uploadedFile" class="form-control border-0" />
                             </div>
                         </div>
                         <!-- /.col -->
                     </div>
+                    <!-- /.row -->
                     <!-- /.row -->
                     <div class="row">
                         <div class="col-md-6">

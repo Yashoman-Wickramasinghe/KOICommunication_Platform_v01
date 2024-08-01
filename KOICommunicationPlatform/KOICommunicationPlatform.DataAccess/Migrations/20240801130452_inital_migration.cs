@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KOICommunicationPlatform.Repositories.Migrations
+namespace KOICommunicationPlatform.DataAccess.Migrations
 {
-    public partial class initial_migration_test14 : Migration
+    public partial class inital_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,6 +141,7 @@ namespace KOICommunicationPlatform.Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClientName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactPerson01Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -153,7 +154,7 @@ namespace KOICommunicationPlatform.Repositories.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: true)
+                    UserRoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,7 +163,8 @@ namespace KOICommunicationPlatform.Repositories.Migrations
                         name: "FK_Clients_UserRoles_UserRoleId",
                         column: x => x.UserRoleId,
                         principalTable: "UserRoles",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -472,12 +474,6 @@ namespace KOICommunicationPlatform.Repositories.Migrations
                         name: "FK_ClientMeetings_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClientMeetings_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -887,11 +883,6 @@ namespace KOICommunicationPlatform.Repositories.Migrations
                 name: "IX_ClientMeetings_ApplicationUserId",
                 table: "ClientMeetings",
                 column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientMeetings_ClientId",
-                table: "ClientMeetings",
-                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClientMeetings_CourseId",

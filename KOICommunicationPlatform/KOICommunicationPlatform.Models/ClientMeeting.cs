@@ -26,7 +26,7 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        public Client Client { get; set; }
+        //public Client Client { get; set; }
         public Course Course { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public StudentGroupHD StudentGroupHD { get; set; }
