@@ -23,9 +23,7 @@ namespace KOICommunicationPlatform.ViewModels
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        [Required]
         public int UserRoleId { get; set; }
-
         public ClientViewModel() { }
 
         public ClientViewModel(Client model) {

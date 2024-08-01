@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KOICommunicationPlatform.Repositories
+namespace KOICommunicationPlatform.DataAccess
 {
     public class ApplicationDbContext: IdentityDbContext
     {

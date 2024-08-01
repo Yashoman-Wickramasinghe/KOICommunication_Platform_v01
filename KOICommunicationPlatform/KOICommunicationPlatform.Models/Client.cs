@@ -13,6 +13,8 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
+
+        public Guid DocumentId { get; set; }
         [Required]
         [MaxLength(100)]
         public string ClientName { get; set; }
@@ -30,7 +32,7 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        [Required]
+        //[Required]
         public int UserRoleId { get; set; }
         public UserRole UserRole { get; set; }
     }
