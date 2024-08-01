@@ -1,0 +1,184 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Add Project Deliverables</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Document Share</a></li>
+                    <li class="breadcrumb-item active">Add Project Deliverables</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-danger">
+                    <div class="card-header">
+                        @* <h3 class="card-title">Assign KOI Project Tracker Roles</h3> *@
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Course Name</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">MIT - Master of Information Technology</option>
+                                        <option>BIT - Bachelor of Information Technology</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Trimester</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">T124</option>
+                                        <option>T121</option>
+                                        <option>T122</option>
+                                        <option>T123</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Capstone</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">Capstone Project 01</option>
+                                        <option>Capstone Project 02</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="TaskTiltle">Name of Deliverable</label>
+                                        <input type="text" class="form-control" id="deliverable" placeholder="Project Proposal" value="Project Proposal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Time Range</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric" placeholder="10/03/2024 10:00 AM - 24/03/2024 11:59 PM">
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-print">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-success float-right"> Clear All </button>
+                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">Add</button>
+                            </div>
+                        </div>
+                        <div class="post clearfix"></div>
+                        <br />
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Trimester </th>
+                                    <th>Capstone </th>
+                                    <th>Deliverable Type</th>
+                                    <th>Time Range</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>MIT</td>
+                                    <td>T124</td>
+                                    <td>Capstone Project 01</td>
+                                    <td>Project Proposal</td>
+                                    <td>10/03/2024 10:00 AM - 24/03/2024 11:59 PM</td>
+                                    <td>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>MIT</td>
+                                    <td>T124</td>
+                                    <td>Capstone Project 01</td>
+                                    <td>Individual Literature Review</td>
+                                    <td>24/03/2024 10:00 AM - 06/04/2024 11:59 PM</td>
+                                    <td>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>MIT</td>
+                                    <td>T124</td>
+                                    <td>Capstone Project 01</td>
+                                    <td>Final Project Proposal</td>
+                                    <td>07/04/2024 10:00 AM - 15/05/2024 11:59 PM</td>
+                                    <td>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BIT</td>
+                                    <td>T124</td>
+                                    <td>Capstone Project 01</td>
+                                    <td>Project Proposal</td>
+                                    <td>10/03/2024 10:00 AM - 24/03/2024 11:59 PM</td>
+                                    <td>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BIT</td>
+                                    <td>T124</td>
+                                    <td>Capstone Project 01</td>
+                                    <td>Individual Literature Review</td>
+                                    <td>24/03/2024 10:00 AM - 06/04/2024 11:59 PM</td>
+                                    <td>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">View | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Edit | </a>
+                                        <a href="#" style="margin-left: 5px;font-weight:bold">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>

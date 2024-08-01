@@ -1,0 +1,443 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Upload Documents</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Document Share</a></li>
+                    <li class="breadcrumb-item active">Upload Documents</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-danger">
+                    <div class="card-header">
+                        @* <h3 class="card-title">Assign KOI Project Tracker Roles</h3> *@
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Course Name</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">MIT - Master of Information Technology</option>
+                                        <option>BIT - Bachelor of Information Technology</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Trimester</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">T124</option>
+                                        <option>T121</option>
+                                        <option>T122</option>
+                                        <option>T123</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Capstone</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">Capstone Project 01</option>
+                                        <option>Capstone Project 02</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Group</label>
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">LAT2-3</option>
+                                        <option>LAT2-1</option>
+                                        <option>LAT2-2</option>
+                                        <option>LAT2-4</option>
+                                        <option>LBT1-1</option>
+                                        <option>LBT1-2</option>
+                                        <option>LBT1-3</option>
+                                        <option>LBT1-4</option>
+                                        <option>LBT1-5</option>
+                                        <option>LBT2-1</option>
+                                        <option>LBT2-2</option>
+                                        <option>LBT2-3</option>
+                                        <option>LBT2-4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-print">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-success float-right"> Clear All </button>
+                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">Find</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Time Line</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="timeline">
+                                <!-- The timeline -->
+                                <div class="timeline timeline-inverse">
+                                    <!-- timeline time label -->
+                                    <div class="time-label">
+                                        <span class="bg-success">
+                                            Project Proposal
+                                        </span>
+                                        <button class="btn btn-info"><i class="fa-solid fa-upload"></i> Upload</button>
+                                    </div>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+                                    <div>
+                                        <i class="fas fa-file bg-primary"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                                </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Abcd Lecturer 01</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                05/03/2024 02:30:21 PM</h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Initial Proposal TemplateFile</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END timeline item -->
+                                    <!-- timeline item -->
+                                    <div>
+                                        <i class="fas fa-user bg-info"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                            </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Gaurav Khadka - 11901352</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                10/03/2024 03:30:25 PM
+                                            </h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Draft 01 of Proposal Report</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-user bg-info"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                            </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Gaurav Khadka - 11901352</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                15/03/2024 09:21:32 AM
+                                            </h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Draft 02 of Proposal Report</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-user bg-info"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                            </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Gaurav Khadka - 11901352</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                19/03/2024 10:41:36 AM
+                                            </h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Final Proposal Report</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END timeline item -->
+                                    <!-- timeline item -->
+                                    <div class="time-label">
+                                        <span class="bg-success">Individual Literature Review</span>
+                                        <button class="btn btn-info"><i class="fa-solid fa-upload"></i> Upload</button>
+                                    </div>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+                                    <div>
+                                        <i class="fas fa-file bg-primary"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                            </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Abcd Lecturer 01</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                24/03/2024 12:33:26 PM
+                                            </h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Literature Review TemplateFile</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-user bg-info"></i>
+                                        <div class="timeline-item">
+                                            @* <span class="time" style="color: green; font-weight:bold"><i class="fa fa-plus"></i> <a href="#">Add more versions</a></span> *@
+
+                                            <h3 class="timeline-header"><a href="#">Gaurav Khadka - 11901352</a></h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold; margin-right:5px"><i class="far fa-fw fa-file-word"></i> Literature Review Draft </a>
+                                                        <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                        28/04/2024 01:35:41 PM <br />
+                                                        <span class="time" style="color:red;font-weight:bold;margin-left:5px">
+                                                            <i class="fa fa-trash"></i><d>
+                                                                <a href="" style="color:red;font-weight:bold">Remove</a>
+                                                        </span>
+                                                        <span class="time" style="color:blue;font-weight:bold">
+                                                            <i class="far fa-comment"></i><d>
+                                                                <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="post clearfix"></div>
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold; margin-right:5px"><i class="far fa-fw fa-file-word"></i> Literature Review Draft </a>
+                                                        <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                        29/04/2024 02:39:20 PM <br />
+                                                        <span class="time" style="color:red;font-weight:bold;margin-left:5px">
+                                                            <i class="fa fa-trash"></i><d>
+                                                                <a href="" style="color:red;font-weight:bold">Remove</a>
+                                                        </span>
+                                                        <span class="time" style="color:blue;font-weight:bold">
+                                                            <i class="far fa-comment"></i><d>
+                                                                <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="timeline-footer">
+                                                <a href="#" class="btn btn-warning btn-flat btn-sm" style="font-weight:bold">Add more documents</a>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div>
+                                        <i class="fas fa-user bg-info"></i>
+                                        <div class="timeline-item">
+                                            @* <span class="time" style="color: green; font-weight:bold"><i class="fa fa-plus"></i> <a href="#">Add more versions</a></span> *@
+
+                                            <h3 class="timeline-header"><a href="#">W A Yashoman Wickramasinghe - 12203888</a></h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold; margin-right:5px"><i class="far fa-fw fa-file-word"></i> Literature Review Draft 01 </a>
+                                                        <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                        29/04/2024 02:35:27 PM <br />
+                                                        <span class="time" style="color:red;font-weight:bold;margin-left:5px">
+                                                            <i class="fa fa-trash"></i><d>
+                                                                <a href="" style="color:red;font-weight:bold">Remove</a>
+                                                        </span>
+                                                        <span class="time" style="color:blue;font-weight:bold">
+                                                            <i class="far fa-comment"></i><d>
+                                                                <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="post clearfix"></div>
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold; margin-right:5px"><i class="far fa-fw fa-file-word"></i> Literature Review Draft 02</a>
+                                                        <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                        30/04/2024 01:15:33 PM <br />
+                                                        <span class="time" style="color:red;font-weight:bold;margin-left:5px">
+                                                            <i class="fa fa-trash"></i><d>
+                                                                <a href="" style="color:red;font-weight:bold">Remove</a>
+                                                        </span>
+                                                        <span class="time" style="color:blue;font-weight:bold">
+                                                            <i class="far fa-comment"></i><d>
+                                                                <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="timeline-footer">
+                                                <a href="#" class="btn btn-warning btn-flat btn-sm">Add more documents</a>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <!-- timeline time label -->
+                                    <div class="time-label">
+                                        <span class="bg-success">Final Project Proposal</span>
+                                        <button class="btn btn-info"><i class="fa-solid fa-upload"></i> Upload</button>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-file bg-primary"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                            </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Abcd Lecturer 01</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                01/05/2024 09:30:55 AM
+                                            </h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Final Proposal TemplateFile</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-user bg-info"></i>
+
+                                        <div class="timeline-item">
+
+                                            <span class="time" style="color:red;font-weight:bold">
+                                                <i class="fa fa-trash"></i><d>
+                                                    <a href="" style="color:red;font-weight:bold">Remove</a>
+                                            </span>
+                                            <span class="time" style="color:blue;font-weight:bold">
+                                                <i class="far fa-comment"></i><d>
+                                                    <a href="" style="color:blue;font-weight:bold">Add Comment</a>
+                                            </span>
+                                            <h3 class="timeline-header">
+                                                <a href="#" style="margin-right:5px">Ivan Renaldo Suryantono - 12301598</a> <br /><br />
+                                                <a href="#" style="color: black !important; font-weight:bold">Version: </a>
+                                                01/05/2024 03:20:21 PM
+                                            </h3>
+
+                                            <div class="timeline-body">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <a href="" class="btn-link text-secondary" style="color: green !important; font-weight:bold"><i class="far fa-fw fa-file-word"></i> Draft 01 of Final Proposal Report</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="far fa-clock bg-gray"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>

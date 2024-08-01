@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KOICommunicationPlatform", "KOICommunicationPlatform\KOICommunicationPlatform.csproj", "{4732EF20-27F9-40E8-99AA-BB8BCC256141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform", "KOICommunicationPlatform\KOICommunicationPlatform.csproj", "{4732EF20-27F9-40E8-99AA-BB8BCC256141}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.Models", "KOICommunicationPlatform.Models\KOICommunicationPlatform.Models.csproj", "{CB86D641-B465-4757-ACB7-EB4872FED7E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.ViewModels", "KOICommunicationPlatform.ViewModels\KOICommunicationPlatform.ViewModels.csproj", "{0304003C-3359-4DB0-8E21-30B1AD2A1768}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.Repositories", "KOICommunicationPlatform.Repositories\KOICommunicationPlatform.Repositories.csproj", "{87C0F94C-2B38-4C05-B644-08F960443C94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.Services", "KOICommunicationPlatform.Services\KOICommunicationPlatform.Services.csproj", "{CBBA3B00-F969-47A4-B21A-F36152805985}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.Utilities", "KOICommunicationPlatform.Utilities\KOICommunicationPlatform.Utilities.csproj", "{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{4732EF20-27F9-40E8-99AA-BB8BCC256141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4732EF20-27F9-40E8-99AA-BB8BCC256141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4732EF20-27F9-40E8-99AA-BB8BCC256141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C0F94C-2B38-4C05-B644-08F960443C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C0F94C-2B38-4C05-B644-08F960443C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C0F94C-2B38-4C05-B644-08F960443C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C0F94C-2B38-4C05-B644-08F960443C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBBA3B00-F969-47A4-B21A-F36152805985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBA3B00-F969-47A4-B21A-F36152805985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBA3B00-F969-47A4-B21A-F36152805985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBA3B00-F969-47A4-B21A-F36152805985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
