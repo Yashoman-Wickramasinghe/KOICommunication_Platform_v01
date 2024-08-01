@@ -1,0 +1,144 @@
+﻿@model Client
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Add Clients</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Register Clients</a></li>
+                    <li class="breadcrumb-item active">Add Client</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Add Industrial Clients</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <form asp-action="Create">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ClientName" for="clientNamr">Client Name/Business Name</label>
+                                <input asp-for="ClientName" type="text" class="form-control" id="clientName" placeholder="Enter client name">
+                                <span asp-validation-for="ClientName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Email" for="emailAddress">Email</label>
+                                <input asp-for="Email" type="email" class="form-control" id="emailAddress" placeholder="Enter email address">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ContactPerson01Name" for="contactPerson1">Contact Person 01 </label>
+                                <input asp-for="ContactPerson01Name" type="text" class="form-control" id="contactPerson1" placeholder="Enter contact person">
+                                <span asp-validation-for="ContactPerson01Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ContactPerson01Contact" for="contactNumber1">Contact Number 01 </label>
+                                <input asp-for="ContactPerson01Contact" type="text" class="form-control" id="contactNumber1" placeholder="Enter contact number">
+                                <span asp-validation-for="ContactPerson01Contact" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ContactPerson02Name" for="contactPerson2">Contact Person 02 (Optional) </label>
+                                <input asp-for="ContactPerson02Name" type="text" class="form-control" id="contactPerson2" placeholder="Enter contact person">
+                                <span asp-validation-for="ContactPerson02Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ContactPerson02Contact" for="contactNumber1">Contact Number 02 (Optional) </label>
+                                <input asp-for="ContactPerson02Contact" type="text" class="form-control" id="contactNumber2" placeholder="Enter contact number">
+                                <span asp-validation-for="ContactPerson02Contact" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                @* <label asp-for="SubmissionLink" for="description">Description</label>
+                                <textarea asp-for="SubmissionLink" class="form-control" rows="3" placeholder="Enter description" id="description"></textarea>
+                                <span asp-validation-for="SubmissionLink" class="text-danger"></span> *@
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SubmissionLink" for="description">File Upload</label>
+                                <input type="file" class="form-control border-0 shadow" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <input type="submit" value="Create" class="btn btn-primary float-right" />
+                            <button type="button" id="clearButton" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
+                            <a asp-controller="ClientRegister" asp-action="Index" class="btn btn-secondary float-right" style="margin-right: 5px;"> Back to List </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </form>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#clearButton").click(function () {
+            $("#clientName").val('');
+            $("#emailAddress").val('');
+            $("#contactPerson1").val('');
+            $("#contactNumber1").val('');
+            $("#contactPerson2").val('');
+            $("#contactNumber2").val('');
+            $("#description").val('');
+            $("#exampleInputFile").val('');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var successMessage = '@TempData["SuccessMessage"]';
+        if (successMessage) {
+            alert(successMessage);
+        }
+    });
+</script>
