@@ -4,6 +4,7 @@ using KOICommunicationPlatform.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using KOICommunicationPlatform.DataAccess;
+using KOICommunicationPlatform.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 //builder.Services.AddSingleton<IEmailSender, EmailSender>();
 

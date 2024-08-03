@@ -9,20 +9,20 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
     [Area("Admin")]
     public class ClientRegisterController : Controller
     {
-        private readonly IClientRepository _clientRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ClientRegisterController(IClientRepository db, IWebHostEnvironment hostEnvironment)
+        public ClientRegisterController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
-            _clientRepository = db;
+            _unitOfWork = unitOfWork;
             _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
         {
             // Fetch the list of clients
-            var _objClientList = _clientRepository.GetAll().ToList();
+            var _objClientList = _unitOfWork.Client.GetAll().ToList();
 
             // Create a dictionary to store file names by client ID
             var clientFiles = new Dictionary<int, List<string>>();
@@ -90,8 +90,8 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 obj.UserRoleId = 1;
                 obj.IsActive = true;
 
-                _clientRepository.Add(obj);
-                _clientRepository.Save();
+                _unitOfWork.Client.Add(obj);
+                _unitOfWork.Client.Save();
                 TempData["success"] = "Client saved successfully";
                 return RedirectToAction("Index");
 
@@ -109,7 +109,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            Client? clientFromDb = _clientRepository.Get(u=>u.Id==id);
+            Client? clientFromDb = _unitOfWork.Client.Get(u=>u.Id==id);
 
             if (clientFromDb == null)
             {
@@ -134,7 +134,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             try
             {
                 // Fetch the existing client from the database
-                Client clientFromDb = _clientRepository.Get(u => u.Id == id);
+                Client clientFromDb = _unitOfWork.Client.Get(u => u.Id == id);
 
                 if (clientFromDb == null)
                 {
@@ -180,8 +180,8 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 clientFromDb.IsActive = true;
 
                 // Update the client in the database
-                _clientRepository.Update(clientFromDb);
-                _clientRepository.Save();
+                _unitOfWork.Client.Update(clientFromDb);
+                _unitOfWork.Client.Save();
                 //await _db.SaveChangesAsync();
                 TempData["success"] = "Client edited successfully";
                 return RedirectToAction("Index");
@@ -200,7 +200,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            Client? clientFromDb = _clientRepository.Get(u => u.Id == id);
+            Client? clientFromDb = _unitOfWork.Client.Get(u => u.Id == id);
 
             if (clientFromDb == null)
             {
@@ -214,13 +214,13 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int id)
         {
-            Client? obj = _clientRepository.Get(u => u.Id == id);
+            Client? obj = _unitOfWork.Client.Get(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _clientRepository.Remove(obj);
-            _clientRepository.Save();
+            _unitOfWork.Client.Remove(obj);
+            _unitOfWork.Client.Save();
             TempData["success"] = "Client record deleted successfully";
             return RedirectToAction("Index");
         }
@@ -228,7 +228,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         public IActionResult DownloadFile(int clientId, string fileName)
         {
             // Retrieve the client to get the SubmissionLink
-            var client = _clientRepository.GetAll().FirstOrDefault(c => c.Id == clientId);
+            var client = _unitOfWork.Client.GetAll().FirstOrDefault(c => c.Id == clientId);
 
             if (client == null || string.IsNullOrEmpty(client.SubmissionLink))
             {
