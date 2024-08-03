@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KOICommunicationPlatform.DataAccess.Migrations
 {
-    public partial class inital_migration : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,6 +24,28 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChatGroupHDs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChatGroupName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChatFileLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChatType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatGroupHDs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
                 {
@@ -39,30 +61,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_UserRoles_UserRoleId",
-                        column: x => x.UserRoleId,
-                        principalTable: "UserRoles",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -87,28 +85,83 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChatGroupDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChatName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChatType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChatGroupHDId = table.Column<int>(type: "int", nullable: false),
+                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
+                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatGroupDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatGroupDetails_ChatGroupHDs_ChatGroupHDId",
+                        column: x => x.ChatGroupHDId,
+                        principalTable: "ChatGroupHDs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserClient_Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserClient_IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    ApplicationUserClient_CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserClient_CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ApplicationUserClient_ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserClient_ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Organization = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Industry = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProjectType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SpecLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GoogleDriveLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPerson02Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPerson02Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubmissionLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_MiddleName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    ApplicationUserLecturer_LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    ApplicationUserLecturer_DOB = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    ApplicationUserLecturer_CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ApplicationUserLecturer_ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StudentId = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     MiddleName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    Tittle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DOB = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserRoleId = table.Column<int>(type: "int", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -128,82 +181,63 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_UserRoles_UserRoleId",
-                        column: x => x.UserRoleId,
-                        principalTable: "UserRoles",
+                        name: "FK_AspNetUsers_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clients",
+                name: "ProjectDeliverables",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClientName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactPerson01Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContactPerson01Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContactPerson02Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContactPerson02Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubmissionLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeliverableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false)
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: true),
+                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.PrimaryKey("PK_ProjectDeliverables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clients_UserRoles_UserRoleId",
-                        column: x => x.UserRoleId,
-                        principalTable: "UserRoles",
+                        name: "FK_ProjectDeliverables_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoleActions",
+                name: "TaskBoards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Define_User_Roles = table.Column<int>(type: "int", nullable: true),
-                    View_User_Roles = table.Column<int>(type: "int", nullable: true),
-                    Add_Client = table.Column<int>(type: "int", nullable: true),
-                    Create_Student_Group = table.Column<int>(type: "int", nullable: true),
-                    View_Created_Student_Group = table.Column<int>(type: "int", nullable: true),
-                    Add_Project_Deliverables = table.Column<int>(type: "int", nullable: true),
-                    Share_Documents = table.Column<int>(type: "int", nullable: true),
-                    Add_Comments_To_Documents = table.Column<int>(type: "int", nullable: true),
-                    Create_Tasks = table.Column<int>(type: "int", nullable: true),
-                    View_Tasks = table.Column<int>(type: "int", nullable: true),
-                    Comment_On_Tasks = table.Column<int>(type: "int", nullable: true),
-                    Chats = table.Column<int>(type: "int", nullable: true),
-                    Client_Meetings = table.Column<int>(type: "int", nullable: true),
-                    View_Only = table.Column<int>(type: "int", nullable: true),
-                    View_and_Edit = table.Column<int>(type: "int", nullable: true),
-                    View_Others_Profiles = table.Column<int>(type: "int", nullable: true),
-                    Edit_User_Profile = table.Column<int>(type: "int", nullable: true),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoleActions", x => x.Id);
+                    table.PrimaryKey("PK_TaskBoards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRoleActions_UserRoles_UserRoleId",
-                        column: x => x.UserRoleId,
-                        principalTable: "UserRoles",
+                        name: "FK_TaskBoards_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -294,97 +328,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChatGroupHDs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChatGroupName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ChatFileLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ChatType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChatGroupHDs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChatGroupHDs_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CommentsOnTasks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreateTaskId = table.Column<int>(type: "int", nullable: false),
-                    SprintId = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommentsOnTasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommentsOnTasks_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectDeliverables",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DeliverableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
-                    SubjectId = table.Column<int>(type: "int", nullable: true),
-                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectDeliverables", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProjectDeliverables_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ProjectDeliverables_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StudentGroupHDs",
                 columns: table => new
                 {
@@ -402,49 +345,16 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: true)
+                    ApplicationUserClientId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentGroupHDs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentGroupHDs_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
+                        name: "FK_StudentGroupHDs_AspNetUsers_ApplicationUserClientId",
+                        column: x => x.ApplicationUserClientId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChatGroupDetails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChatName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ChatType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ChatGroupHDId = table.Column<int>(type: "int", nullable: false),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
-                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChatGroupDetails", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChatGroupDetails_ChatGroupHDs_ChatGroupHDId",
-                        column: x => x.ChatGroupHDId,
-                        principalTable: "ChatGroupHDs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -453,29 +363,26 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
                     Appointment = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ApplicationUserClientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClientMeetings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClientMeetings_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_ClientMeetings_AspNetUsers_ApplicationUserClientId",
+                        column: x => x.ApplicationUserClientId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ClientMeetings_Courses_CourseId",
                         column: x => x.CourseId,
@@ -488,6 +395,46 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         principalTable: "StudentGroupHDs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sprints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SprintName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
+                    TaskBoardId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sprints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sprints_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sprints_StudentGroupHDs_StudentGroupHDId",
+                        column: x => x.StudentGroupHDId,
+                        principalTable: "StudentGroupHDs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sprints_TaskBoards_TaskBoardId",
+                        column: x => x.TaskBoardId,
+                        principalTable: "TaskBoards",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -506,7 +453,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: true)
+                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -515,7 +462,62 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         name: "FK_StudentGroupDetails_StudentGroupHDs_StudentGroupHDId",
                         column: x => x.StudentGroupHDId,
                         principalTable: "StudentGroupHDs",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentsOnTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SprintId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentsOnTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommentsOnTasks_Sprints_SprintId",
+                        column: x => x.SprintId,
+                        principalTable: "Sprints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SprintTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SprintId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SprintTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SprintTasks_Sprints_SprintId",
+                        column: x => x.SprintId,
+                        principalTable: "Sprints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -526,31 +528,25 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectDeliverableId = table.Column<int>(type: "int", nullable: true),
                     StudentGroupDetailId = table.Column<int>(type: "int", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
                     SubjectId = table.Column<int>(type: "int", nullable: true),
-                    UserRoleId = table.Column<int>(type: "int", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Version = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DocumentUploads", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DocumentUploads_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_DocumentUploads_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DocumentUploads_ProjectDeliverables_ProjectDeliverableId",
                         column: x => x.ProjectDeliverableId,
@@ -595,49 +591,25 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TaskBoards",
+                name: "TaskAllocationMembers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SprintId = table.Column<int>(type: "int", nullable: false),
-                    SprintTaskId = table.Column<int>(type: "int", nullable: false),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
-                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SprintTaskId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskBoards", x => x.Id);
+                    table.PrimaryKey("PK_TaskAllocationMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TaskBoards_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TaskBoards_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TaskBoards_StudentGroupDetails_StudentGroupDetailId",
-                        column: x => x.StudentGroupDetailId,
-                        principalTable: "StudentGroupDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TaskBoards_StudentGroupHDs_StudentGroupHDId",
-                        column: x => x.StudentGroupHDId,
-                        principalTable: "StudentGroupHDs",
+                        name: "FK_TaskAllocationMembers_SprintTasks_SprintTaskId",
+                        column: x => x.SprintTaskId,
+                        principalTable: "SprintTasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -649,10 +621,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Trimester = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Version = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -660,17 +629,12 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
                     DocumentUploadId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CommentsOnDocumentUploads", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommentsOnDocumentUploads_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CommentsOnDocumentUploads_Courses_CourseId",
                         column: x => x.CourseId,
@@ -681,147 +645,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         name: "FK_CommentsOnDocumentUploads_DocumentUploads_DocumentUploadId",
                         column: x => x.DocumentUploadId,
                         principalTable: "DocumentUploads",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sprints",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SprintName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
-                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TaskBoardId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sprints", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sprints_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sprints_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sprints_StudentGroupDetails_StudentGroupDetailId",
-                        column: x => x.StudentGroupDetailId,
-                        principalTable: "StudentGroupDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sprints_StudentGroupHDs_StudentGroupHDId",
-                        column: x => x.StudentGroupHDId,
-                        principalTable: "StudentGroupHDs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sprints_TaskBoards_TaskBoardId",
-                        column: x => x.TaskBoardId,
-                        principalTable: "TaskBoards",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SprintTasks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: false),
-                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SprintId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SprintTasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SprintTasks_Sprints_SprintId",
-                        column: x => x.SprintId,
-                        principalTable: "Sprints",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TaskAllocationMembers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentGroupHDId = table.Column<int>(type: "int", nullable: true),
-                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: true),
-                    UserRoleId = table.Column<int>(type: "int", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SprintTaskId = table.Column<int>(type: "int", nullable: true),
-                    SprintId = table.Column<int>(type: "int", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaskAllocationMembers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TaskAllocationMembers_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskAllocationMembers_Sprints_SprintId",
-                        column: x => x.SprintId,
-                        principalTable: "Sprints",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskAllocationMembers_SprintTasks_SprintTaskId",
-                        column: x => x.SprintTaskId,
-                        principalTable: "SprintTasks",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskAllocationMembers_StudentGroupDetails_StudentGroupDetailId",
-                        column: x => x.StudentGroupDetailId,
-                        principalTable: "StudentGroupDetails",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskAllocationMembers_StudentGroupHDs_StudentGroupHDId",
-                        column: x => x.StudentGroupHDId,
-                        principalTable: "StudentGroupHDs",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TaskAllocationMembers_UserRoles_UserRoleId",
-                        column: x => x.UserRoleId,
-                        principalTable: "UserRoles",
                         principalColumn: "Id");
                 });
 
@@ -858,9 +681,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UserRoleId",
+                name: "IX_AspNetUsers_CourseId",
                 table: "AspNetUsers",
-                column: "UserRoleId");
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -875,14 +698,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "ChatGroupHDId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatGroupHDs_ApplicationUserId",
-                table: "ChatGroupHDs",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientMeetings_ApplicationUserId",
+                name: "IX_ClientMeetings_ApplicationUserClientId",
                 table: "ClientMeetings",
-                column: "ApplicationUserId");
+                column: "ApplicationUserClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClientMeetings_CourseId",
@@ -895,16 +713,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "StudentGroupHDId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_UserRoleId",
-                table: "Clients",
-                column: "UserRoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CommentsOnDocumentUploads_ApplicationUserId",
-                table: "CommentsOnDocumentUploads",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CommentsOnDocumentUploads_CourseId",
                 table: "CommentsOnDocumentUploads",
                 column: "CourseId");
@@ -915,14 +723,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "DocumentUploadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommentsOnTasks_ApplicationUserId",
+                name: "IX_CommentsOnTasks_SprintId",
                 table: "CommentsOnTasks",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentUploads_ApplicationUserId",
-                table: "DocumentUploads",
-                column: "ApplicationUserId");
+                column: "SprintId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DocumentUploads_CourseId",
@@ -940,29 +743,14 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "StudentGroupDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectDeliverables_ApplicationUserId",
-                table: "ProjectDeliverables",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProjectDeliverables_CourseId",
                 table: "ProjectDeliverables",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sprints_ApplicationUserId",
-                table: "Sprints",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sprints_CourseId",
                 table: "Sprints",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sprints_StudentGroupDetailId",
-                table: "Sprints",
-                column: "StudentGroupDetailId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sprints_StudentGroupHDId",
@@ -985,9 +773,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "StudentGroupHDId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentGroupHDs_ClientId",
+                name: "IX_StudentGroupHDs_ApplicationUserClientId",
                 table: "StudentGroupHDs",
-                column: "ClientId");
+                column: "ApplicationUserClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subjects_CourseId",
@@ -1000,64 +788,14 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "StudentGroupDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskAllocationMembers_ApplicationUserId",
-                table: "TaskAllocationMembers",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskAllocationMembers_SprintId",
-                table: "TaskAllocationMembers",
-                column: "SprintId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TaskAllocationMembers_SprintTaskId",
                 table: "TaskAllocationMembers",
                 column: "SprintTaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskAllocationMembers_StudentGroupDetailId",
-                table: "TaskAllocationMembers",
-                column: "StudentGroupDetailId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskAllocationMembers_StudentGroupHDId",
-                table: "TaskAllocationMembers",
-                column: "StudentGroupHDId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskAllocationMembers_UserRoleId",
-                table: "TaskAllocationMembers",
-                column: "UserRoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskBoards_ApplicationUserId",
-                table: "TaskBoards",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TaskBoards_CourseId",
                 table: "TaskBoards",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskBoards_StudentGroupDetailId",
-                table: "TaskBoards",
-                column: "StudentGroupDetailId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskBoards_StudentGroupHDId",
-                table: "TaskBoards",
-                column: "StudentGroupHDId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoleActions_UserRoleId",
-                table: "UserRoleActions",
-                column: "UserRoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserRoleId",
-                table: "UserRoles",
-                column: "UserRoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1096,9 +834,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 name: "TaskAllocationMembers");
 
             migrationBuilder.DropTable(
-                name: "UserRoleActions");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -1114,7 +849,13 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 name: "ProjectDeliverables");
 
             migrationBuilder.DropTable(
+                name: "StudentGroupDetails");
+
+            migrationBuilder.DropTable(
                 name: "Sprints");
+
+            migrationBuilder.DropTable(
+                name: "StudentGroupHDs");
 
             migrationBuilder.DropTable(
                 name: "TaskBoards");
@@ -1124,18 +865,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "StudentGroupDetails");
-
-            migrationBuilder.DropTable(
-                name: "StudentGroupHDs");
-
-            migrationBuilder.DropTable(
-                name: "Clients");
-
-            migrationBuilder.DropTable(
-                name: "UserRoles");
         }
     }
 }

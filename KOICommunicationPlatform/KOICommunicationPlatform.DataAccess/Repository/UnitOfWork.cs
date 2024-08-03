@@ -1,5 +1,7 @@
 ﻿
 using KOICommunicationPlatform.DataAccess;
+using KOICommunicationPlatform.DataAccess.Repository;
+using KOICommunicationPlatform.DataAccess.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,14 @@ namespace KOICommunicationPlatform.Models
         public UnitOfWork(ApplicationDbContext db) 
         {
             _db = db;
-            Client = new ClientRepository(_db);
+            ApplicationUserClient = new ApplicationUserClientRepository(_db);
+            ApplicationUserStudent = new ApplicationUserStudentRepository(_db);
+            ApplicationUserLecturer = new ApplicationUserLecturerRepository(_db);
         }
-        public IClientRepository Client { get; private set; }
-               public void Save()
+        public IApplicationUserClientRepository ApplicationUserClient { get; private set; }
+        public IApplicationUserStudentRepository ApplicationUserStudent { get; private set; }
+        public IApplicationUserLecturerRepository ApplicationUserLecturer { get; private set; }
+        public void Save()
         {
             _db.SaveChanges();
         }
