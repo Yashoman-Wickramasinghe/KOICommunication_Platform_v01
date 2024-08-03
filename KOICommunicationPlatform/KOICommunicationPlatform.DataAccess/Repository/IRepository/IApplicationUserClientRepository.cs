@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace KOICommunicationPlatform.DataAccess
 {
-    public interface IClientRepository : IRepository<Client>
+    public interface IApplicationUserClientRepository : IRepository<ApplicationUserClient>
     {
-        void Update(Client obj);
+        void Update(ApplicationUserClient obj);
         void Save();
     }
 }

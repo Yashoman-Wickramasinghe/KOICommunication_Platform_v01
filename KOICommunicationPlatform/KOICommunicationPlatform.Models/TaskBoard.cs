@@ -13,12 +13,6 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
-        public string ApplicationUserId { get; set; }
-        public int SprintId { get; set; }
-        public int SprintTaskId {  get; set; }
-        public int StudentGroupHDId { get; set; }
-        public int StudentGroupDetailId {  get; set; }
-        public int CourseId { get; set; }
         public int SubjectId { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }
@@ -26,11 +20,6 @@ namespace KOICommunicationPlatform.Models
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
         public Course Course { get; set; }
-        public StudentGroupHD StudentGroupHD { get; set; }
-        public StudentGroupDetail StudentGroupDetail { get; set; }
-        //public Sprint Sprint {  get; set; }
-        //public SprintTask SprintTask {  get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-        public ICollection<Sprint> sprints { get; set; }
+        public ICollection<Sprint> Sprints { get; set; }
     }
 }

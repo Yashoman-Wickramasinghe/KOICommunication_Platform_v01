@@ -10,7 +10,6 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
-        public string? ApplicationUserId { get; set; }
         public string DeliverableName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -19,10 +18,8 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifiedDateTime { get; set; } = DateTime.Now;
-        public int? CourseId { get; set; }
         public int? SubjectId { get; set; }
         public string? Trimester { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
         public Course Course { get; set; }
         public ICollection<DocumentUpload> documentUploads { get; set; }
     }

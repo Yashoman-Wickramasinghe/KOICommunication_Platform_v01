@@ -20,10 +20,6 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        public int CourseId { get; set; }
-
-        [ForeignKey("CourseId")]
-        [ValidateNever]
         public Course Course { get; set; }
     }
 }

@@ -5,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using KOICommunicationPlatform.DataAccess;
 using KOICommunicationPlatform.Models;
-
+using KOICommunicationPlatform.DataAccess.Repository.IRepository;
+using KOICommunicationPlatform.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IApplicationUserClientRepository, ApplicationUserClientRepository>();
+builder.Services.AddScoped<IApplicationUserStudentRepository, ApplicationUserStudentRepository>();
+builder.Services.AddScoped<IApplicationUserLecturerRepository, ApplicationUserLecturerRepository>();
 
 var app = builder.Build();
 
