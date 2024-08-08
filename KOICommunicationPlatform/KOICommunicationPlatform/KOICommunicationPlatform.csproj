@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Client\Data\**" />
+    <Compile Remove="Areas\Client\Models\**" />
     <Compile Remove="Controllers\**" />
+    <Content Remove="Areas\Client\Data\**" />
+    <Content Remove="Areas\Client\Models\**" />
     <Content Remove="Controllers\**" />
+    <EmbeddedResource Remove="Areas\Client\Data\**" />
+    <EmbeddedResource Remove="Areas\Client\Models\**" />
     <EmbeddedResource Remove="Controllers\**" />
+    <None Remove="Areas\Client\Data\**" />
+    <None Remove="Areas\Client\Models\**" />
     <None Remove="Controllers\**" />
   </ItemGroup>
 
@@ -38,13 +46,8 @@
 
 	<ItemGroup>
 	  <Folder Include="Areas\Client\Controllers\" />
-	  <Folder Include="Areas\Client\Data\" />
-	  <Folder Include="Areas\Client\Models\" />
-	  <Folder Include="Areas\Client\Views\" />
 	  <Folder Include="Areas\Student\Controllers\" />
-	  <Folder Include="Areas\Student\Views\" />
 	  <Folder Include="Areas\Supervisor\Controllers\" />
-	  <Folder Include="Areas\Supervisor\Views\" />
 	  <Folder Include="Resources\ClientResources\" />
 	  <Folder Include="wwwroot\Documents\clients\" />
 	</ItemGroup>

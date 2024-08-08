@@ -1,4 +1,5 @@
 ﻿using KOICommunicationPlatform.DataAccess;
+using KOICommunicationPlatform.DataAccess.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace KOICommunicationPlatform.Models
     public interface IUnitOfWork
     {
         IClientRepository Client {  get; }
+        IProjectDeliverableRepository ProjectDeliverable { get; }
+        ICourseRepository Course { get; }
+        ISubjectRepository Subject { get; }
         void Save();
     }
 }

@@ -109,7 +109,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            Client? clientFromDb = _unitOfWork.Client.Get(u=>u.Id==id);
+            Client? clientFromDb = _unitOfWork.Client.GetFirstOrDefault(u=>u.Id==id);
 
             if (clientFromDb == null)
             {
@@ -134,7 +134,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             try
             {
                 // Fetch the existing client from the database
-                Client clientFromDb = _unitOfWork.Client.Get(u => u.Id == id);
+                Client clientFromDb = _unitOfWork.Client.GetFirstOrDefault(u => u.Id == id);
 
                 if (clientFromDb == null)
                 {
@@ -200,7 +200,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            Client? clientFromDb = _unitOfWork.Client.Get(u => u.Id == id);
+            Client? clientFromDb = _unitOfWork.Client.GetFirstOrDefault(u => u.Id == id);
 
             if (clientFromDb == null)
             {
@@ -214,7 +214,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int id)
         {
-            Client? obj = _unitOfWork.Client.Get(u => u.Id == id);
+            Client? obj = _unitOfWork.Client.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();

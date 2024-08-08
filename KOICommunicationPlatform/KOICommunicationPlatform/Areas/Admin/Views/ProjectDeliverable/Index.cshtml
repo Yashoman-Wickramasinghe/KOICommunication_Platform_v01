@@ -1,0 +1,207 @@
+﻿@model ProjectDeliverableViewModel
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">View Project Deliverables</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Document Share</a></li>
+                    <li class="breadcrumb-item active">View Project Deliverables</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0"></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="ProjectDeliverable" asp-action="Upsert" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> &nbsp;Add Project Deliverables
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-danger">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="@Model.CourseId">Course Name</label>
+                                <select asp-for="@Model.CourseId" asp-items="@Model.CourseList" class="form-control select2" style="width: 100%;" id="courseDropdown">
+                                    <option disabled selected="selected">-- Select course --</option>
+                                </select>
+                                <span asp-validation-for="@Model.CourseId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Trimester</label>
+                                <select asp-for="ProjectDeliverable.Trimester" asp-items="Model.TrimesterList" class="form-control select2" style="width: 100%;">
+                                    <option disabled selected="selected">-- Select trimester --</option>
+                                </select>
+                                <span asp-validation-for="ProjectDeliverable.Trimester" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="SubjectId">Subject Name</label>
+                                <select asp-for="SubjectId" class="form-control select2" style="width: 100%;" id="subjectDropdown">
+                                    <option disabled selected="selected">-- Select subject --</option>
+                                    @foreach (var item in Model.SubjectList)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SubjectId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-success float-right">Clear All</button>
+                            <button type="button" class="btn btn-primary float-right" id="btnfind" style="margin-right: 5px;">Find</button>
+                        </div>
+                    </div>
+                    <div class="post clearfix"></div>
+                    <br />
+                    <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="display:none">Id</th>
+                                <th>Course Name</th>
+                                <th>Subject Name</th>
+                                <th>Trimester</th>
+                                <th>Deliverable Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* <script src="~/js/projectDeliverable.js"></script> *@
+    <script>
+        $(document).ready(function () {
+            // Initialize Select2 for dropdowns
+            //$('.select2').select2();
+
+            // Load DataTable initially
+            loadDataTable();
+
+            // Handle course dropdown change to fetch subjects
+            $('#courseDropdown').change(function () {
+                var courseId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetSubjectsByCourseId", "ProjectDeliverable", new { area = "Admin" })',
+                    type: 'GET',
+                    data: { courseId: courseId },
+                    success: function (data) {
+                        var $subjectDropdown = $('#subjectDropdown');
+                        $subjectDropdown.empty();
+                        $subjectDropdown.append('<option disabled selected="selected">-- Select subject --</option>');
+                        $.each(data, function (i, subject) {
+                            $subjectDropdown.append('<option value="' + subject.value + '">' + subject.text + '</option>');
+                        });
+                    }
+                });
+            });
+
+            // Handle the "Find" button click
+            $('#btnfind').click(function () {
+                var courseId = $('#courseDropdown').val();
+                var trimester = $('select[name="ProjectDeliverable.Trimester"]').val();
+                var subjectId = $('#subjectDropdown').val();
+
+                // Reload DataTable with filtered data
+                dataTable.ajax.url(`/Admin/ProjectDeliverable/GetFilteredData?courseId=${courseId}&trimester=${trimester}&subjectId=${subjectId}`).load();
+            });
+        });
+
+        // Function to load DataTable
+        function loadDataTable() {
+            dataTable = $('#tblData').DataTable({
+                "ajax": {
+                    "url": "/Admin/ProjectDeliverable/GetAll",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "id", "visible": false },
+                    { "data": "courseName", "width": "15%" },
+                    { "data": "subjectName", "width": "15%" },
+                    { "data": "trimester", "width": "15%" },
+                    { "data": "deliverableName", "width": "20%" },
+                    { "data": "startDate", "width": "15%" },
+                    { "data": "endDate", "width": "15%" },
+                    {
+                        "data": "id",
+                        "render": function (data) {
+                            return `
+                                <div class="w-75 btn-group" role="group">
+                                    <a href="/Admin/ProjectDeliverable/Upsert?id=${data}" class="btn btn-primary mx-2">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+                                    <a onClick=Delete('/Admin/ProjectDeliverable/Delete/${data}') class="btn btn-danger mx-2">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </a>
+                                </div>`;
+                        },
+                        "width": "15%"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "No data found"
+                },
+                "width": "100%"
+            });
+        }
+
+        // Function to handle delete action
+        function Delete(url) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function (data) {
+                            if (data.success) {
+                                dataTable.ajax.reload();
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+    </script>
+}

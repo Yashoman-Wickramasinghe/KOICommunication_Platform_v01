@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KOICommunicationPlatform.DataAccess.Migrations
+namespace KOICommunicationPlatform.Repositories.Migrations
 {
-    public partial class inital_migration : Migration
+    public partial class initial_migration_test12 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,7 +141,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClientName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactPerson01Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -154,7 +153,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false)
+                    UserRoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -163,8 +162,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         name: "FK_Clients_UserRoles_UserRoleId",
                         column: x => x.UserRoleId,
                         principalTable: "UserRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -324,33 +322,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CommentsOnTasks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreateTaskId = table.Column<int>(type: "int", nullable: false),
-                    SprintId = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommentsOnTasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommentsOnTasks_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProjectDeliverables",
                 columns: table => new
                 {
@@ -474,6 +445,12 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         name: "FK_ClientMeetings_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientMeetings_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -773,6 +750,45 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CommentsOnTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreateTaskId = table.Column<int>(type: "int", nullable: false),
+                    SprintId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentsOnTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommentsOnTasks_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentsOnTasks_Sprints_SprintId",
+                        column: x => x.SprintId,
+                        principalTable: "Sprints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentsOnTasks_SprintTasks_CreateTaskId",
+                        column: x => x.CreateTaskId,
+                        principalTable: "SprintTasks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TaskAllocationMembers",
                 columns: table => new
                 {
@@ -885,6 +901,11 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClientMeetings_ClientId",
+                table: "ClientMeetings",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClientMeetings_CourseId",
                 table: "ClientMeetings",
                 column: "CourseId");
@@ -918,6 +939,16 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 name: "IX_CommentsOnTasks_ApplicationUserId",
                 table: "CommentsOnTasks",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentsOnTasks_CreateTaskId",
+                table: "CommentsOnTasks",
+                column: "CreateTaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentsOnTasks_SprintId",
+                table: "CommentsOnTasks",
+                column: "SprintId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DocumentUploads_ApplicationUserId",

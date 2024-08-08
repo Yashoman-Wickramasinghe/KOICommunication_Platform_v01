@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.Models", "KOICommunicationPlatform.Models\KOICommunicationPlatform.Models.csproj", "{CB86D641-B465-4757-ACB7-EB4872FED7E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.ViewModels", "KOICommunicationPlatform.ViewModels\KOICommunicationPlatform.ViewModels.csproj", "{0304003C-3359-4DB0-8E21-30B1AD2A1768}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.Utilities", "KOICommunicationPlatform.Utilities\KOICommunicationPlatform.Utilities.csproj", "{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KOICommunicationPlatform.DataAccess", "KOICommunicationPlatform.DataAccess\KOICommunicationPlatform.DataAccess.csproj", "{4D7C8239-7E97-4F41-BB0E-84572DDBE5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOICommunicationPlatform.DataAccess", "KOICommunicationPlatform.DataAccess\KOICommunicationPlatform.DataAccess.csproj", "{4D7C8239-7E97-4F41-BB0E-84572DDBE5C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +25,6 @@ Global
 		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB86D641-B465-4757-ACB7-EB4872FED7E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0304003C-3359-4DB0-8E21-30B1AD2A1768}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC92923F-A0DB-4F14-B2EF-891F98C37B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU

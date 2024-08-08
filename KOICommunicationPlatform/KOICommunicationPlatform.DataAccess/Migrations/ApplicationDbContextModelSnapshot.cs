@@ -267,10 +267,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -311,8 +307,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CourseId");
 
@@ -405,9 +399,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
@@ -438,15 +429,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<string>("Trimester")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserRoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Version")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CourseId");
 
@@ -464,9 +450,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("CourseId")
                         .HasColumnType("int");
@@ -504,9 +487,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("ProjectDeliverables");
                 });
@@ -938,12 +921,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserRoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserRoleId");
 
                     b.ToTable("UserRoles");
                 });
@@ -1362,12 +1340,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.CommentsOnDocumentUpload", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId")
@@ -1377,8 +1349,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.HasOne("KOICommunicationPlatform.Models.DocumentUpload", null)
                         .WithMany("commentsOnDocuments")
                         .HasForeignKey("DocumentUploadId");
-
-                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Course");
                 });
@@ -1396,10 +1366,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.DocumentUpload", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId");
@@ -1412,24 +1378,22 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .WithMany("documentUploads")
                         .HasForeignKey("StudentGroupDetailId");
 
-                    b.Navigation("ApplicationUser");
-
                     b.Navigation("Course");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.ProjectDeliverable", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId");
 
-                    b.Navigation("ApplicationUser");
+                    b.HasOne("KOICommunicationPlatform.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("Course");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.Sprint", b =>
@@ -1589,13 +1553,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Navigation("StudentGroupHD");
                 });
 
-            modelBuilder.Entity("KOICommunicationPlatform.Models.UserRole", b =>
-                {
-                    b.HasOne("KOICommunicationPlatform.Models.UserRole", null)
-                        .WithMany("UserRoleList")
-                        .HasForeignKey("UserRoleId");
-                });
-
             modelBuilder.Entity("KOICommunicationPlatform.Models.UserRoleAction", b =>
                 {
                     b.HasOne("KOICommunicationPlatform.Models.UserRole", "UserRole")
@@ -1709,11 +1666,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
             modelBuilder.Entity("KOICommunicationPlatform.Models.TaskBoard", b =>
                 {
                     b.Navigation("sprints");
-                });
-
-            modelBuilder.Entity("KOICommunicationPlatform.Models.UserRole", b =>
-                {
-                    b.Navigation("UserRoleList");
                 });
 #pragma warning restore 612, 618
         }

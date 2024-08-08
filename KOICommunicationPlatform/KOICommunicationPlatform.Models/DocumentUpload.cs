@@ -18,8 +18,6 @@ namespace KOICommunicationPlatform.Models
         public int? StudentGroupDetailId { get; set; }
         public int? CourseId { get; set; }
         public int? SubjectId { get; set; }
-        public int? UserRoleId { get; set; }
-        public string? ApplicationUserId { get; set; }
         public string? Trimester {  get; set; }
         public string? Version {  get; set; }
         public bool IsActive { get; set; }
@@ -27,7 +25,6 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        public ApplicationUser ApplicationUser { get; set; }
         public Course Course { get; set; }
         public ICollection<CommentsOnDocumentUpload> commentsOnDocuments { get; set; }
     }
