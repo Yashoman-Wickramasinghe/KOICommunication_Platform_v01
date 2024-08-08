@@ -44,17 +44,18 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
             public string Code { get; set; }
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string userId = null, string code = null)
         {
-            if (code == null)
+            if (userId == null || code == null)
             {
-                return BadRequest("A code must be supplied for password reset.");
+                return BadRequest("User ID and code must be supplied for password reset.");
             }
             else
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
+                    Email = _userManager.FindByIdAsync(userId).Result?.Email
                 };
                 return Page();
             }
