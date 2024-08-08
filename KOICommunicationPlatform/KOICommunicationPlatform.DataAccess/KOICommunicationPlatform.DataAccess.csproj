@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KOICommunicationPlatform.Models\KOICommunicationPlatform.Models.csproj" />
+    <ProjectReference Include="..\KOICommunicationPlatform.Utilities\KOICommunicationPlatform.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

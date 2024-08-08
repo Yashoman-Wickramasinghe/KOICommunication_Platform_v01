@@ -47,6 +47,7 @@
 	  <Folder Include="Areas\Supervisor\Views\" />
 	  <Folder Include="Resources\ClientResources\" />
 	  <Folder Include="wwwroot\Documents\clients\" />
+	  <Folder Include="wwwroot\image\" />
 	</ItemGroup>
 
 	<!--<ItemGroup>
