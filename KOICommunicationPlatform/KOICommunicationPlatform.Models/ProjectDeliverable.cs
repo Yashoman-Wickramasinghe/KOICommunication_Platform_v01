@@ -21,6 +21,7 @@ namespace KOICommunicationPlatform.Models
         public int? SubjectId { get; set; }
         public string? Trimester { get; set; }
         public Course Course { get; set; }
+        public Subject Subject { get; set; }
         public ICollection<DocumentUpload> documentUploads { get; set; }
     }
 }

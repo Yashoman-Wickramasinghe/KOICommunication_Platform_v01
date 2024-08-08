@@ -307,6 +307,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CourseId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -355,10 +358,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("CourseId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -395,6 +398,8 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("ProjectDeliverables");
                 });
@@ -722,7 +727,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("TaskBoards");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1192,10 +1197,12 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Course");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.Sprint", b =>
@@ -1286,7 +1293,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1387,10 +1394,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     b.Navigation("StudentGroupDetailList");
                 });
-
-            modelBuilder.Entity("KOICommunicationPlatform.Models.TaskBoard", b =>
-                {
                     b.Navigation("Sprints");
+                });
+                {
+                    b.Navigation("UserRoleList");
                 });
 #pragma warning restore 612, 618
         }

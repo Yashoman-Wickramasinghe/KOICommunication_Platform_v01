@@ -1,0 +1,158 @@
+﻿@model ProjectDeliverableViewModel
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">@(Model.Id != 0 ? "Update" : "Create")  Project Deliverables</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Document Share</a></li>
+                    <li class="breadcrumb-item active">Add Project Deliverables</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<!-- Main content -->
+@* <section class="content"> *@
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-danger">
+                    <div class="card-header">
+                    </div>
+                    <form asp-action="Upsert">
+                        <input asp-for="@Model.Id" hidden />
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label asp-for="@Model.CourseId">Course Name</label>
+                                    <select asp-for="@Model.CourseId" asp-items="@Model.CourseList" class="form-control select2" style="width: 100%;" id="courseDropdown">
+                                        <option disabled selected="selected">-- Select course --</option>
+                                    </select>
+                                    <span asp-validation-for="@Model.CourseId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Trimester</label>
+                                    <select asp-for="ProjectDeliverable.Trimester" asp-items="Model.TrimesterList" class="form-control select2" style="width: 100%;">
+                                        <option disabled selected="selected">-- Select trimester --</option>
+                                    </select>
+                                    <span asp-validation-for="ProjectDeliverable.Trimester" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="SubjectId">Subject Name</label>
+                                <select asp-for="SubjectId" class="form-control select2" style="width: 100%;" id="subjectDropdown">
+                                    <option disabled selected="selected">-- Select subject --</option>
+                                    @foreach (var item in Model.SubjectList)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SubjectId" class="text-danger"></span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label asp-for="ProjectDeliverable.DeliverableName" for="TaskTiltle">Name of Deliverable</label>
+                                        <input asp-for="ProjectDeliverable.DeliverableName" type="text" class="form-control" id="deliverable" placeholder="Project Proposal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label asp-for="ProjectDeliverable.StartDate" for="datetime">Select Start Date:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                        </div>
+                                        <input asp-for="ProjectDeliverable.StartDate" type="text" id="datetime" name="startdate" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label asp-for="ProjectDeliverable.EndDate" for="datetime">End Date:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                        </div>
+                                        <input asp-for="ProjectDeliverable.EndDate" type="text" id="datetime" name="endtdate" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    flatpickr("#datetime", {
+                                        enableTime: true,
+                                        dateFormat: "Y-m-d H:i",
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="row no-print">
+                            <div class="col-12">
+                                    @if (Model.Id != 0)
+                                    {
+                                    <button type="submit" class="btn btn-primary float-right" style="width:150px">Update</button>
+                                    }
+                                    else
+                                    {
+                                    <button type="submit" onclick="return ValidateInput()" class="btn btn-primary float-right" style="width:150px; margin-right: 5px;">Create</button>
+                                    }
+                                <a asp-controller="ProjectDeliverable" asp-action="Index" class="btn btn-secondary float-right" style="margin-right: 5px;margin-left: 5px;"> Back to List </a>
+                                <button type="button" class="btn btn-success float-right"> Clear All </button>
+                            </div>
+                        </div>
+                        <div class="post clearfix"></div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+@* </section> *@
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            //load trimester
+            $('.select2').select2();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#courseDropdown').change(function () {
+                var courseId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetSubjectsByCourseId", "ProjectDeliverable", new { area = "Admin" })',
+                    type: 'GET',
+                    data: { courseId: courseId },
+                    success: function (data) {
+                        var $subjectDropdown = $('#subjectDropdown');
+                        $subjectDropdown.empty();
+                        $subjectDropdown.append('<option disabled selected="selected">-- Select subject --</option>');
+                        $.each(data, function (i, subject) {
+                            $subjectDropdown.append('<option value="' + subject.value + '">' + subject.text + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

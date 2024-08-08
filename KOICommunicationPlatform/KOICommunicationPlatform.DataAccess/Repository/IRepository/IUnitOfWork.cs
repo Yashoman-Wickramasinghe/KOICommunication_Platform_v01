@@ -13,6 +13,9 @@ namespace KOICommunicationPlatform.Models
         IApplicationUserClientRepository ApplicationUserClient {  get; }
         IApplicationUserStudentRepository ApplicationUserStudent {  get; }
         IApplicationUserLecturerRepository ApplicationUserLecturer {  get; }
+        IProjectDeliverableRepository ProjectDeliverable { get; }
+        ICourseRepository Course { get; }
+        ISubjectRepository Subject { get; }
         void Save();
     }
 }

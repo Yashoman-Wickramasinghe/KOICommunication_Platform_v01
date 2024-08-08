@@ -34,9 +34,8 @@
     <link rel="stylesheet" href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -286,7 +285,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="DocumentShare" asp-action="Index" class="nav-link">
+                                    <a asp-area="Admin" asp-controller="ProjectDeliverable" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Project Deliverables</p>
                                     </a>
@@ -389,11 +388,12 @@
             <!-- Control sidebar content goes here -->
         </aside>
     </div>
-
+    
     <!-- jQuery -->
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/wfgmri5bil4pybwgpxm9veuqis3zqby1y3or9xjy77fdpfm7/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
@@ -430,5 +430,8 @@
     <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="~/plugins/toastr/toastr.min.js"></script>
+    <!-- dataTables-->
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
