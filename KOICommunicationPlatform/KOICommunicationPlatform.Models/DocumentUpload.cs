@@ -16,7 +16,6 @@ namespace KOICommunicationPlatform.Models
         public int Id { get; set; }
         public int? ProjectDeliverableId { get; set; }
         public int? StudentGroupDetailId { get; set; }
-        public int? CourseId { get; set; }
         public int? SubjectId { get; set; }
         public string? Trimester {  get; set; }
         public string? Version {  get; set; }
@@ -26,6 +25,6 @@ namespace KOICommunicationPlatform.Models
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
         public Course Course { get; set; }
-        public ICollection<CommentsOnDocumentUpload> commentsOnDocuments { get; set; }
+        public ICollection<CommentsOnDocumentUpload> CommentsOnDocuments { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Client
+﻿@model ApplicationUserClient
 
 <div class="content-header">
     <div class="container-fluid">
@@ -36,9 +36,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="ClientName" for="clientNamr">Client Name/Business Name</label>
-                                <input asp-for="ClientName" type="text" class="form-control" id="clientName" placeholder="Enter client name">
-                                <span asp-validation-for="ClientName" class="text-danger"></span>
+                                <label asp-for="Organization" for="clientNamr">Client Name/Business Name</label>
+                                <input asp-for="Organization" type="text" class="form-control" id="clientName" placeholder="Enter client name">
+                                <span asp-validation-for="Organization" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -52,16 +52,16 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="ContactPerson01Name" for="contactPerson1">Contact Person 01 </label>
-                                <input asp-for="ContactPerson01Name" type="text" class="form-control" id="contactPerson1" placeholder="Enter contact person">
-                                <span asp-validation-for="ContactPerson01Name" class="text-danger"></span>
+                                <label asp-for="ContactName" for="contactPerson1">Contact Person 01 </label>
+                                <input asp-for="ContactName" type="text" class="form-control" id="contactPerson1" placeholder="Enter contact person">
+                                <span asp-validation-for="ContactName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="ContactPerson01Contact" for="contactNumber1">Contact Number 01 </label>
-                                <input asp-for="ContactPerson01Contact" type="text" class="form-control" id="contactNumber1" placeholder="Enter contact number">
-                                <span asp-validation-for="ContactPerson01Contact" class="text-danger"></span>
+                                <label asp-for="ContactPhone" for="contactNumber1">Contact Number 01 </label>
+                                <input asp-for="ContactPhone" type="text" class="form-control" id="contactNumber1" placeholder="Enter contact number">
+                                <span asp-validation-for="ContactPhone" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -75,9 +75,9 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="ContactPerson02Contact" for="contactNumber1">Contact Number 02 (Optional) </label>
-                                <input asp-for="ContactPerson02Contact" type="text" class="form-control" id="contactNumber2" placeholder="Enter contact number">
-                                <span asp-validation-for="ContactPerson02Contact" class="text-danger"></span>
+                                <label asp-for="ContactPerson02Phone" for="contactNumber1">Contact Number 02 (Optional) </label>
+                                <input asp-for="ContactPerson02Phone" type="text" class="form-control" id="contactNumber2" placeholder="Enter contact number">
+                                <span asp-validation-for="ContactPerson02Phone" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

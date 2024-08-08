@@ -50,6 +50,7 @@
 	  <Folder Include="Areas\Supervisor\Controllers\" />
 	  <Folder Include="Resources\ClientResources\" />
 	  <Folder Include="wwwroot\Documents\clients\" />
+	  <Folder Include="wwwroot\image\" />
 	</ItemGroup>
 
 	<!--<ItemGroup>

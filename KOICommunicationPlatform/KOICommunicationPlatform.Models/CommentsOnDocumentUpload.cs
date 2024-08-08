@@ -15,9 +15,7 @@ namespace KOICommunicationPlatform.Models
         [Key]
         public int Id { get; set; }
         public string Comment { get; set; }
-        public int CourseId { get; set; }
         public int SubjectId { get; set; }
-        public int UserRoleId { get; set; }
         public string Trimester { get; set; }
         public string Version { get; set; }
         public bool IsActive { get; set; }

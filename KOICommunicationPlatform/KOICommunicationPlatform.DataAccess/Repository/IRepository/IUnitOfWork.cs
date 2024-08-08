@@ -10,7 +10,9 @@ namespace KOICommunicationPlatform.Models
 {
     public interface IUnitOfWork
     {
-        IClientRepository Client {  get; }
+        IApplicationUserClientRepository ApplicationUserClient {  get; }
+        IApplicationUserStudentRepository ApplicationUserStudent {  get; }
+        IApplicationUserLecturerRepository ApplicationUserLecturer {  get; }
         IProjectDeliverableRepository ProjectDeliverable { get; }
         ICourseRepository Course { get; }
         ISubjectRepository Subject { get; }

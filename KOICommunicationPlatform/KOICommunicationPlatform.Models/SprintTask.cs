@@ -13,12 +13,7 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
-        public int StudentGroupHDId { get; set; }
-        public int StudentGroupDetailId { get; set; }
-        public int UserRoleId { get; set; }
-        public string ApplicationUserId { get; set; }
         public string Description { get; set; }
-        public int SprintId { get; set; }
         public string Status { get; set; } //Backlog/ToDo/InProgress/Done
         public string Priority { get; set; } //High/Medium/Low
         public DateTime StartDate { get; set; }
@@ -29,8 +24,5 @@ namespace KOICommunicationPlatform.Models
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
         public Sprint Sprint { get; set; }
-        //public ApplicationUser ApplicationUser { get; set; }
-        //public StudentGroupHD StudentGroupHD { get; set; }
-       // public StudentGroupDetail StudentGroupDetail { get; set; }
     }
 }
