@@ -20,6 +20,7 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
+        public int CourseId {  get; set; }
         public Course Course { get; set; }
     }
 }

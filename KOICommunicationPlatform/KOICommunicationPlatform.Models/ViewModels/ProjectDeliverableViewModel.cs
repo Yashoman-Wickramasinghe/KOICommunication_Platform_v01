@@ -23,7 +23,7 @@ namespace KOICommunicationPlatform.Models.ViewModels
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifiedDateTime { get; set; } = DateTime.Now;
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
         public int? SubjectId { get; set; }
         public string? Trimester { get; set; }
         public List<ProjectDeliverable> ProjectDeliverables { get; set; }

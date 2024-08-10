@@ -28,7 +28,7 @@ namespace KOICommunicationPlatform.Models
         public IProjectDeliverableRepository ProjectDeliverable { get; private set; }
         public ICourseRepository Course { get; private set; }
         public ISubjectRepository Subject { get; private set; }
-        public void Save()
+        //public void Save();
         public IApplicationUserClientRepository ApplicationUserClient { get; private set; }
         public IApplicationUserStudentRepository ApplicationUserStudent { get; private set; }
         public IApplicationUserLecturerRepository ApplicationUserLecturer { get; private set; }

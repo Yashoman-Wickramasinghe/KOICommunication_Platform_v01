@@ -307,9 +307,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CourseId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -358,10 +355,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-                    b.Property<int>("CourseId")
-                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CourseId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -727,7 +724,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("TaskBoards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1197,8 +1194,12 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.HasOne("KOICommunicationPlatform.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("Course");
 
@@ -1293,7 +1294,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserRole");
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1394,10 +1395,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     b.Navigation("StudentGroupDetailList");
                 });
-                    b.Navigation("Sprints");
-                });
+
+            modelBuilder.Entity("KOICommunicationPlatform.Models.TaskBoard", b =>
                 {
-                    b.Navigation("UserRoleList");
+                    b.Navigation("Sprints");
                 });
 #pragma warning restore 612, 618
         }
