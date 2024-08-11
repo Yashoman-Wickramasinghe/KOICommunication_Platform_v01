@@ -45,7 +45,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Areas\Client\Controllers\" />
 	  <Folder Include="Areas\Student\Controllers\" />
 	  <Folder Include="Areas\Supervisor\Controllers\" />
 	  <Folder Include="Resources\ClientResources\" />

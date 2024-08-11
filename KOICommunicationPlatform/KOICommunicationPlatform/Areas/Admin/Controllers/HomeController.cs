@@ -1,4 +1,6 @@
 ﻿using KOICommunicationPlatform.Models;
+using KOICommunicationPlatform.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.CommandLine;
 using System.Diagnostics;
@@ -6,6 +8,7 @@ using System.Diagnostics;
 namespace KOICommunicationPlatform.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Website_Admin)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

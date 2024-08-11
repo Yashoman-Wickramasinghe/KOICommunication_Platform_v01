@@ -1,8 +1,14 @@
 ﻿using KOICommunicationPlatform.DataAccess;
 using KOICommunicationPlatform.Models;
+using KOICommunicationPlatform.Utilities;
+using KOICommunicationPlatform.Utilities.EmailSender;
+using KOICommunicationPlatform.Utilities.Helper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 
 namespace KOICommunicationPlatform.Areas.Admin.Controllers
 {
@@ -10,19 +16,29 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
     public class ClientRegisterController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IRegistrationEmailSender _registrationEmailSender;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public ClientRegisterController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
+
+        public ClientRegisterController(IUnitOfWork unitOfWork,
+         IWebHostEnvironment hostEnvironment,
+         IRegistrationEmailSender registrationEmailSender,
+         UserManager<IdentityUser> userManager,
+         IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _hostEnvironment = hostEnvironment;
+            _registrationEmailSender = registrationEmailSender;
+            _userManager = userManager;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
         {
             // Fetch the list of clients
-            var _objClientList = _unitOfWork.ApplicationUserClient.GetAll().ToList();
+            var _objClientList = _unitOfWork.ApplicationUser.GetAll().Where(x=>x.UserType==SD.Website_Client).ToList();
 
             // Create a dictionary to store file names by client ID
             var clientFiles = new Dictionary<string, List<string>>();
@@ -59,7 +75,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ApplicationUserClient obj, IFormFile uploadedFile)
+        public async Task<IActionResult> Create(ApplicationUser obj, IFormFile uploadedFile)
         {
             try
             {
@@ -85,13 +101,22 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                     }
                 }
 
+                obj.UserName = obj.Email;
+                obj.GivenName = obj.Surname = obj.Organization;
+                obj.UserType = SD.Website_Client;
                 obj.CreatedDateTime = DateTime.Now;
                 obj.ModifieDateTime = DateTime.Now;
                 obj.IsActive = true;
 
-                _unitOfWork.ApplicationUserClient.Add(obj);
-                _unitOfWork.ApplicationUserClient.Save();
+                _unitOfWork.ApplicationUser.Add(obj);
+                _unitOfWork.ApplicationUser.Save();
                 TempData["success"] = "Client saved successfully";
+
+                var client = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == obj.Email);
+
+                //send registration email
+                _registrationEmailSender.SendUserRegistrationEmail(client, obj.Organization);
+
                 return RedirectToAction("Index");
 
             }
@@ -101,6 +126,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             }
         }
 
+     
         public IActionResult Edit(string? id)
         {
             if (string.IsNullOrEmpty(id))
@@ -108,7 +134,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ApplicationUserClient? clientFromDb = _unitOfWork.ApplicationUserClient.GetFirstOrDefault(u=>u.Id==id);
+            ApplicationUser? clientFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u=>u.Id==id);
 
             if (clientFromDb == null)
             {
@@ -128,12 +154,12 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, ApplicationUserClient updatedClient, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(string id, ApplicationUser updatedClient, IFormFile uploadedFile)
         {
             try
             {
                 // Fetch the existing client from the database
-                ApplicationUserClient clientFromDb = _unitOfWork.ApplicationUserClient.GetFirstOrDefault(u => u.Id == id);
+                ApplicationUser clientFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
 
                 if (clientFromDb == null)
                 {
@@ -178,8 +204,8 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 clientFromDb.IsActive = true;
 
                 // Update the client in the database
-                _unitOfWork.ApplicationUserClient.Update(clientFromDb);
-                _unitOfWork.ApplicationUserClient.Save();
+                _unitOfWork.ApplicationUser.Update(clientFromDb);
+                _unitOfWork.ApplicationUser.Save();
                 //await _db.SaveChangesAsync();
                 TempData["success"] = "Client edited successfully";
                 return RedirectToAction("Index");
@@ -198,7 +224,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ApplicationUserClient? clientFromDb = _unitOfWork.ApplicationUserClient.GetFirstOrDefault(u => u.Id == id);
+            ApplicationUser? clientFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
 
             if (clientFromDb == null)
             {
@@ -212,13 +238,13 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(string id)
         {
-            ApplicationUserClient? obj = _unitOfWork.ApplicationUserClient.GetFirstOrDefault(u => u.Id == id);
+            ApplicationUser? obj = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _unitOfWork.ApplicationUserClient.Remove(obj);
-            _unitOfWork.ApplicationUserClient.Save();
+            _unitOfWork.ApplicationUser.Remove(obj);
+            _unitOfWork.ApplicationUser.Save();
             TempData["success"] = "Client record deleted successfully";
             return RedirectToAction("Index");
         }
@@ -226,7 +252,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         public IActionResult DownloadFile(string clientId, string fileName)
         {
             // Retrieve the client to get the SubmissionLink
-            var client = _unitOfWork.ApplicationUserClient.GetAll().FirstOrDefault(c => c.Id == clientId);
+            var client = _unitOfWork.ApplicationUser.GetAll().FirstOrDefault(c => c.Id == clientId);
 
             if (client == null || string.IsNullOrEmpty(client.SubmissionLink))
             {

@@ -8,14 +8,23 @@ using System.Threading.Tasks;
 
 namespace KOICommunicationPlatform.Models
 {
-    public class ApplicationUserClient: IdentityUser
+    public class ApplicationUser: IdentityUser
     {
+        public int StudentId { get; set; }
+        [MaxLength(50)]
+        public string GivenName { get; set; }
+        [MaxLength(30)]
+        public string? Surname { get; set; }
+        public string UserType { get; set; }
         public string? Title { get; set; }
+        public string? DOB { get; set; }
         public bool IsActive { get; set; }
+        //public string CourseId { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
+        public Course? Course { get; set; }
         public Guid DocumentId { get; set; }
         [Required]
         [MaxLength(100)]

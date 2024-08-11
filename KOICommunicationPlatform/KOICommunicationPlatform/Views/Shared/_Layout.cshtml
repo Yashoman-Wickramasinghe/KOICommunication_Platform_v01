@@ -158,7 +158,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a asp-controller="Home" asp-action="Index" class="brand-link">
+            <a asp-area="Client" asp-controller="Home" asp-action="Index" class="brand-link">
                 <img src="~/dist/img/KingsOwnInstituteKOI-logo.png" alt="King's Own Institute" class="brand-image img-circle elevation-3" style="opacity: 1">
                 <span class="brand-text font-weight-light">Project Tracker</span>
             </a>
@@ -172,11 +172,15 @@
                     </div>
                     <div class="info">
                         
-                        <a asp-controller="UserProfile" asp-action="Index" class="d-block">
-                            Abcd Supervisor
-                        </a>
+                        <partial name="_LoginPartial"/>
+
+                       @* <a asp-controller="UserProfile" asp-action="Index" class="d-block">
+                          
+                        </a>*@
                     </div>
                 </div>
+
+                 
 
                 <!-- SidebarSearch Form -->
                @*  <div class="form-inline">
@@ -196,7 +200,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a asp-controller="Home" asp-action="Index" class="nav-link">
+                            <a asp-area="Client" asp-controller="Home" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fa fa-house"></i>
                                 <p>Home
                                     @* <span class="right badge badge-danger">New</span> *@

@@ -55,7 +55,7 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
                 Input = new InputModel
                 {
                     Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
-                    Email = _userManager.FindByIdAsync(userId).Result?.Email
+                    Email = _userManager.FindByIdAsync(userId)?.Result?.Email
                 };
                 return Page();
             }
@@ -78,7 +78,7 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return RedirectToPage("./Login");
             }
 
             foreach (var error in result.Errors)

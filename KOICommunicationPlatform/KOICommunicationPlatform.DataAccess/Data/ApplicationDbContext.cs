@@ -15,9 +15,7 @@ namespace KOICommunicationPlatform.DataAccess
         {
 
         }
-        public DbSet<ApplicationUserStudent> ApplicationUserStudents { get; set; }
-        public DbSet<ApplicationUserLecturer> ApplicationUserLecturers { get; set; }
-        public DbSet<ApplicationUserClient> ApplicationUserClients { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<StudentGroupHD> StudentGroupHDs { get; set; }

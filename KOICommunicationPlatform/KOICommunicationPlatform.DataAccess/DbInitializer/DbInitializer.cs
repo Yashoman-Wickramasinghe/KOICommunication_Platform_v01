@@ -59,19 +59,20 @@ namespace KOICommunicationPlatform.DataAccess.DbInitializer
                 //if roles are not created, then we will create admin user as well
 
                 // Create admin user
-                var adminUser = new ApplicationUserLecturer
+                var adminUser = new ApplicationUser
                 {
                     UserName = "yashoman0608@gmail.com",
                     Email = "yashoman0608@gmail.com",
-                    FirstName = "Yashoman",
-                    LastName = "Wickramasinghe",
+                    GivenName = "Yashoman",
+                    Surname = "Wickramasinghe",
                     PhoneNumber = "0449620185",
+                    UserType = SD.Website_Admin,
                     IsActive = true,
                 };
 
                 _userManager.CreateAsync(adminUser, "Admin123*").GetAwaiter().GetResult();
 
-                var user = _db.ApplicationUserLecturers.FirstOrDefault(u => u.Email == "yashoman0608@gmail.com");
+                var user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "yashoman0608@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Website_Admin).GetAwaiter().GetResult();
 
                 var applicationDomain = _configuration["EmailSettings:Domain"];
@@ -93,7 +94,7 @@ namespace KOICommunicationPlatform.DataAccess.DbInitializer
         <img src='https://media.licdn.com/dms/image/D563DAQGz7eF5nYkI2w/image-scale_191_1128/0/1706753270420/kings_own_institute_cover?e=2147483647&v=beta&t=VUkOybxE5Cvah5a1ghXMaFsETiQNEIP2GNFXLzkb67o' alt='KOI Banner' style='width: 100%; height: auto;'>
     </div>
     <div style='padding: 20px; background-color: #ffffff;'>
-        <h2 style='color: #11587d;'>Hi {user.FirstName},</h2>
+        <h2 style='color: #11587d;'>Hi {user.GivenName},</h2>
         <p>We welcome you to the KOI Communication Platform. Please click the link below to reset your password:</p>
         <p style='text-align: left;'>
             <a href='{resetPasswordUrl}' target='_blank' style='display: inline-block; padding: 10px 20px; background-color: #11587d; color: #ffffff; text-decoration: none; border-radius: 5px;'>Reset Your Password</a>
@@ -102,10 +103,8 @@ namespace KOICommunicationPlatform.DataAccess.DbInitializer
         <p style='color: #999;'>Best regards,<br>The KOI Team</p>
     </div>
 </div>";
-
-                //var message = $"Please reset your password by <a href='{resetPasswordUrl}' target='_blank'>clicking here</a>.";
-
                 _emailDispatcher.SendEmailAsync(user.Email, subject, message).GetAwaiter().GetResult();
+
             }
             return;
         }
