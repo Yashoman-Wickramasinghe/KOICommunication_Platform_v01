@@ -15,13 +15,13 @@ namespace KOICommunicationPlatform.DataAccess.DbInitializer
 {
     public class DbInitializer : IDbInitializer
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _db;
         private readonly IEmailDispatcher _emailDispatcher;
         private readonly IConfiguration _configuration;
         public DbInitializer(
-            UserManager<IdentityUser> userManager,
+            UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext db,
             IEmailDispatcher emailDispatcher,

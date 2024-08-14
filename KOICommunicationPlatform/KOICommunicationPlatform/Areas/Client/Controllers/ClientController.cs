@@ -3,7 +3,7 @@
 namespace KOICommunicationPlatform.Areas.Client.Controllers
 {
     [Area("Client")]
-    public class HomeController : Controller
+    public class ClientController : Controller
     {
         public IActionResult Index()
         {

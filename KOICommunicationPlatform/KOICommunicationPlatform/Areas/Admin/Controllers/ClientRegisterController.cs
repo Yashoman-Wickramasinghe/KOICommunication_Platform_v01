@@ -18,14 +18,14 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IRegistrationEmailSender _registrationEmailSender;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
 
 
         public ClientRegisterController(IUnitOfWork unitOfWork,
          IWebHostEnvironment hostEnvironment,
          IRegistrationEmailSender registrationEmailSender,
-         UserManager<IdentityUser> userManager,
+         UserManager<ApplicationUser> userManager,
          IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;

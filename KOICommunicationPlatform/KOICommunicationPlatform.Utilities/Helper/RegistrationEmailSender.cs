@@ -13,11 +13,11 @@ namespace KOICommunicationPlatform.Utilities.Helper
 {
     public class RegistrationEmailSender : IRegistrationEmailSender
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailDispatcher _emailDispatcher;
         private readonly IConfiguration _configuration;
 
-        public RegistrationEmailSender(UserManager<IdentityUser> userManager,
+        public RegistrationEmailSender(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IEmailDispatcher emailDispatcher,
             IConfiguration configuration)
