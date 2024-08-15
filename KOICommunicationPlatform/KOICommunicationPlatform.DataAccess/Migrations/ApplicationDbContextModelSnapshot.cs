@@ -981,7 +981,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUserClient", b =>
+            modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -997,16 +997,25 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<string>("ContactPhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserClient_CreatedBy");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ApplicationUserClient_CreatedDateTime");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DOB")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("GoogleDriveLink")
                         .IsRequired()
@@ -1017,20 +1026,17 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("ApplicationUserClient_IsActive");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifieDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ApplicationUserClient_ModifieDateTime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserClient_ModifiedBy");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Organization")
                         .IsRequired()
@@ -1045,117 +1051,30 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SubmissionLink")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Surname")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserClient_Title");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Website")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("ApplicationUserClient");
-                });
-
-            modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUserLecturer", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserLecturer_CreatedBy");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ApplicationUserLecturer_CreatedDateTime");
-
-                    b.Property<string>("DOB")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserLecturer_DOB");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserLecturer_FirstName");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("ApplicationUserLecturer_IsActive");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
-                        .HasColumnName("ApplicationUserLecturer_LastName");
-
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
-                        .HasColumnName("ApplicationUserLecturer_MiddleName");
-
-                    b.Property<DateTime>("ModifieDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ApplicationUserLecturer_ModifieDateTime");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserLecturer_ModifiedBy");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ApplicationUserLecturer_Title");
-
-                    b.HasDiscriminator().HasValue("ApplicationUserLecturer");
-                });
-
-            modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUserStudent", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DOB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime>("ModifieDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasIndex("CourseId");
 
-                    b.HasDiscriminator().HasValue("ApplicationUserStudent");
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.ChatGroupDetail", b =>
@@ -1171,7 +1090,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.ClientMeeting", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUserClient", "ApplicationUserClient")
+                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUser", "ApplicationUserClient")
                         .WithMany()
                         .HasForeignKey("ApplicationUserClientId");
 
@@ -1303,7 +1222,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.StudentGroupHD", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUserClient", "ApplicationUserClient")
+                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUser", "ApplicationUserClient")
                         .WithMany()
                         .HasForeignKey("ApplicationUserClientId");
 
@@ -1415,13 +1334,11 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUserStudent", b =>
+            modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUser", b =>
                 {
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.Navigation("Course");
                 });

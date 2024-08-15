@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace KOICommunicationPlatform.DataAccess.Repository.IRepository
 {
-    public interface IApplicationUserLecturerRepository: IRepository<ApplicationUserLecturer>
+    public interface IApplicationUserRepository: IRepository<ApplicationUser>
     {
-        void Update(ApplicationUserLecturer obj);
+        void Update(ApplicationUser obj);
         void Save();
     }
 }

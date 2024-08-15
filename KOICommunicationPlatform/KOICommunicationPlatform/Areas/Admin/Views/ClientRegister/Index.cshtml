@@ -1,4 +1,22 @@
-﻿@model List<ApplicationUserClient>
+﻿@model List<ApplicationUser>
+<style>
+.btn-bulk {
+    background-color: #218838;
+    color: white;
+    margin-left: 10px; /* Adjust spacing as needed */
+}
+.btn-bulk:hover {
+    background-color: #1c7430;
+}
+
+.btn-item {
+    float: left;
+    padding-right: .5rem;
+    color: #6c757d;
+    content: "" !important;
+}
+
+</style>
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -16,11 +34,16 @@
             <div class="col-sm-6">
                 <h1 class="m-0"></h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
+            <div class="col-sm-6" style="padding-right: 0px;">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">
+                    <li class="btn-item">
                         <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Create" class="btn btn-primary">
                             <i class="bi bi-plus-circle"></i> &nbsp; Add New Client
+                        </a>
+                    </li>
+                    <li class="btn-item">
+                        <a asp-area="Admin" asp-controller="ClientRegister" asp-action="BulkCreate" class="btn btn-bulk">
+                            <i class="bi bi-upload"></i> &nbsp; Add Clients in Bulk
                         </a>
                     </li>
                 </ol>
@@ -149,3 +172,4 @@
         location.reload();
     }
 </script>
+

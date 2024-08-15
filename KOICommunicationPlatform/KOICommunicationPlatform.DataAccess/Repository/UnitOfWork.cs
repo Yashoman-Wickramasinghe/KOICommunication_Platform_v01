@@ -21,9 +21,7 @@ namespace KOICommunicationPlatform.Models
             Course = new CourseRepository(_db);
             Subject = new SubjectRepository(_db);
             Tutorial = new TutorialRepository(_db);
-            ApplicationUserClient = new ApplicationUserClientRepository(_db);
-            ApplicationUserStudent = new ApplicationUserStudentRepository(_db);
-            ApplicationUserLecturer = new ApplicationUserLecturerRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
         }
         
         public IProjectDeliverableRepository ProjectDeliverable { get; private set; }
@@ -31,9 +29,7 @@ namespace KOICommunicationPlatform.Models
         public ISubjectRepository Subject { get; private set; }
         public ITutorialRepository Tutorial { get; private set; }
         //public void Save();
-        public IApplicationUserClientRepository ApplicationUserClient { get; private set; }
-        public IApplicationUserStudentRepository ApplicationUserStudent { get; private set; }
-        public IApplicationUserLecturerRepository ApplicationUserLecturer { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
         public void Save()
         {
             _db.SaveChanges();
