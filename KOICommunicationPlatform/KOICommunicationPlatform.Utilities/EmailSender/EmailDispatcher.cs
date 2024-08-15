@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using KOICommunicationPlatform.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace KOICommunicationPlatform.Utilities.EmailSender
 {
     public class EmailDispatcher: IEmailDispatcher
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
       //  private readonly IEmailDispatcher _emailDispatcher;
-        public EmailDispatcher(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public EmailDispatcher(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
         _configuration = configuration;

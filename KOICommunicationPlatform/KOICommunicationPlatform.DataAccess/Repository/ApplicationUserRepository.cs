@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace KOICommunicationPlatform.DataAccess.Repository
 {
-    public class ApplicationUserLecturerRepository : Repository<ApplicationUserLecturer>,IApplicationUserLecturerRepository
+    public class ApplicationUserRepository: Repository<ApplicationUser>,IApplicationUserRepository
     {
         private ApplicationDbContext _db;
 
-        public ApplicationUserLecturerRepository(ApplicationDbContext db) : base(db)
+        public ApplicationUserRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(ApplicationUserLecturer obj)
+        public void Update(ApplicationUser obj)
         {
-            _db.ApplicationUserLecturers.Update(obj);
+            _db.ApplicationUsers.Update(obj);
         }
 
         public void Save()

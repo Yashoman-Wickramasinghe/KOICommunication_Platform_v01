@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using KOICommunicationPlatform.Utilities
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -158,7 +159,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a asp-controller="Home" asp-action="Index" class="brand-link">
+            <a asp-area="Client" asp-controller="Home" asp-action="Index" class="brand-link">
                 <img src="~/dist/img/KingsOwnInstituteKOI-logo.png" alt="King's Own Institute" class="brand-image img-circle elevation-3" style="opacity: 1">
                 <span class="brand-text font-weight-light">Project Tracker</span>
             </a>
@@ -172,11 +173,15 @@
                     </div>
                     <div class="info">
                         
-                        <a asp-controller="UserProfile" asp-action="Index" class="d-block">
-                            Abcd Supervisor
-                        </a>
+                        <partial name="_LoginPartial"/>
+
+                       @* <a asp-controller="UserProfile" asp-action="Index" class="d-block">
+                          
+                        </a>*@
                     </div>
                 </div>
+
+                 
 
                 <!-- SidebarSearch Form -->
                @*  <div class="form-inline">
@@ -190,13 +195,17 @@
                     </div>
                 </div> *@
 
-                <!-- Sidebar Menu -->
+                @*For clients*@
+
+                @if (User.IsInRole(SD.Website_Admin))
+                {
+                      <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a asp-controller="Home" asp-action="Index" class="nav-link">
+                            <a asp-area="Client" asp-controller="Home" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fa fa-house"></i>
                                 <p>Home
                                     @* <span class="right badge badge-danger">New</span> *@
@@ -284,6 +293,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                              
                                 <li class="nav-item">
                                     <a asp-area="Admin" asp-controller="ProjectDeliverable" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -306,6 +316,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                //not for client
                                 <li class="nav-item">
                                     <a asp-controller="TaskTracking" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -320,8 +331,6 @@
                                 </li> *@
                             </ul>
                         </li>
-                      @*<li class="nav-header">EXAMPLES</li> *@
-
                         <li class="nav-item">
                             <a asp-controller="Chat" asp-action="Chats" class="nav-link">
                                 <i class="nav-icon fa fa-message"></i>
@@ -344,6 +353,7 @@
                                         <p>Shedule Client Meetings</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a asp-area="Admin" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -353,14 +363,86 @@
                             </ul>
                         </li>
                     </ul>
-                    <!-- Sidebar user panel (optional) -->
-                    @* <div style="position: relative">
-                        <p class="info" style="position: fixed; bottom: 0; width:100%;color:#007bff">
-                            KOI - Project Palnner
-                        </p>
-                    </div> *@
                 </nav>
                 <!-- /.sidebar-menu -->
+                }
+              
+
+                @*For clients*@
+
+                @if (User.IsInRole(SD.Website_Client))
+                {
+                     <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a asp-area="Client" asp-controller="Client" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fa fa-house"></i>
+                                <p>Home</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-file"></i>
+                                <p>Share Documents
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="Client" asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Upload Documents</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-list-check"></i>
+                                <p>Task Tracking
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                 <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Task</p>
+                                    </a>
+                                </li> 
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="Chat" asp-action="Chats" class="nav-link">
+                                <i class="nav-icon fa fa-message"></i>
+                                <p>Chats </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-handshake"></i>
+                                <p>
+                                    Client Meetings
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="Client" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Sheduled Meetings</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+                }
+
             </div>
             <!-- /.sidebar -->
         </aside>

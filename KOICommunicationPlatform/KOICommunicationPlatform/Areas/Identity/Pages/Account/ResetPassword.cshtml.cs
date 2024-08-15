@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KOICommunicationPlatform.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ResetPasswordModel(UserManager<IdentityUser> userManager)
+        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -55,7 +56,7 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
                 Input = new InputModel
                 {
                     Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
-                    Email = _userManager.FindByIdAsync(userId).Result?.Email
+                    Email = _userManager.FindByIdAsync(userId)?.Result?.Email
                 };
                 return Page();
             }
@@ -78,7 +79,7 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return RedirectToPage("./Login");
             }
 
             foreach (var error in result.Errors)
