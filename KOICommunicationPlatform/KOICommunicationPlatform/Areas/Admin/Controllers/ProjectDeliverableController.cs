@@ -129,16 +129,12 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
 
             if (obj.ProjectDeliverable.Id == 0)
                 {
-                    obj.StartDate = DateTime.Now;
-                    obj.EndDate = DateTime.Now.AddDays(1);
                     obj.ProjectDeliverable.CourseId = obj.CourseId;
                     obj.ProjectDeliverable.SubjectId = obj.SubjectId;
                     _unitOfWork.ProjectDeliverable.Add(obj.ProjectDeliverable);
                 }
                 else
                 {
-                    obj.StartDate = DateTime.Now;
-                    obj.EndDate = DateTime.Now.AddDays(1);
                     obj.ProjectDeliverable.CourseId = obj.CourseId;
                     obj.ProjectDeliverable.SubjectId = obj.SubjectId;
                     _unitOfWork.ProjectDeliverable.Update(obj.ProjectDeliverable);

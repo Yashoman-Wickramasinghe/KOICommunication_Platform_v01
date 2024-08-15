@@ -20,12 +20,14 @@ namespace KOICommunicationPlatform.Models
             ProjectDeliverable = new ProjectDeliverableRepository(_db);
             Course = new CourseRepository(_db);
             Subject = new SubjectRepository(_db);
+            Tutorial = new TutorialRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
         }
         
         public IProjectDeliverableRepository ProjectDeliverable { get; private set; }
         public ICourseRepository Course { get; private set; }
         public ISubjectRepository Subject { get; private set; }
+        public ITutorialRepository Tutorial { get; private set; }
         //public void Save();
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public void Save()

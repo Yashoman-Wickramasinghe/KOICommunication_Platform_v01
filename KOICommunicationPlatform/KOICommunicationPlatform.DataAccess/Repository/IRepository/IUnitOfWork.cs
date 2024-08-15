@@ -14,6 +14,7 @@ namespace KOICommunicationPlatform.Models
         IProjectDeliverableRepository ProjectDeliverable { get; }
         ICourseRepository Course { get; }
         ISubjectRepository Subject { get; }
+        ITutorialRepository Tutorial { get; }
         void Save();
     }
 }

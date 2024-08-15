@@ -1,0 +1,103 @@
+﻿@model KOICommunicationPlatform.Models.ViewModels.TutorialViewModel
+
+@{
+    ViewData["Title"] = "Delete Tutorial";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Delete Tutorial</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Configurations</a></li>
+                    <li class="breadcrumb-item active">Delete Tutorial</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Delete Subject</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <form asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete this subject?');">
+                <input type="hidden" asp-for="Id" />
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="CourseName">Course Name</label>
+                                <input type="text" class="form-control" value="@Model.CourseName" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="SubjectName">Subject Name</label>
+                                <input type="text" class="form-control" value="@Model.SubjectName" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Trimester">Trimester</label>
+                                <input type="text" class="form-control" value="@Model.Trimester" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Day">Day</label>
+                                <input type="text" class="form-control" value="@Model.Day" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="FromTime">From Time</label>
+                                <input type="text" class="form-control" value="@Model.FromTime" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="ToTime">To Time</label>
+                                <input type="text" class="form-control" value="@Model.ToTime" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <button type="submit" value="Delete" class="btn btn-danger float-right" style="background-color:red">Delete</button>
+                            <a asp-controller="Tutorial" asp-action="Index" class="btn btn-secondary float-right" style="margin-right: 5px;">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </form>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

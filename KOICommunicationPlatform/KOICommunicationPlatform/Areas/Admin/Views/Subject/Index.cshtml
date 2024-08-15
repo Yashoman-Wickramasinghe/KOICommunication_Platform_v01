@@ -1,0 +1,155 @@
+﻿@model IEnumerable<KOICommunicationPlatform.Models.Subject>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Subject List</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Configurations</a></li>
+                    <li class="breadcrumb-item active">View Subject List</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0"></h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="Subject" asp-action="Create" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> &nbsp; Add New Subject
+                        </a>
+                    </li>
+                </ol>
+            </div><!-- /.col -->
+        </div>
+    </div><!-- /.container-fluid -->
+    <br />
+</div>
+
+<section class="content">
+    <form method="post">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            @* <h3 class="card-title">View clients</h3> *@
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="input-group input-group-lg">
+                                    <input type="search" class="form-control" placeholder="Type your keywords here" value="">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+                            <div class="row no-print">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary float-right">Search</button>
+                                    <button type="button" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <!-- /.col (left) -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">View User Clients</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Course Name</th>
+                                                <th>Subject Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                string currentCourse = null;
+                                                int courseRowSpan = 0;
+                                            }
+
+                                            @foreach (var subject in Model.OrderBy(s => s.Course.CourseName))
+                                            {
+                                                if (subject.Course.CourseName != currentCourse)
+                                                {
+                                                    // Count the number of subjects under the current course
+                                                    courseRowSpan = Model.Count(s => s.Course.CourseName == subject.Course.CourseName);
+                                                    currentCourse = subject.Course.CourseName;
+                                                }
+                                                <tr>
+                                                    @if (courseRowSpan > 0)
+                                                    {
+                                                        <td rowspan="@courseRowSpan">
+                                                            <span class="course-info" style="display:none;">@subject.Course.Id</span>
+                                                            @subject.Course.CourseName
+                                                        </td>
+                                                        courseRowSpan = 0;
+                                                    }
+                                                    <td>
+                                                        <span class="subject-info" style="display:none;">@subject.Id</span>
+                                                        @subject.SubjectName
+                                                    </td>
+                                                    <td>
+                                                        <a asp-controller="Subject" asp-action="Edit" asp-route-id="@subject.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                                                        <a asp-controller="Subject" asp-action="Delete" asp-route-id="@subject.Id" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div><!-- /.container-fluid -->
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </form>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KOICommunicationPlatform.DataAccess.Migrations
+namespace KOICommunicationPlatform.Repositories.Migrations
 {
     public partial class initialmigration : Migration
     {
@@ -121,18 +121,12 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: true),
-                    GivenName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Surname = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DOB = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    ApplicationUserClient_Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserClient_IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    ApplicationUserClient_CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserClient_CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ApplicationUserClient_ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserClient_ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Organization = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -146,6 +140,28 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     ContactPerson02Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContactPerson02Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubmissionLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_MiddleName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    ApplicationUserLecturer_LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    ApplicationUserLecturer_DOB = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    ApplicationUserLecturer_CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ApplicationUserLecturer_ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserLecturer_ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StudentId = table.Column<int>(type: "int", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    MiddleName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DOB = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -168,7 +184,47 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         name: "FK_AspNetUsers_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectDeliverables",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+<<<<<<<< HEAD:KOICommunicationPlatform/KOICommunicationPlatform.Repositories/Migrations/20240801085014_inital_migration.cs
+                    ClientName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactPerson01Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPerson01Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPerson02Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPerson02Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubmissionLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+========
+                    DeliverableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+>>>>>>>> master:KOICommunicationPlatform/KOICommunicationPlatform.DataAccess/Migrations/20240803105140_initial-migration.cs
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: true),
+                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectDeliverables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectDeliverables_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -475,6 +531,45 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DocumentUploads",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectDeliverableId = table.Column<int>(type: "int", nullable: true),
+                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: true),
+                    SubjectId = table.Column<int>(type: "int", nullable: true),
+                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Version = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentUploads", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DocumentUploads_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DocumentUploads_ProjectDeliverables_ProjectDeliverableId",
+                        column: x => x.ProjectDeliverableId,
+                        principalTable: "ProjectDeliverables",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DocumentUploads_StudentGroupDetails_StudentGroupDetailId",
+                        column: x => x.StudentGroupDetailId,
+                        principalTable: "StudentGroupDetails",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Subjects",
                 columns: table => new
                 {
@@ -527,79 +622,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         principalTable: "SprintTasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectDeliverables",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DeliverableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: true),
-                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectDeliverables", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProjectDeliverables_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectDeliverables_Subjects_SubjectId",
-                        column: x => x.SubjectId,
-                        principalTable: "Subjects",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DocumentUploads",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectDeliverableId = table.Column<int>(type: "int", nullable: true),
-                    StudentGroupDetailId = table.Column<int>(type: "int", nullable: true),
-                    SubjectId = table.Column<int>(type: "int", nullable: true),
-                    Trimester = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Version = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifieDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentUploads", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DocumentUploads_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DocumentUploads_ProjectDeliverables_ProjectDeliverableId",
-                        column: x => x.ProjectDeliverableId,
-                        principalTable: "ProjectDeliverables",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_DocumentUploads_StudentGroupDetails_StudentGroupDetailId",
-                        column: x => x.StudentGroupDetailId,
-                        principalTable: "StudentGroupDetails",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -736,11 +758,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectDeliverables_SubjectId",
-                table: "ProjectDeliverables",
-                column: "SubjectId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sprints_CourseId",
                 table: "Sprints",
                 column: "CourseId");
@@ -821,6 +838,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 name: "CommentsOnTasks");
 
             migrationBuilder.DropTable(
+                name: "Subjects");
+
+            migrationBuilder.DropTable(
                 name: "TaskAllocationMembers");
 
             migrationBuilder.DropTable(
@@ -839,19 +859,16 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 name: "ProjectDeliverables");
 
             migrationBuilder.DropTable(
-                name: "Sprints");
-
-            migrationBuilder.DropTable(
-                name: "Subjects");
-
-            migrationBuilder.DropTable(
-                name: "TaskBoards");
-
-            migrationBuilder.DropTable(
                 name: "StudentGroupDetails");
 
             migrationBuilder.DropTable(
+                name: "Sprints");
+
+            migrationBuilder.DropTable(
                 name: "StudentGroupHDs");
+
+            migrationBuilder.DropTable(
+                name: "TaskBoards");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

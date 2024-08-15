@@ -14,9 +14,14 @@ namespace KOICommunicationPlatform.Models.ViewModels
     {
         public int Id { get; set; }
         public string DeliverableName { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+
+                                   //format: 'YYYY-MM-DD HH:mm:ss'
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }
