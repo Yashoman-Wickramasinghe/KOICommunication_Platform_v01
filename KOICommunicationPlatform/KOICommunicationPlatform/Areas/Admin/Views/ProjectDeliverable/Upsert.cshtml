@@ -76,7 +76,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                         </div>
-                                        <input asp-for="ProjectDeliverable.StartDate" type="datetime-local" id="datetime" name="startdate" class="form-control">
+                                        <input asp-for="ProjectDeliverable.StartDate" type="datetime-local" id="starttdate" name="StartDate">
                                     </div>
                                 </div>
                             </div>
@@ -87,19 +87,10 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                         </div>
-                                        <input asp-for="ProjectDeliverable.EndDate" type="text" id="datetime" name="endtdate" class="form-control">
+                                        <input asp-for="ProjectDeliverable.EndDate" type="datetime-local" id="endtdate" name="EndDate">
                                     </div>
                                 </div>
                             </div>
-                            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    flatpickr("#datetime", {
-                                        enableTime: true,
-                                        dateFormat: "Y-m-d H:i",
-                                    });
-                                });
-                            </script>
                         </div>
                         <div class="row no-print">
                             <div class="col-12">
@@ -149,6 +140,17 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('#starttdate').datetimepicker({
+                format: 'yyyy-MM-dd HH:mm:ss'
+            });
+            $('#endtdate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
             });
         });
     </script>

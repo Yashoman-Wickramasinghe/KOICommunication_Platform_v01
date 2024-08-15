@@ -1,8 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model KOICommunicationPlatform.Models.ViewModels.TutorialViewModel
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -18,6 +15,7 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -29,51 +27,81 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>Course Name</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">MIT - Master of Information Technology</option>
-                                        <option>BIT - Bachelor of Information Technology</option>
+                                    <label for="CourseId">Course</label>
+                                    <select id="CourseId" name="CourseId" class="form-control">
+                                        <option value="">Select Course</option>
+                                        @foreach (var item in Model.CourseList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>Trimester</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">T124</option>
-                                        <option>T121</option>
-                                        <option>T122</option>
-                                        <option>T123</option>
+                                    <label for="SubjectId">Subject</label>
+                                    <select id="SubjectId" name="SubjectId" class="form-control" disabled>
+                                        <option value="">Select Subject</option>
+                                        @foreach (var item in Model.SubjectList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>Capstone</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">Capstone Project 01</option>
-                                        <option>Capstone Project 02</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Tutorial Class</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">Tuesday 12:00 pm - 2:00 pm</option>
-                                        <option>Tuesday  2:00 pm - 4:00 pm</option>
-                                        <option>Wednesday 1:00 pm - 3:00 pm</option>
-                                        <option>Wednesday 3:00 pm - 5:00 pm</option>
-                                        <option>Wednesday 3:00 pm - 5:00 pm - Newcastle</option>
-                                        <option>Tuesday - All</option>
-                                        <option>Wednesday - All</option>
+                                    <label for="Trimester">Trimester</label>
+                                    <select id="Trimester" name="Trimester" class="form-control" disabled>
+                                        <option value="">Select Trimester</option>
+                                        @foreach (var item in Model.TrimesterList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Day">Day</label>
+                                    <select id="Day" name="Day" class="form-control" disabled>
+                                        <option value="">Select Day</option>
+                                        @foreach (var item in Model.DayList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="FromTime">From Time</label>
+                                    <select id="FromTime" name="FromTime" class="form-control" disabled>
+                                        <option value="">Select From Time</option>
+                                        @foreach (var item in Model.FromTimeList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="ToTime">To Time</label>
+                                    <select id="ToTime" name="ToTime" class="form-control" disabled>
+                                        <option value="">Select To Time</option>
+                                        @foreach (var item in Model.ToTimeList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row no-print">
                             <div class="col-12">
                                 <button type="button" class="btn btn-primary float-right">Generate Group ID</button>
@@ -202,3 +230,91 @@
     </div>
     <!-- /.container-fluid -->
 </section>
+<!-- Main content -->
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#CourseId').change(function () {
+                var courseId = $(this).val();
+                if (courseId) {
+                    $.ajax({
+                        url: '@Url.Action("GetSubjects", "StudentGroups", new { Area = "Admin" })',
+                        type: 'POST',
+                        data: { courseId: courseId },
+                        success: function (data) {
+                            $('#SubjectId').empty().append('<option value="">Select Subject</option>');
+                            $.each(data, function (index, item) {
+                                $('#SubjectId').append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });
+                            $('#SubjectId').prop('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#SubjectId').empty().prop('disabled', true);
+                    $('#Trimester, #Day, #FromTime, #ToTime').empty().prop('disabled', true);
+                }
+            });
+
+            $('#SubjectId').change(function () {
+                var courseId = $('#CourseId').val();
+                var subjectId = $(this).val();
+                if (courseId && subjectId) {
+                    $.ajax({
+                        url: '@Url.Action("GetFilteredData", "StudentGroups", new { Area = "Admin" })',
+                        type: 'POST',
+                        data: { courseId: courseId, subjectId: subjectId },
+                        success: function (data) {
+                            $('#Trimester').empty().append('<option value="">Select Trimester</option>');
+                            $.each(data.trimesters, function (index, item) {
+                                $('#Trimester').append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });
+                            $('#Trimester').prop('disabled', false);
+
+                            $('#Day').empty().append('<option value="">Select Day</option>');
+                            $.each(data.days, function (index, item) {
+                                $('#Day').append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });
+                            $('#Day').prop('disabled', false);
+
+                            $('#FromTime').empty().append('<option value="">Select From Time</option>');
+                            $.each(data.fromTimes, function (index, item) {
+                                $('#FromTime').append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });
+                            $('#FromTime').prop('disabled', false);
+
+                            $('#ToTime').empty().append('<option value="">Select To Time</option>');
+                            $.each(data.toTimes, function (index, item) {
+                                $('#ToTime').append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });
+                            $('#ToTime').prop('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#Trimester, #Day, #FromTime, #ToTime').empty().prop('disabled', true);
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

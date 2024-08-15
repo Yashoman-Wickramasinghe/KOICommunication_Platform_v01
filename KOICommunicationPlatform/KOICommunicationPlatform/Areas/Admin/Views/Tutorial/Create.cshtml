@@ -1,0 +1,124 @@
+﻿@model KOICommunicationPlatform.Models.ViewModels.TutorialViewModel
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Add Tutorial</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Configurations</a></li>
+                    <li class="breadcrumb-item active">Add Tutorial</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Add New Tutorial</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <form asp-action="Create" method="post">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="CourseId">Course</label>
+                                <select asp-for="CourseId" class="form-control" asp-items="Model.CourseList">
+                                    <option value="">-- Select Course --</option>
+                                </select>
+                                <span asp-validation-for="CourseId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="SubjectId">Subject</label>
+                                <select asp-for="SubjectId" class="form-control">
+                                    <option value="">-- Select Subject --</option>
+                                </select>
+                                <span asp-validation-for="SubjectId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Trimester">Trimester</label>
+                                <select asp-for="Trimester" class="form-control" asp-items="Model.TrimesterList">
+                                    <option value="">-- Select Trimester --</option>
+                                </select>
+                                <span asp-validation-for="Trimester" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Day">Day</label>
+                                <input type="text" asp-for="Day" class="form-control" />
+                                <span asp-validation-for="CourseId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="FromTime">From Time</label>
+                                    <input type="text" asp-for="FromTime" class="form-control" />
+                                    <span asp-validation-for="FromTime" class="text-danger"></span>
+                                </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="ToTime">To Time</label>
+                                <input type="text" asp-for="ToTime" class="form-control" />
+                                <span asp-validation-for="ToTime" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <!-- /.row -->
+               <div class="row no-print">
+                        <div class="col-12">
+                        <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Create</button>
+                        <a asp-controller="Tutorial" asp-action="Index" class="btn btn-secondary float-right">Back to List</a>
+                        </div>
+               </div>
+                <!-- /.card-body -->
+            </form>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("select[name='CourseId']").change(function () {
+                var courseId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetSubjectsByCourse", "Tutorial")',
+                    data: { courseId: courseId },
+                    success: function (data) {
+                        var subjectSelect = $("select[name='SubjectId']");
+                        subjectSelect.empty();
+                        subjectSelect.append('<option value="">-- Select Subject --</option>');
+                        $.each(data, function (i, subject) {
+                            subjectSelect.append($('<option></option>').val(subject.value).text(subject.text));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,146 @@
+﻿@model IEnumerable<KOICommunicationPlatform.Models.Tutorial>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">View Tutorials</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Configurations</a></li>
+                    <li class="breadcrumb-item active">View Tutorials</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0"></h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="Tutorial" asp-action="Create" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> &nbsp; Add New Tutorial
+                        </a>
+                    </li>
+                </ol>
+            </div><!-- /.col -->
+        </div>
+    </div><!-- /.container-fluid -->
+    <br />
+</div>
+<section class="content">
+    <form method="post">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            @* <h3 class="card-title">View clients</h3> *@
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="input-group input-group-lg">
+                                    <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here" value="">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+                            <div class="row no-print">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary float-right">Search</button>
+                                    <button type="button" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <!-- /.col (left) -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">View Tutorials</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Trimester</th>
+                                            <th style="display:none;">Course ID</th>
+                                            <th>Course Name</th>
+                                            <th style="display:none;">Subject ID</th>
+                                            <th>Subject Name</th>
+                                            <th>Day</th>
+                                            <th>From Time</th>
+                                            <th>To Time</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Any())
+                                        {
+                                            var groupedTutorials = Model
+                                            .GroupBy(t => t.Subject.Course.CourseName)
+                                            .ToList();
+
+                                            foreach (var courseGroup in groupedTutorials)
+                                            {
+                                                var courseRowspan = courseGroup.Count();
+                                                var first = true;
+                                                foreach (var tutorial in courseGroup)
+                                                {
+                                                    <tr>
+                                                        <td>@tutorial.Trimester</td>
+                                                        @if (first)
+                                                        {
+                                                            <td rowspan="@courseRowspan">@tutorial.Subject.Course.CourseName</td>
+                                                            first = false;
+                                                        }
+                                                        <td style="display:none;">@tutorial.Subject.Id</td>
+                                                        <td>@tutorial.Subject.SubjectName</td>
+                                                        <td>@tutorial.Day</td>
+                                                        <td>@tutorial.FromTime</td>
+                                                        <td>@tutorial.ToTime</td>
+                                                        <td>
+                                                            <div class="w-75 btn-group" role="group">
+                                                                <a asp-controller="Tutorial" asp-action="Edit" asp-route-id="@tutorial.Id"
+                                                                   class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                                                <a asp-controller="Tutorial" asp-action="Delete" asp-route-id="@tutorial.Id"
+                                                                   class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="9">No tutorials available.</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div><!-- /.container-fluid -->
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </form>
+</section>
