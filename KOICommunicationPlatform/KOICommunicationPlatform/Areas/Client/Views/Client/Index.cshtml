@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
+                <h3 class="m-0">Hi, @ViewBag.Organization!</h3>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item active">Client Dashboard</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,8 +26,8 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-info elevation-1"><i class="fa fa-bell"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Reminders</span>
-                        <span class="info-box-number">04
+                        <span class="info-box-text">Team Members</span>
+                        <span class="info-box-number">05
                             @* <small>%</small> *@
                         </span>
                         <span class="info-box-number">
@@ -45,8 +45,8 @@
                     <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-bars-progress"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Capstone Project 01</span>
-                        <span class="info-box-number">MIT Groups: 25</span><span class="info-box-number">BIT Groups: 34</span>
+                        <span class="info-box-text">Duration</span>
+                        <span class="info-box-number">Months: 06</span><span class="info-box-number">Days: 10</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -61,8 +61,8 @@
                     <span class="info-box-icon bg-success elevation-1"><i class="fa fa-bars-progress"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Capstone Project 02</span>
-                        <span class="info-box-number">MIT Groups: 28</span><span class="info-box-number">BIT Groups: 32</span>
+                        <span class="info-box-text">Status</span>
+                        <span class="info-box-number">Completed: 55%</span><span class="info-box-number">Pending: 45%</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -75,8 +75,8 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Upcoming Meetings</span>
-                        <span class="info-box-number">03</span>
-                        <span class="info-box-number">Latest : <a href="08/07/2024">Details</a></span>
+                        <span class="info-box-number">21/08/2024</span>
+                        <span class="info-box-number">Time : <a href="08/07/2024">10:30 AM</a></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -85,182 +85,6 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Advanced Search</h5>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fas fa-wrench"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <a href="#" class="dropdown-item">Action</a>
-                                    <a href="#" class="dropdown-item">Another action</a>
-                                    <a href="#" class="dropdown-item">Something else here</a>
-                                    <a class="dropdown-divider"></a>
-                                    <a href="#" class="dropdown-item">Separated link</a>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Course Name</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">MIT - Master of Information Technology</option>
-                                        <option>BIT - Bachelor of Information Technology</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Trimester</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">T124</option>
-                                        <option>T121</option>
-                                        <option>T122</option>
-                                        <option>T123</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Capstone</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">Capstone Project 01</option>
-                                        <option>Capstone Project 02</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                          
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Tutorial Class</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">Tuesday 12:00 pm - 2:00 pm</option>
-                                        <option>Tuesday  2:00 pm - 4:00 pm</option>
-                                        <option>Wednesday 1:00 pm - 3:00 pm</option>
-                                        <option>Wednesday 3:00 pm - 5:00 pm</option>
-                                        <option>Wednesday 3:00 pm - 5:00 pm - Newcastle</option>
-                                        <option>Tuesday - All</option>
-                                        <option>Wednesday - All</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Group</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">LAT2-3</option>
-                                        <option>LAT2-1</option>
-                                        <option>LAT2-2</option>
-                                        <option>LAT2-4</option>
-                                        <option>LBT1-1</option>
-                                        <option>LBT1-2</option>
-                                        <option>LBT1-3</option>
-                                        <option>LBT1-4</option>
-                                        <option>LBT1-5</option>
-                                        <option>LBT2-1</option>
-                                        <option>LBT2-2</option>
-                                        <option>LBT2-3</option>
-                                        <option>LBT2-4</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label style="color:white">Group</label>
-                                <button type="button" class="btn btn-success btn-block">Summary</button>
-                                </div>
-                                @* <div class="form-group">
-                                    <button type="button" class="btn btn-primary float-right btn-lg">Summary</button>
-                                </div> *@
-                            </div>
-                        </div>
-                        <!-- /.row -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Progress of the Communication Platform Project</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body p-0">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Task</th>
-                                            <th>Progress</th>
-                                            <th style="width: 40px">Label</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Project Proposal</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 100%;background-color: green !important;"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-danger" style="background-color:green !important">100%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Individual Literature Review Submitted</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar bg-info" style="width: 100%;background-color: green !important;"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-red" style="background-color:green !important">100%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Final Proposal Report</td>
-                                            <td>
-                                                <div class="progress progress-xs progress-striped active">
-                                                    <div class="progress-bar bg-primary" style="width: 30%;background-color: red !important;"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-primary" style="background-color:red !important">30%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4.</td>
-                                            <td>Final Presentation Slides</td>
-                                            <td>
-                                                <div class="progress progress-xs progress-striped active">
-                                                    <div class="progress-bar bg-success" style="width: 0%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-success">0%</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <!-- ./card-body -->
-                </div>
-                <!-- /.card -->
-            </div>
-            <!-- /.col -->
-        </div>
         <!-- /.row -->
     </div><!--/. container-fluid -->
 </section>

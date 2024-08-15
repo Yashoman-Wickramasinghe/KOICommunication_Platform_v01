@@ -36,10 +36,14 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                     return RedirectToAction("Index", "Client", new { area = "Client" });
                 }
             }
-           
-            return View("AccessDenied");
 
-            
+            // Generate the URL for the login page
+            string loginUrl = Url.Page("/Account/Login", new { area = "Identity" });
+
+            // Redirect to the login page
+            return Redirect(loginUrl);
+
+
         }
 
         public IActionResult Privacy()

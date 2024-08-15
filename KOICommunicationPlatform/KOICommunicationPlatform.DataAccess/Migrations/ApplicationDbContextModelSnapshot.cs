@@ -735,9 +735,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserClientId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -752,6 +749,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Lab")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifieDateTime")
                         .HasColumnType("datetime2");
@@ -768,9 +768,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<string>("Trimester")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TutorialNo")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ApplicationUserClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SubjectId");
 
@@ -1268,17 +1269,11 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.Tutorial", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.ApplicationUserClient", "ApplicationUserClient")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserClientId");
-
                     b.HasOne("KOICommunicationPlatform.Models.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ApplicationUserClient");
 
                     b.Navigation("Subject");
                 });

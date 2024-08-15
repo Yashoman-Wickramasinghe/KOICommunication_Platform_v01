@@ -22,6 +22,8 @@ namespace KOICommunicationPlatform.Models.ViewModels
 
         public string? CourseName { get; set; }
         public string? SubjectName { get; set; }
+        public string? Lab { get; set; }
+        public string? TutorialNo { get; set; }
 
         [Required]
         [Display(Name = "Trimester")]
