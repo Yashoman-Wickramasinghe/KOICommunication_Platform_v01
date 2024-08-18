@@ -22,14 +22,15 @@ namespace KOICommunicationPlatform.Models
             Subject = new SubjectRepository(_db);
             Tutorial = new TutorialRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            StudentGroupHD = new StudentGroupHDRepository(_db);
         }
         
         public IProjectDeliverableRepository ProjectDeliverable { get; private set; }
         public ICourseRepository Course { get; private set; }
         public ISubjectRepository Subject { get; private set; }
         public ITutorialRepository Tutorial { get; private set; }
-        //public void Save();
         public IApplicationUserRepository ApplicationUser { get; private set; }
+        public IStudentGroupHDRepository StudentGroupHD {  get; private set; }
         public void Save()
         {
             _db.SaveChanges();

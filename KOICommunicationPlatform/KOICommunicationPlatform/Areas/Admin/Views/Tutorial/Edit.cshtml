@@ -45,13 +45,15 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label asp-for="SubjectId"></label>
-                                <select asp-for="SubjectId" asp-items="Model.SubjectList" class="form-control" disabled="disabled"></select>
+                                <select asp-for="SubjectId" asp-items="Model.SubjectList" class="form-control"></select>
+                                <span asp-validation-for="SubjectId" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label asp-for="Trimester"></label>
-                                <select asp-for="Trimester" asp-items="Model.TrimesterList" class="form-control" disabled="disabled"></select>
+                                <select asp-for="Trimester" asp-items="Model.TrimesterList" class="form-control"></select>
                             </div>
                         </div>
                     </div>
@@ -78,6 +80,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Lab"></label>
+                                <select asp-for="Lab" asp-items="Model.LabTypeList" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="TutorialNo"></label>
+                                <select asp-for="TutorialNo" asp-items="Model.TutorialTypeList" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row no-print">
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Edit</button>
@@ -90,7 +106,33 @@
     </div>
 </section>
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            var courseId = $("select[name='CourseId']").val();
+            var subjectId = '@Model.SubjectId';
+
+            if (courseId) {
+                $.ajax({
+                    url: '@Url.Action("GetSubjectsByCourse", "Tutorial")',
+                    data: { courseId: courseId },
+                    success: function (data) {
+                        var subjectSelect = $("select[name='SubjectId']");
+                        subjectSelect.empty();
+                        subjectSelect.append('<option value="">-- Select Subject --</option>');
+                        $.each(data, function (i, subject) {
+                            var option = $('<option></option>').val(subject.value).text(subject.text);
+                            if (subject.value == subjectId) {
+                                option.attr('selected', 'selected');
+                            }
+                            subjectSelect.append(option);
+                        });
+                    }
+                });
+            }
+        });
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+

@@ -15,7 +15,6 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
-
 <section class="content">
     <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
@@ -35,52 +34,65 @@
             <form asp-action="Create" method="post">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="CourseId">Course</label>
+                                <label asp-for="CourseId"></label>
                                 <select asp-for="CourseId" class="form-control" asp-items="Model.CourseList">
                                     <option value="">-- Select Course --</option>
                                 </select>
-                                <span asp-validation-for="CourseId" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="SubjectId">Subject</label>
-                                <select asp-for="SubjectId" class="form-control">
+                                <label asp-for="SubjectId"></label>
+                                <select asp-for="SubjectId" class="form-control" asp-items="Model.SubjectList" disabled>
                                     <option value="">-- Select Subject --</option>
                                 </select>
-                                <span asp-validation-for="SubjectId" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="Trimester">Trimester</label>
+                                <label asp-for="Trimester"></label>
                                 <select asp-for="Trimester" class="form-control" asp-items="Model.TrimesterList">
                                     <option value="">-- Select Trimester --</option>
                                 </select>
-                                <span asp-validation-for="Trimester" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="Lab"></label>
+                                <select asp-for="Lab" class="form-control" asp-items="Model.LabTypeList">
+                                    <option value="">-- Select Lab Type --</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="Day">Day</label>
-                                <input type="text" asp-for="Day" class="form-control" />
-                                <span asp-validation-for="CourseId" class="text-danger"></span>
+                                <label asp-for="TutorialNo"></label>
+                                <select asp-for="TutorialNo" class="form-control" asp-items="Model.TutorialTypeList">
+                                    <option value="">-- Select Tutorial Type --</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="FromTime">From Time</label>
-                                    <input type="text" asp-for="FromTime" class="form-control" />
-                                    <span asp-validation-for="FromTime" class="text-danger"></span>
-                                </div>
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="ToTime">To Time</label>
+                                <label asp-for="Day"></label>
+                                <input type="text" asp-for="Day" class="form-control" />
+                                <span asp-validation-for="Day" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="FromTime"></label>
+                                <input type="text" asp-for="FromTime" class="form-control" />
+                                <span asp-validation-for="FromTime" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="ToTime"></label>
                                 <input type="text" asp-for="ToTime" class="form-control" />
                                 <span asp-validation-for="ToTime" class="text-danger"></span>
                             </div>
@@ -88,12 +100,13 @@
                     </div>
                     <!-- /.row -->
                     <!-- /.row -->
-               <div class="row no-print">
+                    <div class="row no-print">
                         <div class="col-12">
-                        <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Create</button>
-                        <a asp-controller="Tutorial" asp-action="Index" class="btn btn-secondary float-right">Back to List</a>
+                            <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Create</button>
+                            <a asp-controller="Tutorial" asp-action="Index" class="btn btn-secondary float-right">Back to List</a>
                         </div>
-               </div>
+                    </div>
+                </div>
                 <!-- /.card-body -->
             </form>
         </div>
@@ -104,21 +117,37 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $("select[name='CourseId']").change(function () {
+            // Handle course selection change
+            $('#CourseId').change(function () {
                 var courseId = $(this).val();
-                $.ajax({
-                    url: '@Url.Action("GetSubjectsByCourse", "Tutorial")',
-                    data: { courseId: courseId },
-                    success: function (data) {
-                        var subjectSelect = $("select[name='SubjectId']");
-                        subjectSelect.empty();
-                        subjectSelect.append('<option value="">-- Select Subject --</option>');
+                if (courseId) {
+                    $.getJSON('@Url.Action("GetSubjectsByCourse", "Tutorial")', { courseId: courseId }, function (data) {
+                        var subjectDropdown = $('#SubjectId'); // Fixed the selector
+                        subjectDropdown.empty();
+                        subjectDropdown.append($('<option>').text('-- Select Subject --').attr('value', ''));
                         $.each(data, function (i, subject) {
-                            subjectSelect.append($('<option></option>').val(subject.value).text(subject.text));
+                            subjectDropdown.append($('<option>').text(subject.text).attr('value', subject.value));
                         });
-                    }
-                });
+                        subjectDropdown.prop('disabled', false);
+
+                        // Enable Lab Type and Tutorial Type dropdowns
+                        $('#Lab').prop('disabled', false);
+                        $('#TutorialNo').prop('disabled', false);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching subjects:', textStatus, errorThrown);
+                        $('#SubjectId').prop('disabled', true);
+                        $('#Lab').prop('disabled', true);
+                        $('#TutorialNo').prop('disabled', true);
+                    });
+                } else {
+                    $('#SubjectId').prop('disabled', true);
+                    $('#Lab').prop('disabled', true);
+                    $('#TutorialNo').prop('disabled', true);
+                }
             });
         });
     </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
 }
