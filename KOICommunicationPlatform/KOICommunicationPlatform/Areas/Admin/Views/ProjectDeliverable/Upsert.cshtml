@@ -30,33 +30,33 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label asp-for="@Model.CourseId">Course Name</label>
-                                    <select asp-for="@Model.CourseId" asp-items="@Model.CourseList" class="form-control select2" style="width: 100%;" id="courseDropdown">
+                                    <label asp-for="@Model.ProjectDeliverable.CourseId">Course Name</label>
+                                    <select asp-for="@Model.ProjectDeliverable.CourseId" asp-items="@Model.CourseList" class="form-control select2" style="width: 100%;" id="courseDropdown">
                                         <option disabled selected="selected">-- Select course --</option>
                                     </select>
-                                    <span asp-validation-for="@Model.CourseId" class="text-danger"></span>
+                                    <span asp-validation-for="@Model.ProjectDeliverable.CourseId" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Trimester</label>
-                                    <select asp-for="ProjectDeliverable.Trimester" asp-items="Model.TrimesterList" class="form-control select2" style="width: 100%;">
+                                    <select asp-for="@Model.ProjectDeliverable.Trimester" asp-items="Model.TrimesterList" class="form-control select2" style="width: 100%;">
                                         <option disabled selected="selected">-- Select trimester --</option>
                                     </select>
-                                    <span asp-validation-for="ProjectDeliverable.Trimester" class="text-danger"></span>
+                                    <span asp-validation-for="@Model.ProjectDeliverable.Trimester" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                             <div class="form-group">
-                                <label asp-for="SubjectId">Subject Name</label>
-                                <select asp-for="SubjectId" class="form-control select2" style="width: 100%;" id="subjectDropdown">
+                                <label asp-for="@Model.ProjectDeliverable.SubjectId">Subject Name</label>
+                                <select asp-for="@Model.ProjectDeliverable.SubjectId" class="form-control select2" style="width: 100%;" id="subjectDropdown">
                                     <option disabled selected="selected">-- Select subject --</option>
                                     @foreach (var item in Model.SubjectList)
                                     {
                                         <option value="@item.Value">@item.Text</option>
                                     }
                                 </select>
-                                <span asp-validation-for="SubjectId" class="text-danger"></span>
+                                <span asp-validation-for="@Model.ProjectDeliverable.SubjectId" class="text-danger"></span>
                             </div>
                             </div>
                         </div>
@@ -71,30 +71,30 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label asp-for="ProjectDeliverable.StartDate" for="datetime">Select Start Date:</label>
+                                    <label asp-for="@Model.ProjectDeliverable.StartDate" for="datetime">Select Start Date:</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                         </div>
-                                        <input asp-for="ProjectDeliverable.StartDate" type="datetime-local" id="starttdate" name="StartDate">
+                                        <input asp-for="@Model.ProjectDeliverable.StartDate" class="form-control" type="datetime-local" id="starttdate" name="StartDate" value="@Model.ProjectDeliverable.StartDate.ToString("yyyy-MM-dd HH:mm")">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label asp-for="ProjectDeliverable.EndDate" for="datetime">End Date:</label>
+                                    <label asp-for="@Model.ProjectDeliverable.EndDate" for="datetime">End Date:</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                         </div>
-                                        <input asp-for="ProjectDeliverable.EndDate" type="datetime-local" id="endtdate" name="EndDate">
+                                        <input asp-for="@Model.ProjectDeliverable.EndDate" class="form-control" type="datetime-local" id="endtdate" name="EndDate" value="@Model.ProjectDeliverable.EndDate.ToString("yyyy-MM-dd HH:mm")">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row no-print">
                             <div class="col-12">
-                                    @if (Model.Id != 0)
+                                    @if (Model.ProjectDeliverable.Id != 0)
                                     {
                                     <button type="submit" class="btn btn-primary float-right" style="width:150px">Update</button>
                                     }
@@ -147,7 +147,7 @@
     <script>
         $(function () {
             $('#starttdate').datetimepicker({
-                format: 'yyyy-MM-dd HH:mm:ss'
+                format: 'YYYY-MM-DD HH:mm:ss'
             });
             $('#endtdate').datetimepicker({
                 format: 'YYYY-MM-DD HH:mm:ss'
