@@ -16,12 +16,9 @@ namespace KOICommunicationPlatform.Models.ViewModels
         public string DeliverableName { get; set; }
 
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
-                                   //format: 'YYYY-MM-DD HH:mm:ss'
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }

@@ -127,20 +127,21 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             var currentYear = DateTime.Now.Year;
             var trimesters = GetTrimesters(currentYear);
 
-            if (obj.ProjectDeliverable.Id == 0)
+            obj.ProjectDeliverable.StartDate = obj.StartDate;
+            obj.ProjectDeliverable.EndDate = obj.EndDate;
+            obj.ProjectDeliverable.Id = obj.Id;
+            if (obj.Id == 0)
                 {
-                    obj.ProjectDeliverable.CourseId = obj.CourseId;
-                    obj.ProjectDeliverable.SubjectId = obj.SubjectId;
                     _unitOfWork.ProjectDeliverable.Add(obj.ProjectDeliverable);
-                }
+                TempData["success"] = "Project Deliverable created successfully";
+            }
                 else
                 {
-                    obj.ProjectDeliverable.CourseId = obj.CourseId;
-                    obj.ProjectDeliverable.SubjectId = obj.SubjectId;
                     _unitOfWork.ProjectDeliverable.Update(obj.ProjectDeliverable);
-                }
+                TempData["success"] = "Project Deliverable updated successfully";
+            }
                 _unitOfWork.Save();
-                TempData["success"] = "Project Deliverable created successfully";
+                
                 return RedirectToAction("Index");
 
             return View(obj);
