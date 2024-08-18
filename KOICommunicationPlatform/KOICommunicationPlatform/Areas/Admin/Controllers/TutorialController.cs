@@ -3,6 +3,7 @@ using KOICommunicationPlatform.Models;
 using KOICommunicationPlatform.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace KOICommunicationPlatform.Areas.Admin.Controllers
 {
@@ -32,6 +33,16 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                     Text = c.CourseName,
                     Value = c.Id.ToString()
                 }),
+                LabTypeList = GetLabTypes().Select(l => new SelectListItem
+                {
+                    Text = l.Name,
+                    Value = l.Code
+                }),
+                TutorialTypeList = GetTutorialTypes().Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Code
+                }),
                 TrimesterList = GetTrimesters(DateTime.Now.Year)
             };
             return View(model);
@@ -43,7 +54,6 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check if the tutorial already exists
                 var existingTutorial = _unitOfWork.Tutorial.GetAll()
                     .FirstOrDefault(t =>
                         t.Subject != null &&
@@ -51,7 +61,9 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                         t.Day == model.Day &&
                         t.FromTime == model.FromTime &&
                         t.ToTime == model.ToTime &&
-                        t.Trimester == model.Trimester);
+                        t.Trimester == model.Trimester &&
+                        t.Lab == model.Lab && // Check LabType
+                        t.TutorialNo == model.TutorialNo); // Check TutorialType
 
                 if (existingTutorial != null)
                 {
@@ -59,7 +71,6 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 }
                 else
                 {
-                    // Fetch the Subject and check if it exists
                     var subject = _unitOfWork.Subject.GetFirstOrDefault(s => s.Id == model.SubjectId);
 
                     if (subject == null)
@@ -75,6 +86,8 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                             ToTime = model.ToTime,
                             Trimester = model.Trimester,
                             Subject = subject,
+                            Lab = model.Lab, // Set LabType
+                            TutorialNo = model.TutorialNo, // Set TutorialType
                             CreatedBy = User.Identity.Name,
                             IsActive = true
                         };
@@ -86,17 +99,177 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 }
             }
 
-            // Re-populate dropdowns if validation fails
+            // Re-populate the dropdowns in case of an error
             model.CourseList = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
             {
                 Text = c.CourseName,
                 Value = c.Id.ToString()
+            });
+            model.LabTypeList = GetLabTypes().Select(l => new SelectListItem
+            {
+                Text = l.Name,
+                Value = l.Code
+            });
+            model.TutorialTypeList = GetTutorialTypes().Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = t.Code
             });
             model.TrimesterList = GetTrimesters(DateTime.Now.Year);
 
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == id, includeProperties: "Subject");
+
+            if (tutorial == null)
+            {
+                return NotFound();
+            }
+
+            // Load hardcoded LabTypes and TutorialTypes
+            var labTypes = GetLabTypes();
+            var tutorialTypes = GetTutorialTypes();
+
+            // Add the existing LabType and TutorialType from the database if not already in the list
+            if (!labTypes.Any(l => l.Code == tutorial.Lab))
+            {
+                labTypes.Add(new LabType { Code = tutorial.Lab, Name = tutorial.Lab });
+            }
+
+            if (!tutorialTypes.Any(t => t.Code == tutorial.TutorialNo))
+            {
+                tutorialTypes.Add(new TutorialType { Code = tutorial.TutorialNo, Name = tutorial.TutorialNo });
+            }
+
+            var model = new TutorialViewModel
+            {
+                Id = tutorial.Id,
+                Day = tutorial.Day,
+                FromTime = tutorial.FromTime,
+                ToTime = tutorial.ToTime,
+                Trimester = tutorial.Trimester,
+                SubjectId = tutorial.Subject.Id,
+                CourseId = tutorial.Subject.CourseId,
+                Lab = tutorial.Lab,
+                TutorialNo = tutorial.TutorialNo,
+                CourseList = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
+                {
+                    Text = c.CourseName,
+                    Value = c.Id.ToString()
+                }),
+                SubjectList = _unitOfWork.Subject.GetAll(s => s.CourseId == tutorial.Subject.CourseId).Select(s => new SelectListItem
+                {
+                    Text = s.SubjectName,
+                    Value = s.Id.ToString(),
+                    Selected = s.Id == tutorial.Subject.Id, // Ensure the selected subject is marked as selected
+                }),
+                LabTypeList = labTypes.Select(l => new SelectListItem
+                {
+                    Text = l.Name,
+                    Value = l.Code,
+                    Selected = l.Code == tutorial.Lab // Ensure the selected lab type is marked as selected
+                }),
+                TutorialTypeList = tutorialTypes.Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Code,
+                    Selected = t.Code == tutorial.TutorialNo // Ensure the selected tutorial type is marked as selected
+                }),
+                TrimesterList = GetTrimesters(DateTime.Now.Year)
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(TutorialViewModel model)
+        {
+            try
+            {
+                var existingTutorial = _unitOfWork.Tutorial.GetFirstOrDefault(
+                    t => t.Id != model.Id &&
+                         t.Subject.Id == model.SubjectId &&
+                         t.Day == model.Day &&
+                         t.FromTime == model.FromTime &&
+                         t.ToTime == model.ToTime &&
+                         t.Trimester == model.Trimester &&
+                         t.Lab == model.Lab &&
+                         t.TutorialNo == model.TutorialNo
+                );
+
+                if (existingTutorial != null)
+                {
+                    ModelState.AddModelError(string.Empty, "This tutorial already exists.");
+                }
+                else
+                {
+                    var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == model.Id);
+
+                    if (tutorial == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var subject = _unitOfWork.Subject.GetFirstOrDefault(s => s.Id == model.SubjectId);
+
+                    if (subject == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid Subject selected.");
+                    }
+                    else
+                    {
+                        tutorial.Day = model.Day;
+                        tutorial.FromTime = model.FromTime;
+                        tutorial.ToTime = model.ToTime;
+                        tutorial.Trimester = model.Trimester;
+                        tutorial.Subject = subject;
+                        tutorial.Lab = model.Lab;
+                        tutorial.TutorialNo = model.TutorialNo;
+
+                        _unitOfWork.Tutorial.Update(tutorial);
+                        _unitOfWork.Save();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
+                // Re-populate the dropdowns in case of an error
+                model.CourseList = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
+                {
+                    Text = c.CourseName,
+                    Value = c.Id.ToString()
+                });
+                model.SubjectList = _unitOfWork.Subject.GetAll(s => s.CourseId == model.CourseId).Select(s => new SelectListItem
+                {
+                    Text = s.SubjectName,
+                    Value = s.Id.ToString()
+                });
+                model.LabTypeList = _unitOfWork.Tutorial.GetAll().Select(t => new SelectListItem
+                {
+                    Text = t.Lab,
+                    Value = t.Lab
+                }).Distinct();
+                model.TutorialTypeList = _unitOfWork.Tutorial.GetAll().Select(t => new SelectListItem
+                {
+                    Text = t.TutorialNo,
+                    Value = t.TutorialNo
+                }).Distinct();
+                model.TrimesterList = GetTrimesters(DateTime.Now.Year);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                // Handle the exception
+                throw;
+            }
+        }
 
         public JsonResult GetSubjectsByCourse(int courseId)
         {
@@ -118,129 +291,86 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             };
         }
 
-        [HttpGet]
-        public IActionResult Edit(int id)
+        private List<LabType> GetLabTypes()
+        {
+            return new List<LabType>{
+                new LabType { Code = "LA", Name = "Lab A" },
+                new LabType { Code = "LB", Name = "Lab B" },
+                new LabType { Code = "LC", Name = "Lab C" },
+                new LabType { Code = "LD", Name = "Lab D" }
+            };
+        }
+
+        private List<TutorialType> GetTutorialTypes()
+        {
+            return new List<TutorialType>{
+                new TutorialType { Code = "T1", Name = "Tutorial 1" },
+                new TutorialType { Code = "T2", Name = "Tutorial 2" },
+                new TutorialType { Code = "T3", Name = "Tutorial 3" },
+                new TutorialType { Code = "T4", Name = "Tutorial 4" }
+            };
+        }
+
+        // GET: Tutorial/Delete/5
+        public IActionResult Delete(int id)
         {
             var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == id, includeProperties: "Subject,Subject.Course");
-            if (tutorial == null)
+
+            if (tutorial == null || tutorial.Subject == null || tutorial.Subject.Course == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new TutorialViewModel
+            var model = new TutorialViewModel
             {
                 Id = tutorial.Id,
                 Day = tutorial.Day,
                 FromTime = tutorial.FromTime,
                 ToTime = tutorial.ToTime,
-                CourseId = tutorial.Subject.CourseId,
-                SubjectId = tutorial.Subject.Id,
                 Trimester = tutorial.Trimester,
+                SubjectId = tutorial.Subject.Id,
+                CourseId = tutorial.Subject.CourseId,
+                Lab = tutorial.Lab,
+                TutorialNo = tutorial.TutorialNo,
+                CourseName = tutorial.Subject.Course.CourseName,
+                SubjectName = tutorial.Subject.SubjectName,
                 CourseList = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
                 {
-                    Value = c.Id.ToString(),
-                    Text = c.CourseName
+                    Text = c.CourseName,
+                    Value = c.Id.ToString()
                 }),
                 SubjectList = _unitOfWork.Subject.GetAll(s => s.CourseId == tutorial.Subject.CourseId).Select(s => new SelectListItem
                 {
+                    Text = s.SubjectName,
                     Value = s.Id.ToString(),
-                    Text = s.SubjectName
+                    Selected = s.Id == tutorial.Subject.Id,
+                }),
+                LabTypeList = GetLabTypes().Select(l => new SelectListItem
+                {
+                    Text = l.Name,
+                    Value = l.Code,
+                    Selected = l.Code == tutorial.Lab
+                }),
+                TutorialTypeList = GetTutorialTypes().Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Code,
+                    Selected = t.Code == tutorial.TutorialNo
                 }),
                 TrimesterList = GetTrimesters(DateTime.Now.Year)
             };
 
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(TutorialViewModel model)
-        {
-            if (model.FromTime != "" && model.ToTime != "" && model.Day != "")
-            {
-                // Check if the tutorial with the same details already exists (excluding the current tutorial)
-                var existingTutorials = _unitOfWork.Tutorial.GetAll(includeProperties: "Subject")
-                    .Where(t => t.Subject != null &&
-                                t.Subject.Id == model.SubjectId &&
-                                t.Day == model.Day &&
-                                t.FromTime == model.FromTime &&
-                                t.ToTime == model.ToTime &&
-                                t.Trimester == model.Trimester &&
-                                t.Id != model.Id);
-
-                if (existingTutorials.Any())
-                {
-                    ModelState.AddModelError(string.Empty, "A tutorial with these details already exists.");
-                    return View(model);
-                }
-
-                var tutorialFromDb = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == model.Id, includeProperties: "Subject");
-                if (tutorialFromDb == null)
-                {
-                    return NotFound();
-                }
-
-                // Update the tutorial details
-                tutorialFromDb.Day = model.Day;
-                tutorialFromDb.FromTime = model.FromTime;
-                tutorialFromDb.ToTime = model.ToTime;
-                tutorialFromDb.ModifiedBy = User.Identity.Name;
-                tutorialFromDb.ModifieDateTime = DateTime.Now;
-
-                _unitOfWork.Tutorial.Update(tutorialFromDb);
-                _unitOfWork.Save();
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Reload dropdowns in case of an error
-            model.CourseList = _unitOfWork.Course.GetAll().Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.CourseName
-            });
-
-            model.SubjectList = _unitOfWork.Subject.GetAll(s => s.CourseId == model.CourseId).Select(s => new SelectListItem
-            {
-                Value = s.Id.ToString(),
-                Text = s.SubjectName
-            });
-
-            model.TrimesterList = GetTrimesters(DateTime.Now.Year);
-
             return View(model);
         }
 
-        // GET: Tutorial/Delete/5
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == id, includeProperties: "Subject,Subject.Course");
-            if (tutorial == null)
-            {
-                return NotFound();
-            }
 
-            var viewModel = new TutorialViewModel
-            {
-                Id = tutorial.Id,
-                Day = tutorial.Day,
-                FromTime = tutorial.FromTime,
-                ToTime = tutorial.ToTime,
-                Trimester = tutorial.Trimester,
-                CourseName = tutorial.Subject?.Course?.CourseName,
-                SubjectName = tutorial.Subject?.SubjectName
-            };
 
-            return View(viewModel);
-        }
-
-        // POST: Tutorial/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == id, includeProperties: "Subject,Subject.Course");
+            var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == id);
+
             if (tutorial == null)
             {
                 return NotFound();
@@ -251,6 +381,17 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
+    public class LabType
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class TutorialType
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
+
 }

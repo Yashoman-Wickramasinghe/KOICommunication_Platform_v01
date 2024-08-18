@@ -15,9 +15,9 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
-
 <!-- Main content -->
 <section class="content">
+    <div class="content-header">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -27,112 +27,117 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4">
+                        <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="CourseId">Course</label>
-                                    <select id="CourseId" name="CourseId" class="form-control">
+                                    <label asp-for="CourseId">Course</label>
+                                    <select asp-for="CourseId" asp-items="Model.CourseList" class="form-control" id="courseDropdown">
                                         <option value="">Select Course</option>
-                                        @foreach (var item in Model.CourseList)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                        <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="SubjectId">Subject</label>
-                                    <select id="SubjectId" name="SubjectId" class="form-control" disabled>
+                                    <label asp-for="SubjectId">Subject</label>
+                                    <select asp-for="SubjectId" asp-items="Model.SubjectList" class="form-control" id="subjectDropdown" disabled>
                                         <option value="">Select Subject</option>
-                                        @foreach (var item in Model.SubjectList)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                        <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="Trimester">Trimester</label>
-                                    <select id="Trimester" name="Trimester" class="form-control" disabled>
+                                    <label asp-for="Trimester">Trimester</label>
+                                    <select asp-for="Trimester" asp-items="Model.TrimesterList" class="form-control" id="trimesterDropdown" disabled>
                                         <option value="">Select Trimester</option>
-                                        @foreach (var item in Model.TrimesterList)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
+                        <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="Day">Day</label>
-                                    <select id="Day" name="Day" class="form-control" disabled>
+                                    <label asp-for="Day">Day</label>
+                                    <select asp-for="Day" asp-items="Model.DayList" class="form-control" id="dayDropdown" disabled>
                                         <option value="">Select Day</option>
-                                        @foreach (var item in Model.DayList)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="FromTime">From Time</label>
-                                    <select id="FromTime" name="FromTime" class="form-control" disabled>
-                                        <option value="">Select From Time</option>
-                                        @foreach (var item in Model.FromTimeList)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    </select>
                                 </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="ToTime">To Time</label>
-                                    <select id="ToTime" name="ToTime" class="form-control" disabled>
-                                        <option value="">Select To Time</option>
-                                        @foreach (var item in Model.ToTimeList)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    </select>
-                                </div>
+                        </div>
+
+                        <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="FromTime">From Time</label>
+                                <select asp-for="FromTime" asp-items="Model.FromTimeList" class="form-control" id="fromTimeDropdown" disabled>
+                                    <option value="">Select From Time</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="row no-print">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-primary float-right">Generate Group ID</button>
-                                <button type="button" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="ToTime">To Time</label>
+                                <select asp-for="ToTime" asp-items="Model.ToTimeList" class="form-control" id="toTimeDropdown" disabled>
+                                    <option value="">Select To Time</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="post clearfix"></div>
-                        <br />
-                        <div class="form-group">
-                            <label for="clientNamr">Group ID (Autogenerated Value)</label>
-                            <input type="text" class="form-control" id="clientNamr" placeholder="LAT2-3" value="LAT2-3" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Students</label>
-                            <select class="form-control select2" style="width: 100%;">
-                                <option selected="selected">12203888 - Wickrama Arachchige Yashoman Wickramasinghe</option>
-                                <option>12203264 - Sujal Poudel</option>
-                                <option>12301598 - Ivan Renaldo Suryantono</option>
+                        <div class="col-sm-3">
+                            <label asp-for="Lab">Lab Type</label>
+                            <select asp-for="Lab" asp-items="Model.LabTypeList" class="form-control" id="labTypeDropdown" disabled>
+                                <option value="">Select Lab Type</option>
                             </select>
                         </div>
-                        <div class="row no-print">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;"> Add </button>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="TutorialNo">Tutorial Type</label>
+                                <select asp-for="TutorialNo" asp-items="Model.TutorialTypeList" class="form-control" id="tutorialTypeDropdown" disabled>
+                                    <option value="">Select Tutorial Type</option>
+                                </select>
                             </div>
                         </div>
+                        </div>
+                    </div>
+                        <div class="card-body">
+                            <div class="row no-print">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group d-flex justify-content-md-start justify-content-center">
+                                        <div id="generatedGroupIdContainer" style="margin-top: 10px;font-weight: bold;font-size: large;">
+                                            <strong>Generated Group ID:</strong>
+                                            <span id="generatedGroupId" style="color:forestgreen"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group d-flex justify-content-md-end justify-content-center mt-2 mt-md-0">
+                                        <button type="button" class="btn btn-primary mr-2" id="generateGroupIdButton">Generate Group ID</button>
+                                        <button type="button" class="btn btn-success" id="clearAllButton">Clear All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    @* <div class="post clearfix"></div><br /> *@
                     </div>
                 </div>
             </div>
-            <!-- /.col (left) -->
-            <div class="container-fluid">
-                <div class="row">
+    </div>
+        <!-- /.col (left) -->
+    <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-12">
+                    <div class="form-group d-flex flex-wrap align-items-center">
+                        <label class="mr-2 mb-0">Students</label>
+                        <select class="form-control select2 mr-2 mb-2 mb-md-0" style="flex: 1;">
+                            <option selected="selected">12203888 - Wickrama Arachchige Yashoman Wickramasinghe</option>
+                            <option>12203264 - Sujal Poudel</option>
+                            <option>12301598 - Ivan Renaldo Suryantono</option>
+                        </select>
+                        <button type="button" class="btn btn-primary mb-2 mb-md-0" style="background-color:green">Add</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-12">
+                    <!-- Additional content can go here -->
+                </div>
+            </div>
+
+        <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
@@ -224,80 +229,121 @@
                     </div>
                     <!-- /.col -->
                 </div>
-            </div><!-- /.container-fluid -->
-
-        </div>
+    </div><!-- /.container-fluid -->
     </div>
+   
     <!-- /.container-fluid -->
 </section>
 <!-- Main content -->
-
 @section Scripts {
+    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#CourseId').change(function () {
+            $('#courseDropdown').change(function () {
                 var courseId = $(this).val();
+
                 if (courseId) {
-                    $.ajax({
-                        url: '@Url.Action("GetSubjects", "StudentGroups", new { Area = "Admin" })',
-                        type: 'POST',
-                        data: { courseId: courseId },
-                        success: function (data) {
-                            $('#SubjectId').empty().append('<option value="">Select Subject</option>');
-                            $.each(data, function (index, item) {
-                                $('#SubjectId').append('<option value="' + item.value + '">' + item.text + '</option>');
-                            });
-                            $('#SubjectId').prop('disabled', false);
-                        }
+                    $('#subjectDropdown').prop('disabled', false);
+                    $.post('/Admin/StudentGroups/GetSubjects', { courseId: courseId }, function (data) {
+                        $('#subjectDropdown').empty().append('<option value="">Select Subject</option>');
+                        $.each(data, function (index, item) {
+                            $('#subjectDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
                     });
                 } else {
-                    $('#SubjectId').empty().prop('disabled', true);
-                    $('#Trimester, #Day, #FromTime, #ToTime').empty().prop('disabled', true);
+                    $('#subjectDropdown').prop('disabled', true).empty().append('<option value="">Select Subject</option>');
+                    $('#trimesterDropdown').prop('disabled', true).empty().append('<option value="">Select Trimester</option>');
+                    $('#dayDropdown').prop('disabled', true).empty().append('<option value="">Select Day</option>');
+                    $('#fromTimeDropdown').prop('disabled', true).empty().append('<option value="">Select From Time</option>');
+                    $('#toTimeDropdown').prop('disabled', true).empty().append('<option value="">Select To Time</option>');
+                    $('#labTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Lab Type</option>');
+                    $('#tutorialTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Tutorial Type</option>');
                 }
             });
 
-            $('#SubjectId').change(function () {
-                var courseId = $('#CourseId').val();
+            $('#subjectDropdown').change(function () {
+                var courseId = $('#courseDropdown').val();
                 var subjectId = $(this).val();
-                if (courseId && subjectId) {
-                    $.ajax({
-                        url: '@Url.Action("GetFilteredData", "StudentGroups", new { Area = "Admin" })',
-                        type: 'POST',
-                        data: { courseId: courseId, subjectId: subjectId },
-                        success: function (data) {
-                            $('#Trimester').empty().append('<option value="">Select Trimester</option>');
-                            $.each(data.trimesters, function (index, item) {
-                                $('#Trimester').append('<option value="' + item.value + '">' + item.text + '</option>');
-                            });
-                            $('#Trimester').prop('disabled', false);
 
-                            $('#Day').empty().append('<option value="">Select Day</option>');
-                            $.each(data.days, function (index, item) {
-                                $('#Day').append('<option value="' + item.value + '">' + item.text + '</option>');
-                            });
-                            $('#Day').prop('disabled', false);
+                if (subjectId) {
+                    $.post('/Admin/StudentGroups/GetFilteredData', { courseId: courseId, subjectId: subjectId }, function (data) {
+                        $('#trimesterDropdown').prop('disabled', false).empty().append('<option value="">Select Trimester</option>');
+                        $.each(data.trimesters, function (index, item) {
+                            $('#trimesterDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
 
-                            $('#FromTime').empty().append('<option value="">Select From Time</option>');
-                            $.each(data.fromTimes, function (index, item) {
-                                $('#FromTime').append('<option value="' + item.value + '">' + item.text + '</option>');
-                            });
-                            $('#FromTime').prop('disabled', false);
+                        $('#dayDropdown').prop('disabled', false).empty().append('<option value="">Select Day</option>');
+                        $.each(data.days, function (index, item) {
+                            $('#dayDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
 
-                            $('#ToTime').empty().append('<option value="">Select To Time</option>');
-                            $.each(data.toTimes, function (index, item) {
-                                $('#ToTime').append('<option value="' + item.value + '">' + item.text + '</option>');
-                            });
-                            $('#ToTime').prop('disabled', false);
-                        }
+                        $('#fromTimeDropdown').prop('disabled', false).empty().append('<option value="">Select From Time</option>');
+                        $.each(data.fromTimes, function (index, item) {
+                            $('#fromTimeDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+
+                        $('#toTimeDropdown').prop('disabled', false).empty().append('<option value="">Select To Time</option>');
+                        $.each(data.toTimes, function (index, item) {
+                            $('#toTimeDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+
+                        $('#labTypeDropdown').prop('disabled', false);
+                        $('#tutorialTypeDropdown').prop('disabled', false);
                     });
                 } else {
-                    $('#Trimester, #Day, #FromTime, #ToTime').empty().prop('disabled', true);
+                    $('#trimesterDropdown').prop('disabled', true).empty().append('<option value="">Select Trimester</option>');
+                    $('#dayDropdown').prop('disabled', true).empty().append('<option value="">Select Day</option>');
+                    $('#fromTimeDropdown').prop('disabled', true).empty().append('<option value="">Select From Time</option>');
+                    $('#toTimeDropdown').prop('disabled', true).empty().append('<option value="">Select To Time</option>');
+                    $('#labTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Lab Type</option>');
+                    $('#tutorialTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Tutorial Type</option>');
                 }
             });
         });
+        $('#clearAllButton').click(function () {
+            location.reload();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Existing dropdown handling logic
+            // ...
+
+            $('#generateGroupIdButton').click(function () {
+                var courseId = $('#courseDropdown').val();
+                var subjectId = $('#subjectDropdown').val();
+                var trimester = $('#trimesterDropdown').val();
+                var day = $('#dayDropdown').val();
+                var fromTime = $('#fromTimeDropdown').val();
+                var toTime = $('#toTimeDropdown').val();
+                var labType = $('#labTypeDropdown').val();
+                var tutorialType = $('#tutorialTypeDropdown').val();
+
+                if (courseId && subjectId && day && fromTime && toTime && labType && tutorialType) {
+                    $.post('/Admin/StudentGroups/GenerateGroupId', {
+                        courseId: courseId,
+                        subjectId: subjectId,
+                        trimester: trimester,
+                        day: day,
+                        fromTime: fromTime,
+                        toTime: toTime,
+                        labType: labType,
+                        tutorialType: tutorialType
+                    }, function (data) {
+                        // Display the generated Group ID in the view
+                        $('#generatedGroupId').text(data.groupId);
+                    });
+                } else {
+                    alert('Please fill in all the filters before generating a Group ID.');
+                }
+            });
+
+            // Existing clear all button logic
+            // ...
+        });
     </script>
 }
-
 
 
 
