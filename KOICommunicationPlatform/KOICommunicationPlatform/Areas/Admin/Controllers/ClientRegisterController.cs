@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using OfficeOpenXml;
 using System.Text;
 
 namespace KOICommunicationPlatform.Areas.Admin.Controllers
@@ -126,7 +127,100 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             }
         }
 
-     
+
+        [HttpPost]
+        public async Task<IActionResult> BulkCreate(IFormFile excelFile)
+        {
+            if (excelFile == null || excelFile.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            try
+            {
+                var users = new List<ApplicationUser>();
+
+                using (var stream = new MemoryStream())
+                {
+                    await excelFile.CopyToAsync(stream);
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        var worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++) // Assuming the first row is the header
+                        {
+                            // Extract cell values and handle null or empty values
+                            var organization = worksheet.Cells[row, 1].Text;
+                            var userName = worksheet.Cells[row, 2].Text;
+                            var email = worksheet.Cells[row, 2].Text;
+                            var contactName = worksheet.Cells[row, 3].Text;
+                            var phoneNumber = worksheet.Cells[row, 4].Text;
+                            var contactPerson02Name = worksheet.Cells[row, 5].Text;
+                            var contactPerson02Phone = worksheet.Cells[row, 6].Text;
+                            var documentLink = worksheet.Cells[row, 7].Text;
+
+                            // Check if required fields are not empty
+                            if (string.IsNullOrWhiteSpace(organization) || string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrWhiteSpace(email))
+                            {
+                                // Skip rows where required fields are missing
+                                continue;
+                            }
+
+                            // Create a new user only if required fields are present
+                            var user = new ApplicationUser
+                            {
+                                Organization = organization,
+                                GivenName = organization,
+                                Surname = organization,
+                                UserName = userName,
+                                Email = email,
+                                ContactName = contactName,
+                                PhoneNumber = phoneNumber,
+                                ContactPerson02Name = contactPerson02Name,
+                                ContactPerson02Phone = contactPerson02Phone,
+                                DocumentLink = documentLink,
+                                UserType = SD.Website_Client,
+                                CreatedDateTime = DateTime.Now,
+                                ModifieDateTime = DateTime.Now,
+                                IsActive = true,
+                            };
+
+                            users.Add(user);
+                        }
+                    }
+                }
+
+                // Save all users to the database
+                foreach (var user in users)
+                {
+                    _unitOfWork.ApplicationUser.Add(user);
+                }
+
+                _unitOfWork.ApplicationUser.Save();
+
+                TempData["success"] = "Clients added successfully";
+
+                //TODO: Uncomment
+                foreach (var user in users)
+                {
+                    var client = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == user.Email);
+
+                    //send registration email
+                    _registrationEmailSender.SendUserRegistrationEmail(client, user.Organization);
+
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return BadRequest(ex.Message);
+            }
+        }
+
         public IActionResult Edit(string? id)
         {
             if (string.IsNullOrEmpty(id))

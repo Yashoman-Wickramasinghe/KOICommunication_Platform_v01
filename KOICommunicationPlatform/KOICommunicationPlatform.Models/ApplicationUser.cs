@@ -14,7 +14,7 @@ namespace KOICommunicationPlatform.Models
 {
     public class ApplicationUser: IdentityUser
     {
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         [MaxLength(50)]
         public string GivenName { get; set; }
         [MaxLength(30)]
@@ -23,12 +23,11 @@ namespace KOICommunicationPlatform.Models
         public string? Title { get; set; }
         public string? DOB { get; set; }
         public bool IsActive { get; set; }
-        //public string CourseId { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        public Course? Course { get; set; }
+        public Tutorial? Tutorial { get; set; }
         public Guid DocumentId { get; set; }
         [Required]
         [MaxLength(100)]
@@ -46,5 +45,9 @@ namespace KOICommunicationPlatform.Models
         [Phone]
         public string? ContactPerson02Phone { get; set; }
         public string? SubmissionLink { get; set; }
+        
+        //For online document links
+        public string? DocumentLink { get; set; }
+
     }
 }
