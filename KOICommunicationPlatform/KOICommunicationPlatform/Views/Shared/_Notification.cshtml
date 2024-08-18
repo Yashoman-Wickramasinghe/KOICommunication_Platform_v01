@@ -3,7 +3,23 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript">
+       toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "positionClass": "toast-top-right",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "toastClass": "custom-toast"
+        };
+
         toastr.success('@TempData["success"]');
+
+        // Apply custom styles
+        $(function() {
+            $('.custom-toast').css('background-color', '#1c7430');
+        });
 	</script>
 }
 @if(TempData["error"] != null)
@@ -15,3 +31,6 @@
 	</script>
 }
 
+<style>
+
+</style>

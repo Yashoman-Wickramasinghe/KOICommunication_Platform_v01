@@ -1,175 +1,314 @@
 ﻿@model List<ApplicationUser>
-<style>
-.btn-bulk {
-    background-color: #218838;
-    color: white;
-    margin-left: 10px; /* Adjust spacing as needed */
-}
-.btn-bulk:hover {
-    background-color: #1c7430;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Registered Clients</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
 
-.btn-item {
-    float: left;
-    padding-right: .5rem;
-    color: #6c757d;
-    content: "" !important;
-}
+    <style>
+        .btn-bulk {
+            background-color: #218838;
+            color: white;
+            margin-left: 10px;
+        }
 
-</style>
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">View Registered Clients</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Configurations</a></li>
-                    <li class="breadcrumb-item active">View Registered Clients</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0"></h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6" style="padding-right: 0px;">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="btn-item">
-                        <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Create" class="btn btn-primary">
-                            <i class="bi bi-plus-circle"></i> &nbsp; Add New Client
-                        </a>
-                    </li>
-                    <li class="btn-item">
-                        <a asp-area="Admin" asp-controller="ClientRegister" asp-action="BulkCreate" class="btn btn-bulk">
-                            <i class="bi bi-upload"></i> &nbsp; Add Clients in Bulk
-                        </a>
-                    </li>
-                </ol>
-            </div><!-- /.col -->
-        </div>
-    </div><!-- /.container-fluid -->
-    <br />
-</div>
-<section class="content">
-    <form method="post">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-danger">
-                    <div class="card-header">
-                        @* <h3 class="card-title">View clients</h3> *@
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="input-group input-group-lg">
-                                <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here" value="">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-lg btn-default">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                            </div>
-                            <div class="col-md-6">
-                            </div>
-                        </div>
-                        <div class="row no-print">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-primary float-right">Search</button>
-                                <button type="button" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
+            .btn-bulk:hover {
+                background-color: #1c7430;
+            }
+
+        .btn-item {
+            float: left;
+            padding-right: .5rem;
+            color: #6c757d;
+        }
+
+        .custom-file-button {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            font-weight: normal !important;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #fff;
+            background-color: #218838;
+            border: 1px solid transparent;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .custom-file-button:hover {
+            background-color: #1c7430;
+        }
+
+        .custom-file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .custom-file-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">View Registered Clients</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Configurations</a></li>
+                        <li class="breadcrumb-item active">View Registered Clients</li>
+                    </ol>
                 </div>
             </div>
-            <!-- /.col (left) -->
+            <div class="row mb-2">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6" style="padding-right: 0px;">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="btn-item">
+                            <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Create" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> &nbsp; Add New Client
+                            </a>
+                        </li>
+                        <li class="btn-item">
+                            <button type="button" class="btn btn-bulk" data-toggle="modal" data-target="#modal-detail">
+                                <i class="bi bi-upload"></i> &nbsp; Add Clients in Bulk
+                            </button>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+
+    <section class="content">
+        <form method="post">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
+                        <div class="card card-danger">
                             <div class="card-header">
-                                <h3 class="card-title">View User Clients</h3>
+                                <!-- Placeholder for title if needed -->
                             </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th style="display:none">Id</th>
-                                            <th>Client Name</th>
-                                            <th>Contact Person 01</th>
-                                            <th>Contact Number 01</th>
-                                            <th>Contact Person 02</th>
-                                            <th>Contact Number 02</th>
-                                            <th>Email</th>
-                                            <th>Files</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.OrderBy(u => u.Id))
-                                            {
-                                                var files = ViewBag.ClientFiles as Dictionary<string, List<string>>;
-                                                var fileNames = files != null && files.ContainsKey(item.Id) ? files[item.Id] : new List<string>();
-
-                                                <tr>
-                                                    <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Organization)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactName)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPhone)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson02Name)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.ContactPerson02Phone)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                                    <td>
-                                                        @if (fileNames.Any())
-                                                        {
-                                                            <ul>
-                                                                @foreach (var fileName in fileNames)
-                                                                {
-                                                                    var shortenedFileName = fileName.Length > 20 ? fileName.Substring(0, 20) + "..." : fileName;
-                                                                    <li>
-                                                                        <a href="@Url.Action("DownloadFile", new { clientId = item.Id, fileName = fileName })" 
-                                                                           download
-                                                                           title="@fileName">
-                                                                           @(shortenedFileName)
-                                                                        </a>
-                                                                    </li>
-                                                                }
-                                                            </ul>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        <div class="w-75 btn-group" role="group">
-                                                            <a asp-controller="ClientRegister" asp-action="Edit" asp-route-id="@item.Id"
-                                                               class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                                                            <a asp-controller="ClientRegister" asp-action="Delete" asp-route-id="@item.Id"
-                                                               class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            }
-                                    </tbody>
-                                </table>
+                                <div class="form-group">
+                                    <div class="input-group input-group-lg">
+                                        <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-lg btn-default">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="row no-print">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary float-right">Search</button>
+                                        <button type="button" class="btn btn-success float-right" style="margin-right: 5px;">Clear All</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- /.col -->
-                </div>
-            </div><!-- /.container-fluid -->
-        </div>
-    </div>
-    <!-- /.container-fluid -->
-    </form>
-</section>
-<script>
-    function reloadPage() {
-        location.reload();
-    }
-</script>
 
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">View User Clients</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="display:none">Id</th>
+                                                    <th>Client Name</th>
+                                                    <th>Contact Person 01</th>
+                                                    <th>Contact Number 01</th>
+                                                    <th>Contact Person 02</th>
+                                                    <th>Contact Number 02</th>
+                                                    <th>Email</th>
+                                                    <th>Files</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBody">
+                                                @foreach (var item in Model.OrderBy(u => u.Id))
+                                                {
+                                                    var files = ViewBag.ClientFiles as Dictionary<string, List<string>>;
+                                                    var fileNames = files != null && files.ContainsKey(item.Id) ? files[item.Id] : new List<string>();
+
+                                                    <tr>
+                                                        <td style="display:none">@Html.DisplayFor(modelItem => item.Id)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Organization)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.ContactName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.ContactPerson02Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.ContactPerson02Phone)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                                        <td>
+                                                            @if (fileNames.Any())
+                                                            {
+                                                                <ul>
+                                                                    @foreach (var fileName in fileNames)
+                                                                    {
+                                                                        var shortenedFileName = fileName.Length > 20 ? fileName.Substring(0, 20) + "..." : fileName;
+                                                                        <li>
+                                                                            <a href="@Url.Action("DownloadFile", new { clientId = item.Id, fileName = fileName })"
+                                                                   download title="@fileName">
+                                                                                @(shortenedFileName)
+                                                                            </a>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <div class="w-75 btn-group" role="group">
+                                                                <a asp-controller="ClientRegister" asp-action="Edit" asp-route-id="@item.Id"
+                                                               class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                                                <a asp-controller="ClientRegister" asp-action="Delete" asp-route-id="@item.Id"
+                                                               class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+  <div class="modal fade" id="modal-detail" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-detail">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Upload File</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="bulkUploadForm" method="post" enctype="multipart/form-data">
+                    <div class="custom-file-container">
+                        <label for="excelFile" class="custom-file-button">Choose Excel File</label>
+                        <input type="file" class="custom-file-input" name="excelFile" id="excelFile" required>
+                        <div id="fileName" class="mt-2"></div>
+                    </div>
+                </form>
+                <!-- Loading spinner -->
+                <div id="loadingIndicator" class="text-center mt-3" style="display:none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p>Uploading, please wait...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelButton">Cancel</button>
+                <button type="button" id="uploadButton" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+    <!-- Bootstrap and necessary plugins -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function reloadPage() {
+            location.reload();
+        }
+
+        function refreshTable() {
+            $.ajax({
+                url: '/Admin/ClientRegister/Index',
+                type: 'GET',
+                success: function(response) {
+                    debugger;
+                    // Update the table body with the new content
+                    $('#tableBody').html($(response).find('#tableBody').html());
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    alert('Error refreshing table: ' + error);
+                }
+            });
+        }
+        
+        $(document).ready(function() {
+
+            // Display the chosen file name
+    $('#excelFile').on('change', function () {
+        var fileName = $(this).val().split('\\').pop();
+        $('#fileName').text(fileName);
+    });
+
+    // Handle file upload
+    $('#uploadButton').on('click', function () {
+        var formData = new FormData($('#bulkUploadForm')[0]);
+        var uploadButton = $(this);
+        var cancelButton = $('#cancelButton');
+        var loadingIndicator = $('#loadingIndicator');
+
+        // Disable the buttons and show loading indicator
+        uploadButton.prop('disabled', true);
+        cancelButton.prop('disabled', true);
+        loadingIndicator.show();
+
+        $.ajax({
+            url: '/Admin/ClientRegister/BulkCreate',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                refreshTable();
+                $('#modal-detail').modal('hide');
+            },
+            error: function (xhr, status, error) {
+                alert('Error uploading file: ' + error);
+            },
+            complete: function () {
+                // Re-enable the buttons and hide the loading indicator after the request is complete
+                uploadButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                loadingIndicator.hide();
+            }
+        });
+    });
+       
+    });
+    </script>
+</body>
+</html>

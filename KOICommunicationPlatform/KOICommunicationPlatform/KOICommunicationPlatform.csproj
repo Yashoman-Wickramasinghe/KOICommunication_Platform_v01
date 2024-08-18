@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="cloudscribe.Web.Pagination" Version="6.0.0" />
+		<PackageReference Include="EPPlus" Version="7.2.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
@@ -33,6 +34,7 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.17" />
+		<PackageReference Include="popper.js" Version="1.16.1" />
 		<!--<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

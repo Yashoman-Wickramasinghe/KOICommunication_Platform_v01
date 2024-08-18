@@ -10,6 +10,7 @@ using KOICommunicationPlatform.DataAccess.Repository;
 using KOICommunicationPlatform.DataAccess.DbInitializer;
 using KOICommunicationPlatform.Utilities.EmailSender;
 using KOICommunicationPlatform.Utilities.Helper;
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
+// Set the EPPlus License Context
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 var app = builder.Build();
 
