@@ -1,0 +1,112 @@
+﻿@model StudentRegistrationViewModel
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Edit Students</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Configurations</a></li>
+                    <li class="breadcrumb-item active">Edit Student</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Edit Students</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                 <label asp-for="Student.StudentId" for="studentId">Student ID</label>
+                                <input asp-for="Student.StudentId" type="text" class="form-control" id="studentId" placeholder="Enter student id">
+                                <span asp-validation-for="Student.StudentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Student.Email" for="emailAddress">Email</label>
+                                <input asp-for="Student.Email" type="email" class="form-control" id="emailAddress" placeholder="Enter email address">
+                                <span asp-validation-for="Student.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Student.GivenName" for="givenName">Given Name</label>
+                                <input asp-for="Student.GivenName" type="text" class="form-control" id="givenName" placeholder="Enter given name">
+                                <span asp-validation-for="Student.GivenName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Student.Surname" for="surname">Surname</label>
+                                <input asp-for="Student.Surname" type="text" class="form-control" id="surname" placeholder="Enter surname">
+                                <span asp-validation-for="Student.Surname" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="tutorialDropdown">Select Tutorial</label>
+                                <select id="tutorialDropdown" name="TutorialId" class="form-control" asp-for="TutorialId" asp-items="ViewBag.TutorialsDropdown">
+                                    <option value="">-- Select Tutorial --</option>
+                                </select>
+                                <span asp-validation-for="Student.Tutorial.Id" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <input type="submit" value="Save" class="btn btn-primary float-right" />
+                            <a asp-controller="StudentRegister" asp-action="Index" class="btn btn-secondary float-right" style="margin-right: 5px;">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#clearButton").click(function () {
+              $("#studentId").val('');
+            $("#givenName").val('');
+            $("#surname").val('');
+            $("#emailAddress").val('');
+            $("#tutorialDropdown").val('');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var successMessage = '@TempData["SuccessMessage"]';
+        if (successMessage) {
+            alert(successMessage);
+        }
+    });
+</script>
