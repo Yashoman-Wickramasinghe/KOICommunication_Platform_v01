@@ -45,6 +45,7 @@ namespace KOICommunicationPlatform.Models.ViewModels
         public IEnumerable<SelectListItem>? ToTimeList { get; set; }
         public IEnumerable<SelectListItem>? LabTypeList { get; set; }
         public IEnumerable<SelectListItem>? TutorialTypeList { get; set; }
+        public IEnumerable<SelectListItem>? ClientList { get; set; }
 
     }
 }

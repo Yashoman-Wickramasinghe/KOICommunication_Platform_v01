@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+	  <!--<Nullable>enable</Nullable>-->
+	  <ImplicitUsings>enable</ImplicitUsings> 
+	<SelfContained>false</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,14 +23,15 @@
   </ItemGroup>
 
 	<ItemGroup>
+		
 		<PackageReference Include="cloudscribe.Web.Pagination" Version="6.0.0" />
 		<PackageReference Include="EPPlus" Version="7.2.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.24" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.24">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KOICommunicationPlatform.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240815111651_initial_migration")]
-    partial class initial_migration
+    [Migration("20240822071229_student_column")]
+    partial class student_column
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.24")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -506,6 +506,53 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.HasIndex("SprintId");
 
                     b.ToTable("SprintTasks");
+                });
+
+            modelBuilder.Entity("KOICommunicationPlatform.Models.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GivenName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifieDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TutorialId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TutorialId");
+
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.StudentGroupDetail", b =>
@@ -1000,9 +1047,6 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<string>("ContactPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -1014,6 +1058,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DocumentLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GivenName")
                         .IsRequired()
@@ -1054,8 +1101,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubmissionLink")
                         .HasColumnType("nvarchar(max)");
@@ -1067,6 +1115,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TutorialId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1075,7 +1126,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("TutorialId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -1212,6 +1263,21 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Navigation("Sprint");
                 });
 
+            modelBuilder.Entity("KOICommunicationPlatform.Models.Student", b =>
+                {
+                    b.HasOne("KOICommunicationPlatform.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.HasOne("KOICommunicationPlatform.Models.Tutorial", "Tutorial")
+                        .WithMany()
+                        .HasForeignKey("TutorialId");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Tutorial");
+                });
+
             modelBuilder.Entity("KOICommunicationPlatform.Models.StudentGroupDetail", b =>
                 {
                     b.HasOne("KOICommunicationPlatform.Models.StudentGroupHD", "StudentGroupHD")
@@ -1333,11 +1399,11 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
+                    b.HasOne("KOICommunicationPlatform.Models.Tutorial", "Tutorial")
                         .WithMany()
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("TutorialId");
 
-                    b.Navigation("Course");
+                    b.Navigation("Tutorial");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.ChatGroupHD", b =>

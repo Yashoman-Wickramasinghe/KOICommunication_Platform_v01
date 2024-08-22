@@ -1,366 +1,256 @@
-﻿@model KOICommunicationPlatform.Models.ViewModels.TutorialViewModel
-
-<div class="content-header">
+﻿<div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0">Create Students Group</h1>
-            </div><!-- /.col -->
+            </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Group Management</a></li>
                     <li class="breadcrumb-item active">Create Students Group</li>
                 </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+            </div>
+        </div>
+    </div>
+    <br />
 </div>
-<!-- Main content -->
+
 <section class="content">
-    <div class="content-header">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-danger">
-                    <div class="card-header">
-                        @* <h3 class="card-title">Assign KOI Project Tracker Roles</h3> *@
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                        <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label asp-for="CourseId">Course</label>
-                                    <select asp-for="CourseId" asp-items="Model.CourseList" class="form-control" id="courseDropdown">
-                                        <option value="">Select Course</option>
-                                    </select>
-                                </div>
+        <div class="card card-default">
+            <form id="generateGroupIdForm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="tutorialDropdown">Select Tutorial</label>
+                                <select id="tutorialDropdown" class="form-control" asp-items="ViewBag.TutorialsDropdown">
+                                    <option value="">-- Select Tutorial --</option>
+                                </select>
                             </div>
-                        <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label asp-for="SubjectId">Subject</label>
-                                    <select asp-for="SubjectId" asp-items="Model.SubjectList" class="form-control" id="subjectDropdown" disabled>
-                                        <option value="">Select Subject</option>
-                                    </select>
-                                </div>
-                            </div>
-                        <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label asp-for="Trimester">Trimester</label>
-                                    <select asp-for="Trimester" asp-items="Model.TrimesterList" class="form-control" id="trimesterDropdown" disabled>
-                                        <option value="">Select Trimester</option>
-                                    </select>
-                                </div>
-                            </div>
-                        <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label asp-for="Day">Day</label>
-                                    <select asp-for="Day" asp-items="Model.DayList" class="form-control" id="dayDropdown" disabled>
-                                        <option value="">Select Day</option>
-                                    </select>
-                                </div>
-                                </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div id="tutorialDetails" class="mb-3 col-12">
+                            <!-- This will be filled with JavaScript -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <style>
+                                    .d-inline {
+                                        display: inline;
+                                    }
+                                </style>
+                                <label for="studentDropdown" style="display: inline;">
+                                    Select Students To Group:
+                                </label>
+                                <p id="groupId" style="display: inline; margin-left: 0.5rem; margin-top: 0.5rem;"></p>
 
-                        <div class="row">
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label asp-for="FromTime">From Time</label>
-                                <select asp-for="FromTime" asp-items="Model.FromTimeList" class="form-control" id="fromTimeDropdown" disabled>
-                                    <option value="">Select From Time</option>
+                                <select id="studentDropdown" class="form-control" disabled>
+                                    <option value="">-- Select Student --</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label asp-for="ToTime">To Time</label>
-                                <select asp-for="ToTime" asp-items="Model.ToTimeList" class="form-control" id="toTimeDropdown" disabled>
-                                    <option value="">Select To Time</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <label asp-for="Lab">Lab Type</label>
-                            <select asp-for="Lab" asp-items="Model.LabTypeList" class="form-control" id="labTypeDropdown" disabled>
-                                <option value="">Select Lab Type</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label asp-for="TutorialNo">Tutorial Type</label>
-                                <select asp-for="TutorialNo" asp-items="Model.TutorialTypeList" class="form-control" id="tutorialTypeDropdown" disabled>
-                                    <option value="">Select Tutorial Type</option>
-                                </select>
-                            </div>
-                        </div>
                         </div>
                     </div>
-                        <div class="card-body">
-                            <div class="row no-print">
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group d-flex justify-content-md-start justify-content-center">
-                                        <div id="generatedGroupIdContainer" style="margin-top: 10px;font-weight: bold;font-size: large;">
-                                            <strong>Generated Group ID:</strong>
-                                            <span id="generatedGroupId" style="color:forestgreen"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group d-flex justify-content-md-end justify-content-center mt-2 mt-md-0">
-                                        <button type="button" class="btn btn-primary mr-2" id="generateGroupIdButton">Generate Group ID</button>
-                                        <button type="button" class="btn btn-success" id="clearAllButton">Clear All</button>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="tempStudentTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Leader</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rows will be added dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="clientDropdown">Assign Client To Group</label>
+                                <select id="clientDropdown" class="form-control" asp-items="Model.ClientList">
+                                    <option value="">-- Select Client --</option>
+                                </select>
                             </div>
                         </div>
-
-                    @* <div class="post clearfix"></div><br /> *@
                     </div>
+                    @* <div class="row no-print">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary mb-2 mb-sm-0" disabled>Generate Group ID</button>
+                           
+                        </div>
+                    </div> *@
                 </div>
-            </div>
+            </form>
+        </div>
     </div>
-        <!-- /.col (left) -->
-    <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 col-md-8 col-sm-12">
-                    <div class="form-group d-flex flex-wrap align-items-center">
-                        <label class="mr-2 mb-0">Students</label>
-                        <select class="form-control select2 mr-2 mb-2 mb-md-0" style="flex: 1;">
-                            <option selected="selected">12203888 - Wickrama Arachchige Yashoman Wickramasinghe</option>
-                            <option>12203264 - Sujal Poudel</option>
-                            <option>12301598 - Ivan Renaldo Suryantono</option>
-                        </select>
-                        <button type="button" class="btn btn-primary mb-2 mb-md-0" style="background-color:green">Add</button>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-4 col-sm-12">
-                    <!-- Additional content can go here -->
-                </div>
-            </div>
-
-        <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Group ID LAT2-3 Members</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Leader</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>11901352</td>
-                                            <td>Gaurav Khadka</td>
-                                            <td>11901352@students.koi.edu.au</td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="radio1">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#" style="margin-left: 5px;font-weight:bold;color:red">Remove </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>12100180</td>
-                                            <td>Enesh Singh</td>
-                                            <td>12100180@students.koi.edu.au</td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="radio1">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#" style="margin-left: 5px;font-weight:bold;color:red">Remove </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm m-0 float-right">
-                                        <li class="page-item"><a class="page-link" href="#">«</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">»</a></li>
-                                    </ul>
-                                </div>
-                                <br />
-                                <div class="form-group">
-                                    <label>Assign Industry Client (Optional)</label>
-                                    <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">GLIA Diagnostics</option>
-                                        <option>Queen of Snow Globes</option>
-                                        <option>Mrs Oh</option>
-                                        <option>Mark Wesley Media</option>
-                                        <option>ImpexDocs</option>
-                                        <option>Kruchchilli</option>
-                                        <option>Docushop</option>
-                                        <option>Community Rideshare</option>
-                                        <option>Communication Platform</option>
-                                        <option>Indeed Care</option>
-                                        <option>Da Vinchii AI</option>
-                                        <option>CheatSheets</option>
-                                        <option>In the Light Counselling</option>
-                                        <option>Glow in Wellness</option>
-                                        <option>Source Your Own Project</option>
-                                    </select>
-                                </div>
-                                <div class="row no-print">
-                                    <div class="col-12">
-                                        <button type="button" class="btn btn-primary float-right">Submit Group</button>
-                                        <button type="button" class="btn btn-success float-right" style="margin-right: 5px;"> Clear All </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                </div>
-    </div><!-- /.container-fluid -->
-    </div>
-   
-    <!-- /.container-fluid -->
 </section>
-<!-- Main content -->
 @section Scripts {
-    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#courseDropdown').change(function () {
-                var courseId = $(this).val();
+            var studentDropdown = $('#studentDropdown');
+            var tempStudentTable = $('#tempStudentTable tbody');
+            var groupIdField = $('#groupId');
+            var generateGroupIdButton = $('button[type="submit"]');
+            var tutorialDropdown = $('#tutorialDropdown');
 
-                if (courseId) {
-                    $('#subjectDropdown').prop('disabled', false);
-                    $.post('/Admin/StudentGroups/GetSubjects', { courseId: courseId }, function (data) {
-                        $('#subjectDropdown').empty().append('<option value="">Select Subject</option>');
-                        $.each(data, function (index, item) {
-                            $('#subjectDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
-                        });
+            function resetPage() {
+                // Clear group ID label
+                groupIdField.html('');
+
+                // Clear temporary student table
+                tempStudentTable.empty();
+
+                // Clear and disable student dropdown
+                studentDropdown.empty().append('<option value="">-- Select Student --</option>');
+                studentDropdown.prop('disabled', true);
+
+                // Disable Generate Group ID button
+                generateGroupIdButton.prop('disabled', true);
+            }
+
+            // Populate tutorial details and student dropdown
+            tutorialDropdown.change(function () {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    // Clear and reset page
+                    resetPage();
+
+                    $.ajax({
+                        url: '/Admin/StudentGroups/GetTutorialDetails',
+                        type: 'GET',
+                        data: { tutorialId: selectedValue },
+                        success: function (data) {
+                            if (data) {
+                                $('#tutorialDetails').html(`
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p><strong>Course:</strong> <span style="color: blue;">${data.courseName} (ID: ${data.courseId})</span></p>
+                                                            <p><strong>Subject:</strong> <span style="color: blue;">${data.subjectName} (ID: ${data.subjectId})</span></p>
+                                                            <p><strong>Trimester:</strong> <span style="color: blue;">${data.trimester}</span></p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p><strong>Lab:</strong> <span style="color: blue;">${data.lab}</span></p>
+                                                            <p><strong>Tutorial No:</strong> <span style="color: blue;">${data.tutorialNo}</span></p>
+                                                            <p><strong>Day:</strong> <span style="color: blue;">${data.day}</span></p>
+                                                            <p><strong>From Time:</strong> <span style="color: blue;">${data.fromTime}</span></p>
+                                                            <p><strong>To Time:</strong> <span style="color: blue;">${data.toTime}</span></p>
+                                                        </div>
+                                                    </div>
+                                                `);
+                            } else {
+                                $('#tutorialDetails').html('<p>No details found.</p>');
+                            }
+                        },
+                        error: function () {
+                            $('#tutorialDetails').html('<p>An error occurred while fetching the details.</p>');
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/Admin/StudentGroups/GenerateGroupIdAndGetStudents',
+                        type: 'POST',
+                        data: { tutorialId: selectedValue },
+                        success: function (response) {
+                            if (response.groupId) {
+                                groupIdField.html('Generated Group ID: ' + response.groupId);
+                                groupIdField.css('color', 'green');
+                                groupIdField.css('font-weight', 'bold');
+
+                                studentDropdown.prop('disabled', false);
+                                $.each(response.students, function (index, student) {
+                                    studentDropdown.append(
+                                        $('<option></option>').val(student.value).text(student.text)
+                                    );
+                                });
+
+                                generateGroupIdButton.prop('disabled', false);
+                            } else {
+                                groupIdField.html('Error generating Group ID.');
+                                groupIdField.css('color', 'red');
+                                groupIdField.css('font-weight', 'bold');
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while generating the Group ID.');
+                        }
                     });
                 } else {
-                    $('#subjectDropdown').prop('disabled', true).empty().append('<option value="">Select Subject</option>');
-                    $('#trimesterDropdown').prop('disabled', true).empty().append('<option value="">Select Trimester</option>');
-                    $('#dayDropdown').prop('disabled', true).empty().append('<option value="">Select Day</option>');
-                    $('#fromTimeDropdown').prop('disabled', true).empty().append('<option value="">Select From Time</option>');
-                    $('#toTimeDropdown').prop('disabled', true).empty().append('<option value="">Select To Time</option>');
-                    $('#labTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Lab Type</option>');
-                    $('#tutorialTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Tutorial Type</option>');
+                    // Reset everything if no tutorial is selected
+                    resetPage();
                 }
             });
 
-            $('#subjectDropdown').change(function () {
-                var courseId = $('#courseDropdown').val();
-                var subjectId = $(this).val();
+            studentDropdown.change(function () {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    var selectedOption = $(this).find('option:selected');
+                    var studentId = selectedOption.val();
+                    var studentName = selectedOption.text();
 
-                if (subjectId) {
-                    $.post('/Admin/StudentGroups/GetFilteredData', { courseId: courseId, subjectId: subjectId }, function (data) {
-                        $('#trimesterDropdown').prop('disabled', false).empty().append('<option value="">Select Trimester</option>');
-                        $.each(data.trimesters, function (index, item) {
-                            $('#trimesterDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
-                        });
+                    // Add student to temporary table
+                    tempStudentTable.append(`
+                                        <tr>
+                                            <td>${studentId}</td>
+                                            <td>${studentName}</td>
+                                            <td>Student Email</td>
+                                            <td><input type="radio" name="leader" value="${studentId}"></td>
+                                            <td><button type="button" class="btn btn-danger btn-sm remove-student" data-id="${studentId}">Remove</button></td>
+                                        </tr>
+                                    `);
 
-                        $('#dayDropdown').prop('disabled', false).empty().append('<option value="">Select Day</option>');
-                        $.each(data.days, function (index, item) {
-                            $('#dayDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
-                        });
-
-                        $('#fromTimeDropdown').prop('disabled', false).empty().append('<option value="">Select From Time</option>');
-                        $.each(data.fromTimes, function (index, item) {
-                            $('#fromTimeDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
-                        });
-
-                        $('#toTimeDropdown').prop('disabled', false).empty().append('<option value="">Select To Time</option>');
-                        $.each(data.toTimes, function (index, item) {
-                            $('#toTimeDropdown').append('<option value="' + item.value + '">' + item.text + '</option>');
-                        });
-
-                        $('#labTypeDropdown').prop('disabled', false);
-                        $('#tutorialTypeDropdown').prop('disabled', false);
-                    });
-                } else {
-                    $('#trimesterDropdown').prop('disabled', true).empty().append('<option value="">Select Trimester</option>');
-                    $('#dayDropdown').prop('disabled', true).empty().append('<option value="">Select Day</option>');
-                    $('#fromTimeDropdown').prop('disabled', true).empty().append('<option value="">Select From Time</option>');
-                    $('#toTimeDropdown').prop('disabled', true).empty().append('<option value="">Select To Time</option>');
-                    $('#labTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Lab Type</option>');
-                    $('#tutorialTypeDropdown').prop('disabled', true).empty().append('<option value="">Select Tutorial Type</option>');
-                }
-            });
-        });
-        $('#clearAllButton').click(function () {
-            location.reload();
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            // Existing dropdown handling logic
-            // ...
-
-            $('#generateGroupIdButton').click(function () {
-                var courseId = $('#courseDropdown').val();
-                var subjectId = $('#subjectDropdown').val();
-                var trimester = $('#trimesterDropdown').val();
-                var day = $('#dayDropdown').val();
-                var fromTime = $('#fromTimeDropdown').val();
-                var toTime = $('#toTimeDropdown').val();
-                var labType = $('#labTypeDropdown').val();
-                var tutorialType = $('#tutorialTypeDropdown').val();
-
-                if (courseId && subjectId && day && fromTime && toTime && labType && tutorialType) {
-                    $.post('/Admin/StudentGroups/GenerateGroupId', {
-                        courseId: courseId,
-                        subjectId: subjectId,
-                        trimester: trimester,
-                        day: day,
-                        fromTime: fromTime,
-                        toTime: toTime,
-                        labType: labType,
-                        tutorialType: tutorialType
-                    }, function (data) {
-                        // Display the generated Group ID in the view
-                        $('#generatedGroupId').text(data.groupId);
-                    });
-                } else {
-                    alert('Please fill in all the filters before generating a Group ID.');
+                    // Disable the selected option
+                    selectedOption.prop('disabled', true);
+                    studentDropdown.val('');
                 }
             });
 
-            // Existing clear all button logic
-            // ...
+            // Remove student from temporary table
+            tempStudentTable.on('click', '.remove-student', function () {
+                var studentId = $(this).data('id');
+                $(this).closest('tr').remove();
+
+                // Re-enable the option in the dropdown
+                studentDropdown.find(`option[value="${studentId}"]`).prop('disabled', false);
+            });
+
+            $('#generateGroupIdForm').submit(function (e) {
+                e.preventDefault();
+
+                var selectedValue = tutorialDropdown.val();
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/Admin/StudentGroups/GenerateGroupIdAndGetStudents',
+                        type: 'POST',
+                        data: { tutorialId: selectedValue },
+                        success: function (response) {
+                            if (response.groupId) {
+                                groupIdField.html('Generated Group ID: ' + response.groupId);
+                                groupIdField.css('color', 'green');
+                                groupIdField.css('font-weight', 'bold');
+                            } else {
+                                groupIdField.html('Error generating Group ID.');
+                                groupIdField.css('color', 'red');
+                                groupIdField.css('font-weight', 'bold');
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while generating the Group ID.');
+                        }
+                    });
+                } else {
+                    alert('Please select a tutorial.');
+                }
+            });
         });
     </script>
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

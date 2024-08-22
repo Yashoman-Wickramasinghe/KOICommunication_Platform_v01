@@ -16,6 +16,7 @@ namespace KOICommunicationPlatform.Models
         ISubjectRepository Subject { get; }
         ITutorialRepository Tutorial { get; }
         IStudentGroupHDRepository StudentGroupHD { get; }
+        IStudentRepository Student {  get; }
         void Save();
     }
 }
