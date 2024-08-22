@@ -47,7 +47,6 @@
                                     Select Students To Group:
                                 </label>
                                 <p id="groupId" style="display: inline; margin-left: 0.5rem; margin-top: 0.5rem;"></p>
-
                                 <select id="studentDropdown" class="form-control" disabled>
                                     <option value="">-- Select Student --</option>
                                 </select>
@@ -82,17 +81,17 @@
                             </div>
                         </div>
                     </div>
-                    @* <div class="row no-print">
+                    <div class="row no-print">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary mb-2 mb-sm-0" disabled>Generate Group ID</button>
-                           
+                            <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Create</button>
                         </div>
-                    </div> *@
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </section>
+
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -131,21 +130,23 @@
                         success: function (data) {
                             if (data) {
                                 $('#tutorialDetails').html(`
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Course:</strong> <span style="color: blue;">${data.courseName} (ID: ${data.courseId})</span></p>
-                                                            <p><strong>Subject:</strong> <span style="color: blue;">${data.subjectName} (ID: ${data.subjectId})</span></p>
-                                                            <p><strong>Trimester:</strong> <span style="color: blue;">${data.trimester}</span></p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Lab:</strong> <span style="color: blue;">${data.lab}</span></p>
-                                                            <p><strong>Tutorial No:</strong> <span style="color: blue;">${data.tutorialNo}</span></p>
-                                                            <p><strong>Day:</strong> <span style="color: blue;">${data.day}</span></p>
-                                                            <p><strong>From Time:</strong> <span style="color: blue;">${data.fromTime}</span></p>
-                                                            <p><strong>To Time:</strong> <span style="color: blue;">${data.toTime}</span></p>
-                                                        </div>
-                                                    </div>
-                                                `);
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <p><strong>Course:</strong> <span style="color: gray;">${data.courseName} (ID: ${data.courseId})</span></p>
+                                                    <p><strong>Subject:</strong> <span style="color: gray;">${data.subjectName} (ID: ${data.subjectId})</span></p>
+                                                    <p><strong>Trimester:</strong> <span style="color: gray;">${data.trimester}</span></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p><strong>Lab:</strong> <span style="color: gray;">${data.lab}</span></p>
+                                                    <p><strong>Tutorial No:</strong> <span style="color: gray;">${data.tutorialNo}</span></p>
+                                                    <p><strong>Day:</strong> <span style="color: gray;">${data.day}</span></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p><strong>From Time:</strong> <span style="color: gray;">${data.fromTime}</span></p>
+                                                    <p><strong>To Time:</strong> <span style="color: gray;">${data.toTime}</span></p>
+                                                </div>
+                                            </div>
+                                        `);
                             } else {
                                 $('#tutorialDetails').html('<p>No details found.</p>');
                             }
@@ -198,14 +199,14 @@
 
                     // Add student to temporary table
                     tempStudentTable.append(`
-                                        <tr>
-                                            <td>${studentId}</td>
-                                            <td>${studentName}</td>
-                                            <td>Student Email</td>
-                                            <td><input type="radio" name="leader" value="${studentId}"></td>
-                                            <td><button type="button" class="btn btn-danger btn-sm remove-student" data-id="${studentId}">Remove</button></td>
-                                        </tr>
-                                    `);
+                                <tr>
+                                    <td>${studentId}</td>
+                                    <td>${studentName}</td>
+                                    <td>Student Email</td>
+                                    <td><input type="radio" name="leader" value="${studentId}"></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm remove-student" data-id="${studentId}">Remove</button></td>
+                                </tr>
+                            `);
 
                     // Disable the selected option
                     selectedOption.prop('disabled', true);
@@ -253,4 +254,3 @@
         });
     </script>
 }
-
