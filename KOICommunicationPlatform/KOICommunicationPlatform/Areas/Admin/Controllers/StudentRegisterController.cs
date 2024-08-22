@@ -1,10 +1,12 @@
 ﻿using KOICommunicationPlatform.DataAccess;
 using KOICommunicationPlatform.Models;
+using KOICommunicationPlatform.Models.ViewModels;
 using KOICommunicationPlatform.Utilities;
 using KOICommunicationPlatform.Utilities.EmailSender;
 using KOICommunicationPlatform.Utilities.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -37,35 +39,82 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            // Fetch the list of students
-            var _objStudentList = _unitOfWork.ApplicationUser.GetAll().Where(x => x.UserType == SD.Website_Student).ToList();
+            // Fetch the list of ApplicationUsers including the related Tutorial, Subject, and Course data
+            var _objStudentList = _unitOfWork.ApplicationUser.GetAll(
+                includeProperties: "Tutorial,Tutorial.Subject,Tutorial.Subject.Course"
+            ).Where(x => x.UserType == SD.Website_Student).ToList();
+
             return View(_objStudentList);
         }
 
         public IActionResult Create()
         {
+            // Fetch tutorials with related Subject and Course data
+            var tutorials = _unitOfWork.Tutorial.GetAll(includeProperties: "Subject,Subject.Course").Select(t => new SelectListItem
+            {
+                Value = t.Id.ToString(),
+                Text = $"{(t.Subject?.Course?.CourseName ?? "N/A")} / {(t.Trimester ?? "N/A")} / {(t.Subject?.SubjectName ?? "N/A")} / {(t.Lab ?? "N/A")} / {(t.TutorialNo ?? "N/A")} / {(t.Day ?? "N/A")} / {(t.FromTime ?? "N/A")} / {(t.ToTime ?? "N/A")}"
+            }).ToList();
+
+            // Pass the Tutorials Dropdown list to the view via ViewBag
+            ViewBag.TutorialsDropdown = tutorials;
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ApplicationUser obj)
+        public async Task<IActionResult> Create(StudentRegistrationViewModel obj)
         {
             try
             {
-                obj.UserName = obj.Email;
-                obj.UserType = SD.Website_Student;
-                obj.CreatedDateTime = DateTime.Now;
-                obj.ModifieDateTime = DateTime.Now;
-                obj.IsActive = true;
+                // Retrieve the selected Tutorial with related Subject and Course data
+                var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(
+                    t => t.Id == obj.TutorialId,
+                    includeProperties: "Subject,Subject.Course"
+                );
 
-                _unitOfWork.ApplicationUser.Add(obj);
+                var user = new ApplicationUser();
+
+                user.StudentId = obj.Student.StudentId;
+                user.GivenName = obj.Student.GivenName;
+                user.Surname = obj.Student.Surname;
+                user.Email = obj.Student.Email;
+                user.UserName = obj.Student.Email;
+                user.UserType = SD.Website_Student;
+                user.CreatedDateTime = DateTime.Now;
+                user.ModifieDateTime = DateTime.Now;
+                user.Tutorial = tutorial;
+                user.IsActive = true;
+
+                _unitOfWork.ApplicationUser.Add(user);
                 _unitOfWork.ApplicationUser.Save();
-                TempData["success"] = "Student saved successfully";
-
-                var student = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == obj.Email);
+               
+                var student = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == user.Email);
 
                 //send registration email
-                _registrationEmailSender.SendUserRegistrationEmail(student, $"{obj.GivenName} {obj.Surname}");
+                _registrationEmailSender.SendUserRegistrationEmail(student, $"{user.GivenName} {user.Surname}");
+
+               
+
+                // Create a new Student record
+                var studentRecord = new Student
+                {
+                    StudentId = student.StudentId.ToString(),
+                    GivenName = user.GivenName,
+                    Surname = user.Surname,
+                    IsActive = true,
+                    CreatedDateTime = DateTime.Now,
+                    ModifieDateTime = DateTime.Now,
+                    Subject = tutorial.Subject,
+                    Tutorial = tutorial
+                };
+
+                // Save the Student record
+                _unitOfWork.Student.Add(studentRecord);
+                _unitOfWork.Student.Save();
+
+                TempData["success"] = "Student saved successfully";
+
 
                 return RedirectToAction("Index");
 
@@ -86,7 +135,10 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
 
             try
             {
+                var tutorial = new Tutorial();
+                var subjectObj = new Subject();
                 var users = new List<ApplicationUser>();
+                var students = new List<Student>();
 
                 using (var stream = new MemoryStream())
                 {
@@ -105,17 +157,37 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                             var surName = worksheet.Cells[row, 3].Text;
                             var email = worksheet.Cells[row, 4].Text;
                             var userName = email;
-                            var contactName = worksheet.Cells[row, 3].Text;
-                            var phoneNumber = worksheet.Cells[row, 4].Text;
-                            var contactPerson02Name = worksheet.Cells[row, 5].Text;
-                            var contactPerson02Phone = worksheet.Cells[row, 6].Text;
-                            var documentLink = worksheet.Cells[row, 7].Text;
+                            
+                            var course = worksheet.Cells[row, 5].Text; 
+                            var subject = worksheet.Cells[row, 6].Text;
+                            var trimester = worksheet.Cells[row, 7].Text;
+                            var lab  = worksheet.Cells[row, 8].Text; 
+                            var tutorialNo = worksheet.Cells[row, 9].Text; 
+                            var day = worksheet.Cells[row, 10].Text; 
+                            var fromTime = worksheet.Cells[row, 11].Text; 
+                            var toTime = worksheet.Cells[row, 12].Text;
+
 
                             // Check if required fields are not empty
-                            if (string.IsNullOrWhiteSpace(studentId) || string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrWhiteSpace(email))
+                            if (string.IsNullOrWhiteSpace(studentId) || string.IsNullOrWhiteSpace(course) || string.IsNullOrWhiteSpace(email))
                             {
                                 // Skip rows where required fields are missing
                                 continue;
+                            }
+
+                            // Retrieve or create Course
+                            var courseObj = _unitOfWork.Course.GetFirstOrDefault(c => c.CourseName == course);
+
+                            if(courseObj != null)
+                            {
+                                // Retrieve or create Subject
+                                subjectObj = _unitOfWork.Subject.GetFirstOrDefault(s => s.SubjectName == subject && s.CourseId == courseObj.Id);
+
+                                if (subjectObj != null)
+                                {
+                                    // Retrieve or create Tutorial
+                                    tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Subject.Id == subjectObj.Id && t.Day == day && t.FromTime == fromTime && t.ToTime == toTime && t.Trimester == trimester && t.Lab == lab && t.TutorialNo == tutorialNo);
+                                }
                             }
 
                             // Create a new user only if required fields are present
@@ -126,18 +198,32 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                                 Surname = surName,
                                 UserName = userName,
                                 Email = email,
-                                ContactName = contactName,
-                                PhoneNumber = phoneNumber,
-                                ContactPerson02Name = contactPerson02Name,
-                                ContactPerson02Phone = contactPerson02Phone,
-                                DocumentLink = documentLink,
                                 UserType = SD.Website_Student,
                                 CreatedDateTime = DateTime.Now,
                                 ModifieDateTime = DateTime.Now,
+                                Tutorial = tutorial,
                                 IsActive = true,
                             };
 
                             users.Add(user);
+
+                            if (tutorial != null)
+                            {
+                                // Create or update Student record
+                                var student = new Student
+                                {
+                                    StudentId = studentId,
+                                    GivenName = givenName,
+                                    Surname = surName,
+                                    IsActive = true,
+                                    CreatedDateTime = DateTime.Now,
+                                    ModifieDateTime = DateTime.Now,
+                                    Subject = subjectObj,
+                                    Tutorial = tutorial
+                                };
+                                
+                                students.Add(student);
+                            }
                         }
                     }
                 }
@@ -148,17 +234,24 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                     _unitOfWork.ApplicationUser.Add(user);
                 }
 
+                 // Save all students to the database
+                foreach (var student in students)
+                {
+                    _unitOfWork.Student.Add(student);
+                }
+
                 _unitOfWork.ApplicationUser.Save();
+                _unitOfWork.Student.Save();
 
                 TempData["success"] = "Students added successfully";
 
-                //TODO: Uncomment
+                
                 foreach (var user in users)
                 {
                     var student = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == user.Email);
 
                     //send registration email
-                    _registrationEmailSender.SendUserRegistrationEmail(student, user.Organization);
+                    _registrationEmailSender.SendUserRegistrationEmail(student, $"{user.GivenName} {user.Surname}");
 
                 }
 
@@ -178,47 +271,90 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ApplicationUser? studentFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
+            // Fetch the student from the database
+            ApplicationUser? studentFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id, includeProperties: "Tutorial");
 
             if (studentFromDb == null)
             {
                 return NotFound();
             }
 
-            return View(studentFromDb);
+            // Fetch tutorials with related Subject and Course data
+            var tutorials = _unitOfWork.Tutorial.GetAll(includeProperties: "Subject,Subject.Course")
+                .Select(t => new SelectListItem
+                {
+                    Value = t.Id.ToString(),
+                    Text = $"{(t.Subject?.Course?.CourseName ?? "N/A")} / {(t.Trimester ?? "N/A")} / {(t.Subject?.SubjectName ?? "N/A")} / {(t.Lab ?? "N/A")} / {(t.TutorialNo ?? "N/A")} / {(t.Day ?? "N/A")} / {(t.FromTime?? "N/A")} / {(t.ToTime?? "N/A")}"
+                }).ToList();
+
+            // Create the view model
+            var model = new StudentRegistrationViewModel
+            {
+                Student = studentFromDb,
+                TutorialId = studentFromDb.Tutorial?.Id
+            };
+
+            // Pass the tutorials to the view via ViewBag
+            ViewBag.TutorialsDropdown = tutorials;
+
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, ApplicationUser updatedStudent)
+        public async Task<IActionResult> Edit(string id, StudentRegistrationViewModel updatedStudent)
         {
             try
             {
-                // Fetch the existing student from the database
-                ApplicationUser studentFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
+                // Fetch the existing student from the ApplicationUser table
+                ApplicationUser studentFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id, includeProperties: "Tutorial");
 
                 if (studentFromDb == null)
                 {
                     return NotFound();
                 }
 
-                // Update student properties from the form values
-                studentFromDb.GivenName = updatedStudent.GivenName;
-                studentFromDb.Surname = updatedStudent.Surname;
-                studentFromDb.Email = updatedStudent.Email;
-                studentFromDb.ContactName = updatedStudent.ContactName;
-                studentFromDb.ContactPhone = updatedStudent.ContactPhone;
-                studentFromDb.ContactPerson02Name = updatedStudent.ContactPerson02Phone = updatedStudent.ContactPerson02Phone;
+                // Retrieve the selected Tutorial with related Subject and Course data
+                var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(
+                    t => t.Id == updatedStudent.TutorialId,
+                    includeProperties: "Subject,Subject.Course"
+                );
+
+                // Update ApplicationUser properties
+                studentFromDb.GivenName = updatedStudent.Student.GivenName;
+                studentFromDb.Surname = updatedStudent.Student.Surname;
+                studentFromDb.Email = updatedStudent.Student.Email;
+                studentFromDb.Tutorial = tutorial; // Update the Tutorial
                 studentFromDb.ModifieDateTime = DateTime.Now;
                 studentFromDb.IsActive = true;
 
                 _unitOfWork.ApplicationUser.Update(studentFromDb);
-                _unitOfWork.ApplicationUser.Save();
+
+                // Fetch the existing student record from the Student table
+                var studentRecord = _unitOfWork.Student.GetFirstOrDefault(s => s.StudentId == studentFromDb.StudentId);
+
+                if (studentRecord != null)
+                {
+                    // Update Student properties
+                    studentRecord.GivenName = studentFromDb.GivenName;
+                    studentRecord.Surname = studentFromDb.Surname;
+                    studentRecord.Tutorial = tutorial;
+                    studentRecord.Subject = tutorial.Subject;
+                    studentRecord.ModifieDateTime = DateTime.Now;
+
+                    _unitOfWork.Student.Update(studentRecord);
+                }
+
+                _unitOfWork.ApplicationUser.Save(); // Save changes to ApplicationUser table
+                _unitOfWork.Student.Save(); // Save changes to Student table
+
                 TempData["success"] = "Student edited successfully";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                // Log the exception if necessary
+                TempData["error"] = $"An error occurred: {ex.Message}";
+                return View(updatedStudent); // Return to the same view with error message
             }
 
         }
@@ -230,14 +366,33 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ApplicationUser? studentFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
+            // Fetch the student from the database
+            ApplicationUser? studentFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id, includeProperties: "Tutorial");
 
             if (studentFromDb == null)
             {
                 return NotFound();
             }
 
-            return View(studentFromDb);
+            // Fetch tutorials with related Subject and Course data
+            var tutorials = _unitOfWork.Tutorial.GetAll(includeProperties: "Subject,Subject.Course")
+                .Select(t => new SelectListItem
+                {
+                    Value = t.Id.ToString(),
+                    Text = $"{(t.Subject?.Course?.CourseName ?? "N/A")} / {(t.Trimester ?? "N/A")} / {(t.Subject?.SubjectName ?? "N/A")} / {(t.Lab ?? "N/A")} / {(t.TutorialNo ?? "N/A")} / {(t.Day ?? "N/A")} / {(t.FromTime ?? "N/A")} / {(t.ToTime ?? "N/A")}"
+                }).ToList();
+
+            // Create the view model
+            var model = new StudentRegistrationViewModel
+            {
+                Student = studentFromDb,
+                TutorialId = studentFromDb.Tutorial?.Id
+            };
+
+            // Pass the tutorials to the view via ViewBag
+            ViewBag.TutorialsDropdown = tutorials;
+
+            return View(model);
 
         }
 
@@ -249,8 +404,19 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+         
+            Student? student = _unitOfWork.Student.GetFirstOrDefault(u => u.StudentId == obj.StudentId);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Student.Remove(student);
+            _unitOfWork.Student.Save();
+
             _unitOfWork.ApplicationUser.Remove(obj);
             _unitOfWork.ApplicationUser.Save();
+
             TempData["success"] = "Student record deleted successfully";
             return RedirectToAction("Index");
         }

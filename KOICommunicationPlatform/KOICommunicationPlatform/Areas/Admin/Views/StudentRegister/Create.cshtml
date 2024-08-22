@@ -1,4 +1,4 @@
-﻿@model ApplicationUser
+﻿@model StudentRegistrationViewModel
 
 <div class="content-header">
     <div class="container-fluid">
@@ -37,64 +37,43 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="StudentId" for="studentId">Student ID</label>
-                                <input asp-for="StudentId" type="text" class="form-control" id="studentId" placeholder="Enter student id">
-                                <span asp-validation-for="StudentId" class="text-danger"></span>
+                                <label asp-for="Student.StudentId" for="studentId">Student ID</label>
+                                <input asp-for="Student.StudentId" type="text" class="form-control" id="studentId" placeholder="Enter student id">
+                                <span asp-validation-for="Student.StudentId" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="Email" for="emailAddress">Email</label>
-                                <input asp-for="Email" type="email" class="form-control" id="emailAddress" placeholder="Enter email address">
-                                <span asp-validation-for="Email" class="text-danger"></span>
+                                <label asp-for="Student.Email" for="emailAddress">Email</label>
+                                <input asp-for="Student.Email" type="email" class="form-control" id="emailAddress" placeholder="Enter email address">
+                                <span asp-validation-for="Student.Email" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                               <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="GivenName" for="givenName">Given Name</label>
-                                <input asp-for="GivenName" type="text" class="form-control" id="givenName" placeholder="Enter given name">
-                                <span asp-validation-for="GivenName" class="text-danger"></span>
+                                <label asp-for="Student.GivenName" for="givenName">Given Name</label>
+                                <input asp-for="Student.GivenName" type="text" class="form-control" id="givenName" placeholder="Enter given name">
+                                <span asp-validation-for="Student.GivenName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="Surname" for="surname">Surname</label>
-                                <input asp-for="Surname" type="text" class="form-control" id="surname" placeholder="Enter surname">
-                                <span asp-validation-for="Surname" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label asp-for="ContactName" for="contactPerson1">Contact Person 01 </label>
-                                <input asp-for="ContactName" type="text" class="form-control" id="contactPerson1" placeholder="Enter contact person">
-                                <span asp-validation-for="ContactName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label asp-for="PhoneNumber" for="contactNumber1">Contact Number 01 </label>
-                                <input asp-for="PhoneNumber" type="text" class="form-control" id="contactNumber1" placeholder="Enter contact number">
-                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                <label asp-for="Student.Surname" for="surname">Surname</label>
+                                <input asp-for="Student.Surname" type="text" class="form-control" id="surname" placeholder="Enter surname">
+                                <span asp-validation-for="Student.Surname" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
+                     <div class="row">
+                        <div class="col-sm-12">
                             <div class="form-group">
-                                <label asp-for="ContactPerson02Name" for="contactPerson2">Contact Person 02 (Optional) </label>
-                                <input asp-for="ContactPerson02Name" type="text" class="form-control" id="contactPerson2" placeholder="Enter contact person">
-                                <span asp-validation-for="ContactPerson02Name" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label asp-for="ContactPerson02Phone" for="contactNumber2">Contact Number 02 (Optional) </label>
-                                <input asp-for="ContactPerson02Phone" type="text" class="form-control" id="contactNumber2" placeholder="Enter contact number">
-                                <span asp-validation-for="ContactPerson02Phone" class="text-danger"></span>
+                                <label for="tutorialDropdown">Select Tutorial</label>
+                                <select id="tutorialDropdown" name="TutorialId" class="form-control" asp-items="ViewBag.TutorialsDropdown">
+                                    <option value="">-- Select Tutorial --</option>
+                                </select>
+                                <span asp-validation-for="TutorialId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -126,14 +105,11 @@
 <script>
     $(document).ready(function () {
         $("#clearButton").click(function () {
-            $("#studentId").val('');
+             $("#studentId").val('');
             $("#givenName").val('');
             $("#surname").val('');
             $("#emailAddress").val('');
-            $("#contactPerson1").val('');
-            $("#contactNumber1").val('');
-            $("#contactPerson2").val('');
-            $("#contactNumber2").val('');
+            $("#tutorialDropdown").val('');
         });
     });
 </script>
@@ -145,3 +121,5 @@
         }
     });
 </script>
+
+
