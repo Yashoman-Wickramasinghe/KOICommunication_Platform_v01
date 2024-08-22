@@ -40,12 +40,12 @@ namespace KOICommunicationPlatform.Models.ViewModels
         [Display(Name = "Subject")]
         public int SubjectId { get; set; }
         public IEnumerable<SelectListItem>? SubjectList { get; set; }
-
         public IEnumerable<SelectListItem>? DayList { get; set; }
-
         public IEnumerable<SelectListItem>? FromTimeList { get; set; }
-
         public IEnumerable<SelectListItem>? ToTimeList { get; set; }
+        public IEnumerable<SelectListItem>? LabTypeList { get; set; }
+        public IEnumerable<SelectListItem>? TutorialTypeList { get; set; }
+        public IEnumerable<SelectListItem>? ClientList { get; set; }
 
     }
 }

@@ -32,5 +32,6 @@ namespace KOICommunicationPlatform.DataAccess
         public DbSet<ChatGroupDetail> ChatGroupDetails { get; set; }
         public DbSet<ClientMeeting> ClientMeetings { get; set; }
         public DbSet<Tutorial> Tutorials { get; set; }
+        public DbSet<Student> Students {  get; set; }
     }
 }
