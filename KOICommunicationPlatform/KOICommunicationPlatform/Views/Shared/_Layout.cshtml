@@ -249,7 +249,7 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-business-time"></i>
-                                <p>Client Registration
+                                <p>Registration
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -257,16 +257,24 @@
                                 <li class="nav-item">
                                     <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Client</p>
+                                        <p>Client</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    
-                                    <a asp-area="Admin" asp-controller="ClientRegister" asp-action="ViewClient" class="nav-link">
+
+                                 <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="StudentRegister" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>View Registered Clients</p>
+                                        <p>Student</p>
                                     </a>
                                 </li>
+
+                                 <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Supervisor</p>
+                                    </a>
+                                </li>
+                               
                             </ul>
                         </li>
                         <li class="nav-item">
