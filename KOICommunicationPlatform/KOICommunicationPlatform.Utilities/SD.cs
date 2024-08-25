@@ -10,7 +10,7 @@ namespace KOICommunicationPlatform.Utilities
     {
         public const string Website_Admin = "Admin";
         public const string Website_Supervisor = "Supervisor";
-        public const string Website_Student = "Student";
+        public const string Website_Student = "UniversityStudent";
         public const string Website_Client = "Client";
 
 

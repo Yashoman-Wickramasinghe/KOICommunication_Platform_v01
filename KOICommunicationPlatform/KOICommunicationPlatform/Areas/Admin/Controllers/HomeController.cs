@@ -14,26 +14,71 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var userId = _userManager.GetUserId(User); 
-            var user = _userManager.FindByIdAsync(userId)?.Result;
+
+            // Retrieve the user ID from the current context
+            var userId = _userManager.GetUserId(User);
+
+            // Find the user asynchronously
+            var user = await _userManager.FindByIdAsync(userId);
+
             if (user != null)
             {
-                if (user.UserType == SD.Website_Admin)
+                // Store the user in ViewData for use in the view
+                ViewData["CurrentUser"] = user;
+
+                // Determine the role to assign based on UserType
+                string roleToAssign = user.UserType switch
+                {
+                    SD.Website_Admin => SD.Website_Admin,
+                    SD.Website_Client => SD.Website_Client,
+                    SD.Website_Student => SD.Website_Student,
+                    _ => null
+                };
+
+                if (!string.IsNullOrEmpty(roleToAssign))
+                {
+                    // Ensure the role exists
+                    if (!await _roleManager.RoleExistsAsync(roleToAssign))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(roleToAssign));
+                    }
+
+                    // Get all roles assigned to the user
+                    var userRoles = await _userManager.GetRolesAsync(user);
+
+                    // Remove all existing roles
+                    if (userRoles.Any())
+                    {
+                        await _userManager.RemoveFromRolesAsync(user, userRoles);
+                    }
+
+                    // Assign the correct role
+                    await _userManager.AddToRoleAsync(user, roleToAssign);
+                }
+
+                // Redirect based on the assigned role
+                if (roleToAssign == SD.Website_Admin)
                 {
                     return View();
                 }
-                else if (user.UserType == SD.Website_Client)
+                if (roleToAssign == SD.Website_Client)
                 {
                     return RedirectToAction("Index", "Client", new { area = "Client" });
+                }
+                if (roleToAssign == SD.Website_Student)
+                {
+                    return RedirectToAction("Index", "StudentHome", new { area = "UniversityStudent" });
                 }
             }
 
@@ -42,7 +87,6 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
 
             // Redirect to the login page
             return Redirect(loginUrl);
-
 
         }
 

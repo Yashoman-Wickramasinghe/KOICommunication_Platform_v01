@@ -13,19 +13,17 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
-        public string CourseName { get; set; }
-        public string Trimester { get; set; }
-        public string Subject { get; set; }
-        public int TutorialClassId { get; set; }
-        public string TutorialSession { get; set; }
-        public string GroupId { get; set; }
-        public string? ClientName { get; set; }
+        public string? Trimester { get; set; }
+        public string? GroupGenerateId { get; set; }
+        public Guid? ClientId { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        public ApplicationUser ApplicationUserClient { get; set; }
+        public Subject? Subject { get; set; }
+        public Tutorial? Tutorial { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
         public ICollection<StudentGroupDetail> StudentGroupDetailList { get; set; }
     }
 }

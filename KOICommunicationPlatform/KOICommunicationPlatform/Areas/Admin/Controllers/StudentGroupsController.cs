@@ -258,15 +258,15 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 var tutorialType = tutorial.TutorialNo;
 
                 // Ensure conversion to string for comparison
-                var existingGroups = _unitOfWork.StudentGroupHD.GetAll(sg =>
-                    sg.CourseName == (courseId.HasValue ? courseId.Value.ToString() : null) &&
-                    sg.Subject == (subjectId.HasValue ? subjectId.Value.ToString() : null) &&
-                    sg.Trimester == trimester &&
-                    sg.TutorialSession == day &&
-                    sg.GroupId.StartsWith(labType + tutorialType));
+                //var existingGroups = _unitOfWork.StudentGroupHD.GetAll(sg =>
+                    //sg.CourseName == (courseId.HasValue ? courseId.Value.ToString() : null) &&
+                    //sg.Subject == (subjectId.HasValue ? subjectId.Value.ToString() : null) &&
+                    //sg.Trimester == trimester &&
+                    //sg.TutorialSession == day &&
+                    //sg.GroupId.StartsWith(labType + tutorialType));
 
-                int count = existingGroups.Any() ? existingGroups.Count() + 1 : 1;
-                string groupId = $"{labType}{tutorialType}-{count}";
+                //int count = existingGroups.Any() ? existingGroups.Count() + 1 : 1;
+                //string groupId = $"{labType}{tutorialType}-{count}";
 
                 // Check if _unitOfWork.Student is null
                 if (_unitOfWork.Student == null)
@@ -281,7 +281,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 {
                     return Json(new
                     {
-                        GroupId = groupId,
+                        //GroupId = groupId,
                         Students = new List<SelectListItem> { new SelectListItem { Text = "No students found.", Value = string.Empty } }
                     });
                 }
@@ -297,7 +297,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 // Return Group ID and Student List
                 return Json(new
                 {
-                    GroupId = groupId,
+                    //GroupId = groupId,
                     Students = studentList
                 });
             }

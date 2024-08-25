@@ -1,4 +1,9 @@
-﻿@using KOICommunicationPlatform.Utilities
+﻿@using Microsoft.AspNetCore.Http
+@using KOICommunicationPlatform.Utilities
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = ViewData["CurrentUser"] as ApplicationUser;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -159,7 +164,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a asp-area="Client" asp-controller="Home" asp-action="Index" class="brand-link">
+            <a class="brand-link">
                 <img src="~/dist/img/KingsOwnInstituteKOI-logo.png" alt="King's Own Institute" class="brand-image img-circle elevation-3" style="opacity: 1">
                 <span class="brand-text font-weight-light">Project Tracker</span>
             </a>
@@ -195,7 +200,7 @@
                     </div>
                 </div> *@
 
-                @*For clients*@
+                @*For admin*@
 
                 @if (User.IsInRole(SD.Website_Admin))
                 {
@@ -221,19 +226,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="Course" asp-action="Index" class="nav-link">
+                                    <a asp-controller="Course" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Course</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="Subject" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="Subject" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Subject</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="Tutorial" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="Tutorial" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tutorial</p>
                                     </a>
@@ -255,21 +260,21 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="ClientRegister" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Client</p>
                                     </a>
                                 </li>
 
                                  <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="StudentRegister" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="StudentRegister" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Student</p>
                                     </a>
                                 </li>
 
                                  <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="ClientRegister" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="ClientRegister" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Supervisor</p>
                                     </a>
@@ -286,13 +291,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="StudentGroups" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="StudentGroups" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Create Students Groups</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="StudentGroups" asp-action="ViewStudentGroups" class="nav-link">
+                                    <a  asp-controller="StudentGroups" asp-action="ViewStudentGroups" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>View Created Groups</p>
                                     </a>
@@ -309,13 +314,13 @@
                             <ul class="nav nav-treeview">
                               
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="ProjectDeliverable" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="ProjectDeliverable" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Project Deliverables</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
+                                    <a  asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Upload Documents</p>
                                     </a>
@@ -362,14 +367,14 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="ArrangeClientMeetings" asp-action="Index" class="nav-link">
+                                    <a  asp-controller="ArrangeClientMeetings" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Shedule Client Meetings</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
+                                    <a  asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>View Sheduled Meetings</p>
                                     </a>
@@ -402,14 +407,14 @@
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
+                           @*  <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a asp-area="Client" asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Upload Documents</p>
                                     </a>
                                 </li>
-                            </ul>
+                            </ul> *@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -456,7 +461,157 @@
                 </nav>
                 <!-- /.sidebar-menu -->
                 }
+                @*For students*@
+                @if (User.IsInRole(SD.Website_Student))
+                {
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <a asp-area="UniversityStudent" asp-controller="StudentHome" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fa fa-house"></i>
+                                    <p>Home</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-file"></i>
+                                    <p>
+                                        Share Documents
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-area="UniversityStudent" asp-controller="StudentDocumentUpload" asp-action="Index" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Upload Documents</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-list-check"></i>
+                                    <p>
+                                        Task Tracking
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>View Task</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
+                            <li class="nav-item">
+                                <a asp-controller="Chat" asp-action="Chats" class="nav-link">
+                                    <i class="nav-icon fa fa-message"></i>
+                                    <p>Chats </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-handshake"></i>
+                                    <p>
+                                        Client Meetings
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-area="UniversityStudent" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>View Sheduled Meetings</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                }
+
+                @*For Supervisor*@
+                @if (User.IsInRole(SD.Website_Supervisor))
+                {
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <a asp-area="Supervisor" asp-controller="SupervisorHome" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fa fa-house"></i>
+                                    <p>Home</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-file"></i>
+                                    <p>
+                                        Share Documents
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-area="Supervisor" asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Upload Documents</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-list-check"></i>
+                                    <p>
+                                        Task Tracking
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>View Task</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a asp-controller="Chat" asp-action="Chats" class="nav-link">
+                                    <i class="nav-icon fa fa-message"></i>
+                                    <p>Chats </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-handshake"></i>
+                                    <p>
+                                        Client Meetings
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-area="Supervisor" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>View Sheduled Meetings</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                }
             </div>
             <!-- /.sidebar -->
         </aside>

@@ -10,15 +10,19 @@
   <ItemGroup>
     <Compile Remove="Areas\Client\Data\**" />
     <Compile Remove="Areas\Client\Models\**" />
+    <Compile Remove="Areas\Student\**" />
     <Compile Remove="Controllers\**" />
     <Content Remove="Areas\Client\Data\**" />
     <Content Remove="Areas\Client\Models\**" />
+    <Content Remove="Areas\Student\**" />
     <Content Remove="Controllers\**" />
     <EmbeddedResource Remove="Areas\Client\Data\**" />
     <EmbeddedResource Remove="Areas\Client\Models\**" />
+    <EmbeddedResource Remove="Areas\Student\**" />
     <EmbeddedResource Remove="Controllers\**" />
     <None Remove="Areas\Client\Data\**" />
     <None Remove="Areas\Client\Models\**" />
+    <None Remove="Areas\Student\**" />
     <None Remove="Controllers\**" />
   </ItemGroup>
 
@@ -49,11 +53,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Areas\Student\Controllers\" />
-	  <Folder Include="Areas\Supervisor\Controllers\" />
 	  <Folder Include="Resources\ClientResources\" />
-	  <Folder Include="wwwroot\Documents\clients\" />
 	  <Folder Include="wwwroot\image\" />
+	  <Folder Include="wwwroot\Documents\" />
 	</ItemGroup>
 
 	<!--<ItemGroup>

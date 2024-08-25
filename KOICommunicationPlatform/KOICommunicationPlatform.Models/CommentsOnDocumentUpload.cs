@@ -14,16 +14,13 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
+        public int DocumentId { get; set; }
         public string Comment { get; set; }
-        public int SubjectId { get; set; }
-        public string Trimester { get; set; }
-        public string Version { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
-        public Course Course { get; set; }
 
     }
 }

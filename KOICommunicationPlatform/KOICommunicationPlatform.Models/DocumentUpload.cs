@@ -16,6 +16,8 @@ namespace KOICommunicationPlatform.Models
         public int Id { get; set; }
         public int? ProjectDeliverableId { get; set; }
         public int? StudentGroupDetailId { get; set; }
+        public int? StudentGroupHDId { get; set; }
+        public string? FullName { get; set; }
         public int? SubjectId { get; set; }
         public string? Trimester {  get; set; }
         public string? Version {  get; set; }

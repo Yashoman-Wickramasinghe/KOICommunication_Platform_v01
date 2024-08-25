@@ -18,6 +18,8 @@ namespace KOICommunicationPlatform.Models
         IStudentGroupHDRepository StudentGroupHD { get; }
         IStudentRepository Student {  get; }
         IStudentGroupDetailRepository StudentGroupDetail { get; }
+        IDocumentUploadRepository DocumentUpload { get; }
+        ICommentsOnDocumentUploadRepository CommentsOnDocumentUpload { get; }
         void Save();
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using KOICommunicationPlatform.Models;
+using KOICommunicationPlatform.Utilities;
 
 namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
 {
@@ -81,6 +82,7 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -102,6 +104,8 @@ namespace KOICommunicationPlatform.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
+
+            ViewData["CurrentUser"] = _userManager.GetUserAsync(User).Result;
 
             // If we got this far, something failed, redisplay form
             return Page();

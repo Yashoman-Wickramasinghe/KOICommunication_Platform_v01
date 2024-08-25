@@ -25,6 +25,8 @@ namespace KOICommunicationPlatform.Models
             StudentGroupHD = new StudentGroupHDRepository(_db);
             Student = new StudentRepository(_db);
             StudentGroupDetail = new StudentGroupDetailRepository(_db);
+            DocumentUpload = new DocumentUploadRepository(_db);
+            CommentsOnDocumentUpload = new CommentsOnDocumentUploadRepository(_db);
         }
         
         public IProjectDeliverableRepository ProjectDeliverable { get; private set; }
@@ -35,6 +37,8 @@ namespace KOICommunicationPlatform.Models
         public IStudentGroupHDRepository StudentGroupHD {  get; private set; }
         public IStudentRepository Student { get; private set; }
         public IStudentGroupDetailRepository StudentGroupDetail { get; private set; }
+        public IDocumentUploadRepository DocumentUpload {  get; private set; }
+        public ICommentsOnDocumentUploadRepository CommentsOnDocumentUpload { get; private set; }
         public void Save()
         {
             _db.SaveChanges();
