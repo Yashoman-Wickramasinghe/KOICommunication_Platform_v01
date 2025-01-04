@@ -1,5 +1,6 @@
 ﻿using KOICommunicationPlatform.Models;
 using KOICommunicationPlatform.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
     public class StudentGroupsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public StudentGroupsController(IUnitOfWork unitOfWork)
+        public StudentGroupsController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -235,7 +238,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
         {
             try
             {
-                // Retrieve the tutorial including related properties
+                // Step 1: Retrieve the tutorial, including related properties
                 var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(
                     t => t.Id == tutorialId,
                     includeProperties: "Subject,Subject.Course");
@@ -249,7 +252,7 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                     });
                 }
 
-                // Generate Group ID
+                // Step 2: Generate Group ID
                 var courseId = tutorial.Subject?.Course?.Id;
                 var subjectId = tutorial.Subject?.Id;
                 var trimester = tutorial.Trimester;
@@ -257,53 +260,60 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
                 var labType = tutorial.Lab;
                 var tutorialType = tutorial.TutorialNo;
 
-                // Ensure conversion to string for comparison
-                //var existingGroups = _unitOfWork.StudentGroupHD.GetAll(sg =>
-                    //sg.CourseName == (courseId.HasValue ? courseId.Value.ToString() : null) &&
-                    //sg.Subject == (subjectId.HasValue ? subjectId.Value.ToString() : null) &&
-                    //sg.Trimester == trimester &&
-                    //sg.TutorialSession == day &&
-                    //sg.GroupId.StartsWith(labType + tutorialType));
+                // Step 3: Fetch existing student groups that match the criteria
+                var existingGroups = _unitOfWork.StudentGroupHD.GetAll(sg =>
+                    sg.Subject.Id == subjectId &&
+                    sg.Trimester == trimester &&
+                    sg.Tutorial.Day == day &&
+                    sg.GroupGenerateId.StartsWith(labType + tutorialType));
 
-                //int count = existingGroups.Any() ? existingGroups.Count() + 1 : 1;
-                //string groupId = $"{labType}{tutorialType}-{count}";
+                // Calculate the new group number
+                int count = existingGroups.Any() ? existingGroups.Count() + 1 : 1;
+                string groupId = $"{labType}{tutorialType}-{count}";
 
-                // Check if _unitOfWork.Student is null
+                // Step 4: Check if the Student repository is initialized
                 if (_unitOfWork.Student == null)
                 {
                     throw new InvalidOperationException("Student repository is not initialized.");
                 }
 
-                // Retrieve students related to the selected tutorial
-                var studentsQuery = _unitOfWork.Student.GetAll(s => s.Tutorial != null && s.Tutorial.Id == tutorialId);
+                // Step 5: Retrieve students related to the selected tutorial
+                var studentsQuery = _unitOfWork.Student
+                    .GetAll(s => s.Tutorial != null && s.Tutorial.Id == tutorialId)
+                    .ToList(); // Fetch the students first into a list (memory operation)
 
-                if (studentsQuery == null || !studentsQuery.Any())
+                // Step 6: Filter out the students who are already in StudentGroupDetail
+                var filteredStudents = studentsQuery
+                    .Where(s => !_unitOfWork.StudentGroupDetail.GetAll(g => g.StudentId == s.Id).Any())
+                    .ToList(); // Filter the results in memory
+
+                if (!filteredStudents.Any())
                 {
                     return Json(new
                     {
-                        //GroupId = groupId,
+                        GroupId = groupId, // Return the GroupId even if no students are found
                         Students = new List<SelectListItem> { new SelectListItem { Text = "No students found.", Value = string.Empty } }
                     });
                 }
 
-                // Map students to SelectListItem
-                var studentList = studentsQuery
+                // Step 7: Map students to SelectListItem
+                var studentList = filteredStudents
                     .Select(s => new SelectListItem
                     {
-                        Text = $"{s.GivenName} {s.Surname} {s.StudentId}",
+                        Text = $"{s.GivenName} {s.Surname} ({s.StudentId})",
                         Value = s.Id.ToString()
                     }).ToList();
 
-                // Return Group ID and Student List
+                // Step 7: Return Group ID and Student List
                 return Json(new
                 {
-                    //GroupId = groupId,
+                    GroupId = groupId,
                     Students = studentList
                 });
             }
             catch (Exception ex)
             {
-                // Log exception details here if necessary
+                // Log the exception details here if necessary
                 return Json(new
                 {
                     GroupId = $"Error: {ex.Message}",
@@ -312,5 +322,81 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult SaveStudentGroup(int tutorialId, List<int> studentIds, int? leaderId, string clientId)
+        {
+            try
+            {
+                // Step 1: Retrieve the tutorial based on tutorialId
+                var tutorial = _unitOfWork.Tutorial.GetFirstOrDefault(t => t.Id == tutorialId, includeProperties: "Subject,Subject.Course");
+
+                if (tutorial == null)
+                {
+                    return Json(new { Success = false, Message = "Error: Tutorial not found." });
+                }
+
+                // Step 2: Generate Group ID
+                var subjectId = tutorial.Subject?.Id;
+                var trimester = tutorial.Trimester;
+                var day = tutorial.Day;
+                var labType = tutorial.Lab;
+                var tutorialType = tutorial.TutorialNo;
+
+                // Fetch existing groups to determine new group count
+                var existingGroups = _unitOfWork.StudentGroupHD.GetAll(sg =>
+                    sg.Subject.Id == subjectId &&
+                    sg.Trimester == trimester &&
+                    sg.Tutorial.Day == day &&
+                    sg.GroupGenerateId.StartsWith(labType + tutorialType));
+
+                // New group number
+                int count = existingGroups.Any() ? existingGroups.Count() + 1 : 1;
+                string groupId = $"{labType}{tutorialType}-{count}";
+
+                var userId = _userManager.GetUserId(User);
+                
+                // Step 3: Create and save StudentGroupHD
+                var studentGroupHD = new StudentGroupHD
+                {
+                    GroupGenerateId = groupId,
+                    SubjectId = subjectId.Value,
+                    Trimester = trimester,
+                    TutorialId = tutorialId,
+                    CreatedDateTime = DateTime.Now,
+                    ClientId = Guid.Parse(clientId),
+                    IsActive = true,
+                    CreatedBy = userId
+                    //LeaderId = leaderId // Optional leader ID
+                };
+
+                _unitOfWork.StudentGroupHD.Add(studentGroupHD);
+                _unitOfWork.Save();  // Save to generate the ID
+
+                // Step 4: Add each student to StudentGroupDetails
+                if (studentIds != null && studentIds.Count > 0)
+                {
+                    foreach (var studentId in studentIds)
+                    {
+                        var studentGroupDetail = new StudentGroupDetail
+                        {
+                            StudentGroupHDId = studentGroupHD.Id,  // Link to StudentGroupHD
+                            StudentId = studentId,
+                            GroupGenerateId = groupId,
+                            IsActive=true,
+                            CreatedBy = userId,
+                            IsLeader = leaderId.HasValue && studentId == leaderId.Value  
+                        };
+                        _unitOfWork.StudentGroupDetail.Add(studentGroupDetail);
+                    }
+                    _unitOfWork.Save();  // Save StudentGroupDetails
+                }
+                return Json(new { Success = true, GroupId = groupId });
+            }
+            catch (Exception ex)
+            {
+                // Return error in case of exception
+                return Json(new { Success = false, Message = $"Error: {ex.Message}" });
+            }
+        }
     }
 }

@@ -26,13 +26,16 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-info elevation-1"><i class="fa fa-bell"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Team Members</span>
-                        <span class="info-box-number">05
-                            @* <small>%</small> *@
+                        <span class="info-box-text">Client Contract</span>
+                        <span class="info-box-number">Uploaded: 
+                            <span style="color:green; font-weight:bold">@ViewBag.isexistCotractYesNo</span>
                         </span>
-                        <span class="info-box-number">
-                            Latest : <a href="08/07/2024">Details</a>
-                            @* <small>%</small> *@
+                        <span class="info-box-number"> Contract:
+                            @foreach (var fileName in ViewBag.fileNames){
+                             <a style="color:green; font-weight:bold;" href="@Url.Action("DownloadFile", "Client", new { clientId = ViewBag.ClientId, fileName = fileName })" title="@fileName" download>
+                                 Download Contract</a>
+                             }
+                        </span>
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -45,8 +48,13 @@
                     <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-bars-progress"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Duration</span>
-                        <span class="info-box-number">Months: 06</span><span class="info-box-number">Days: 10</span>
+                        <span class="info-box-text">Dev Teams : </span>
+                        <span class="info-box-number">Count: 
+                           &nbsp&nbsp <span style="color:red; font-weight:bold">@ViewBag.DevGroupCount</span>
+                        </span>
+                        <a href="#" class="small-box-footer" data-toggle="modal" data-target="#modal-detail">
+    More info <i class="fas fa-arrow-circle-right"></i>
+</a>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -62,7 +70,8 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Status</span>
-                        <span class="info-box-number">Completed: 55%</span><span class="info-box-number">Pending: 45%</span>
+                        <span class="info-box-number">Uploads: </span>
+                        <span class="info-box-number">Tasks: </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -75,8 +84,8 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Upcoming Meetings</span>
-                        <span class="info-box-number">21/08/2024</span>
-                        <span class="info-box-number">Time : <a href="08/07/2024">10:30 AM</a></span>
+                        <span class="info-box-number">Count: </span>
+                        <span class="info-box-number">Completed: </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -88,4 +97,60 @@
         <!-- /.row -->
     </div><!--/. container-fluid -->
 </section>
+<!-- Modal Structure -->
+<!-- Modal Structure -->
+<div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document"> <!-- Larger size for the modal -->
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white"> <!-- Custom header colors -->
+                <h5 class="modal-title" id="modalLabel">Group Details</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Student Table -->
+                <div class="table-responsive"> <!-- Ensures table responsiveness -->
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Given Name</th>
+                                <th>Surname</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="student-table-body">
+                            @if (ViewBag.StudentList != null)
+                            {
+                                foreach (var student in ViewBag.StudentList)
+                                {
+                                            <tr>
+                                                <td>@student.Student.GivenName</td>
+                                                <td>@student.Student.Surname</td>
+                                                <td>@student.Student.Email</td>
+                                            </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Add JavaScript/jQuery for modal handling -->
+<script>
+    $(document).ready(function () {
+        // Set Group ID if needed
+        $('#modal-detail').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var groupId = button.data('group-id'); // Extract info from data-* attributes
+            var modal = $(this);
+            modal.find('#group-id').text(groupId); // Update the modal's content
+        });
+    });
+</script>

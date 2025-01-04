@@ -216,7 +216,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.ToTable("CommentsOnDocumentUploads");
                 });
 
-            modelBuilder.Entity("KOICommunicationPlatform.Models.CommentsOnTask", b =>
+            modelBuilder.Entity("KOICommunicationPlatform.Models.CommentsOnTaskBoard", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -243,14 +243,14 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SprintId")
+                    b.Property<int>("SprintTaskId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SprintId");
+                    b.HasIndex("SprintTaskId");
 
-                    b.ToTable("CommentsOnTasks");
+                    b.ToTable("CommentsOnTaskBoards");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.Course", b =>
@@ -411,6 +411,9 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -424,7 +427,10 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentGroupHDId")
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StudentGroupHDId")
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
@@ -492,11 +498,84 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TaskName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SprintId");
 
                     b.ToTable("SprintTasks");
+                });
+
+            modelBuilder.Entity("KOICommunicationPlatform.Models.SprintTaskAssignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifieDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SprintTaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SprintTaskId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("SprintTaskAssignments");
+                });
+
+            modelBuilder.Entity("KOICommunicationPlatform.Models.SprintTasksPosition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifieDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SprintTasksPositions");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.Student", b =>
@@ -723,7 +802,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -1149,15 +1228,15 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .HasForeignKey("DocumentUploadId");
                 });
 
-            modelBuilder.Entity("KOICommunicationPlatform.Models.CommentsOnTask", b =>
+            modelBuilder.Entity("KOICommunicationPlatform.Models.CommentsOnTaskBoard", b =>
                 {
-                    b.HasOne("KOICommunicationPlatform.Models.Sprint", "Sprint")
+                    b.HasOne("KOICommunicationPlatform.Models.SprintTask", "SprintTask")
                         .WithMany()
-                        .HasForeignKey("SprintId")
+                        .HasForeignKey("SprintTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Sprint");
+                    b.Navigation("SprintTask");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.DocumentUpload", b =>
@@ -1206,9 +1285,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
 
                     b.HasOne("KOICommunicationPlatform.Models.StudentGroupHD", "StudentGroupHD")
                         .WithMany()
-                        .HasForeignKey("StudentGroupHDId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentGroupHDId");
 
                     b.HasOne("KOICommunicationPlatform.Models.TaskBoard", null)
                         .WithMany("Sprints")
@@ -1228,6 +1305,25 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Sprint");
+                });
+
+            modelBuilder.Entity("KOICommunicationPlatform.Models.SprintTaskAssignment", b =>
+                {
+                    b.HasOne("KOICommunicationPlatform.Models.SprintTask", "SprintTask")
+                        .WithMany("SprintTaskAssignments")
+                        .HasForeignKey("SprintTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KOICommunicationPlatform.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SprintTask");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.Student", b =>
@@ -1307,9 +1403,7 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
                 {
                     b.HasOne("KOICommunicationPlatform.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.Navigation("Course");
                 });
@@ -1408,6 +1502,11 @@ namespace KOICommunicationPlatform.DataAccess.Migrations
             modelBuilder.Entity("KOICommunicationPlatform.Models.Sprint", b =>
                 {
                     b.Navigation("SprintTasks");
+                });
+
+            modelBuilder.Entity("KOICommunicationPlatform.Models.SprintTask", b =>
+                {
+                    b.Navigation("SprintTaskAssignments");
                 });
 
             modelBuilder.Entity("KOICommunicationPlatform.Models.StudentGroupDetail", b =>

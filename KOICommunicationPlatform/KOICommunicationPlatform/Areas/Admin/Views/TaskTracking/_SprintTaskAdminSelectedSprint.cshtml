@@ -1,0 +1,399 @@
+﻿@model SprintViewModel
+<section>
+<div class="content task-board-section" id="tasksContainer">
+    @if (Model != null)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card">
+                        <div class="card-header">
+                                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#createTaskModal" style="background-color:green;border-color:green" disabled> + Create Task</button>
+                        </div>
+                        <div class="lanes card-body">
+                            <div class="row">
+                                <!-- Backlog Lane -->
+                                <div class="col-sm-3">
+                                    <div class="swim-lane card card-row card-secondary" id="backlog-lane">
+                                        <div class="card-header bg-warning">
+                                            <h3 class="card-title" style="color:#FFFFFF">Backlog</h3>
+                                        </div>
+                                        <div class="card-body" draggable="true">
+                                            @if (Model.GroupedTasks != null && Model.GroupedTasks.ContainsKey("Backlog") && Model.GroupedTasks["Backlog"].Any())
+                                            {
+                                                foreach (var task in Model.GroupedTasks["Backlog"])
+                                                {
+                                                    <div class="card card-warning card-outline">
+                                                        <div class="card-header">
+                                                            <h5 class="card-title" style="color:black;font-weight:bold">@task.TaskName</h5>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-primary btn-sm ml-2" onclick="openCommentModal(@task.Id)">
+                                                                    <i class="fas fa-comment"></i>
+                                                                    <span id="commentCount_@task.Id" style="display:inline;">0</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task Start Date: </p>
+                                                                <p>@task.StartDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task End Date: </p>
+                                                                <p>@task.EndDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Description:</p>
+                                                            <p>@task.Description</p>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Priority:</p>
+                                                                <p style="color:@(task.Priority == "High" ? "red" : task.Priority == "Medium" ? "orange" : "green"); font-weight:bold">
+                                                                    @task.Priority.Substring(0, 1)
+                                                                </p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Allocated Student Details:</p>
+                                                            <ul>
+                                                                @foreach (var student in Model.AssignedStudents.GetValueOrDefault(task.Id, new List<StudentGroupViewModel>()))
+                                                                {
+                                                                    <li>@student.GivenName @student.Surname - @student.StudentId</li>
+                                                                }
+                                                            </ul>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked="">
+                                                                            @* <label for="customCheckbox1" class="custom-control-label">@task.AssignmentCode</label> *@
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row no-print">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>No tasks in the backlog.</p>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- To Do Lane -->
+                                <div class="col-sm-3">
+                                    <div class="swim-lane card card-row card-danger" id="todo-lane">
+                                        <div class="card-header">
+                                            <h3 class="card-title" style="color:#FFFFFF">ToDo</h3>
+                                        </div>
+                                        <div class="card-body" draggable="true">
+                                            <!-- Dynamically adding tasks to Backlog Lane -->
+                                            @if (Model.GroupedTasks != null && Model.GroupedTasks.ContainsKey("ToDo") && Model.GroupedTasks["Backlog"].Any())
+                                            {
+                                                foreach (var task in Model.GroupedTasks["ToDo"])
+                                                {
+                                                    <div class="card card-warning card-outline">
+                                                        <div class="card-header">
+                                                            <h5 class="card-title" style="color:black;font-weight:bold">@task.TaskName</h5>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-primary btn-sm ml-2" onclick="openCommentModal(@task.Id)">
+                                                                    <span id="commentCount_@task.Id" style="display:inline;">0</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task Start Date: </p>
+                                                                <p>@task.StartDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task End Date: </p>
+                                                                <p>@task.EndDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Description:</p>
+                                                            <p>@task.Description</p>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Priority:</p>
+                                                                <p style="color:@(task.Priority == "High" ? "red" : task.Priority == "Medium" ? "orange" : "green"); font-weight:bold">
+                                                                    @task.Priority.Substring(0, 1)
+                                                                </p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Allocated Student Details:</p>
+                                                            <ul>
+                                                                @foreach (var student in Model.AssignedStudents.GetValueOrDefault(task.Id, new List<StudentGroupViewModel>()))
+                                                                {
+                                                                    <li>@student.GivenName @student.Surname - @student.StudentId</li>
+                                                                }
+                                                            </ul>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked="">
+                                                                            @* <label for="customCheckbox1" class="custom-control-label">@task.AssignmentCode</label> *@
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row no-print">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>No tasks in the backlog.</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- In Progress Lane -->
+                                <div class="col-sm-3">
+                                    <div class="swim-lane card card-row card-default" id="inprogress-lane">
+                                        <div class="card-header bg-info">
+                                            <h3 class="card-title">InProgress</h3>
+                                        </div>
+                                        <div class="card-body" draggable="true">
+                                            <!-- Dynamically adding tasks to Backlog Lane -->
+                                            @if (Model.GroupedTasks != null && Model.GroupedTasks.ContainsKey("InProgress") && Model.GroupedTasks["Backlog"].Any())
+                                            {
+                                                foreach (var task in Model.GroupedTasks["InProgress"])
+                                                {
+                                                    <div class="card card-warning card-outline">
+                                                        <div class="card-header">
+                                                            <h5 class="card-title" style="color:black;font-weight:bold">@task.TaskName</h5>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-primary btn-sm ml-2" onclick="openCommentModal(@task.Id)">
+                                                                    <span id="commentCount_@task.Id" style="display:inline;">0</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task Start Date: </p>
+                                                                <p>@task.StartDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task End Date: </p>
+                                                                <p>@task.EndDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Description:</p>
+                                                            <p>@task.Description</p>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Priority:</p>
+                                                                <p style="color:@(task.Priority == "High" ? "red" : task.Priority == "Medium" ? "orange" : "green"); font-weight:bold">
+                                                                    @task.Priority.Substring(0, 1)
+                                                                </p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Allocated Student Details:</p>
+                                                            <ul>
+                                                                @foreach (var student in Model.AssignedStudents.GetValueOrDefault(task.Id, new List<StudentGroupViewModel>()))
+                                                                {
+                                                                    <li>@student.GivenName @student.Surname - @student.StudentId</li>
+                                                                }
+                                                            </ul>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked="">
+                                                                            @* <label for="customCheckbox1" class="custom-control-label">@task.AssignmentCode</label> *@
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row no-print">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>No tasks in the backlog.</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Done Lane -->
+                                <div class="col-sm-3">
+                                    <div class="swim-lane card card-row card-success" id="done-lane">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Done</h3>
+                                        </div>
+                                        <div class="card-body" draggable="true">
+                                            @if (Model.GroupedTasks != null && Model.GroupedTasks.ContainsKey("Done") && Model.GroupedTasks["Backlog"].Any())
+                                            {
+                                                foreach (var task in Model.GroupedTasks["Done"])
+                                                {
+                                                    <div class="card card-warning card-outline">
+                                                        <div class="card-header">
+                                                            <h5 class="card-title" style="color:black;font-weight:bold">@task.TaskName</h5>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-primary btn-sm ml-2" onclick="openCommentModal(@task.Id)">
+                                                                    <span id="commentCount_@task.Id" style="display:inline;">0</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task Start Date: </p>
+                                                                <p>@task.StartDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Task End Date: </p>
+                                                                <p>@task.EndDate.ToString("dd/MMM/yyyy hh:mmtt")</p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Description:</p>
+                                                            <p>@task.Description</p>
+                                                            <div style="display:flex; align-items:center">
+                                                                <p style="color:black;font-weight:bold; margin-right:5px">Priority:</p>
+                                                                <p style="color:@(task.Priority == "High" ? "red" : task.Priority == "Medium" ? "orange" : "green"); font-weight:bold">
+                                                                    @task.Priority.Substring(0, 1)
+                                                                </p>
+                                                            </div>
+                                                            <p style="color:black;font-weight:bold; margin-right:5px">Allocated Student Details:</p>
+                                                            <ul>
+                                                                @foreach (var student in Model.AssignedStudents.GetValueOrDefault(task.Id, new List<StudentGroupViewModel>()))
+                                                                {
+                                                                    <li>@student.GivenName @student.Surname - @student.StudentId</li>
+                                                                }
+                                                            </ul>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" checked="">
+                                                                            @* <label for="customCheckbox1" class="custom-control-label">@task.AssignmentCode</label> *@
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row no-print">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>No tasks in the backlog.</p>
+                                            }
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No tasks available for the selected sprint.</p>
+    }
+</div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal-size" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentModalLabel">Comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newComment">Add New Comment</label>
+                    <textarea class="form-control" id="newComment" rows="3"></textarea>
+                </div>
+                <button type="button" class="btn btn-success" onclick="addComment()">Add Comment</button>
+
+                <hr />
+
+                <h5>Previous Comments</h5>
+                <div id="previousComments">
+                    <!-- Previous comments will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script type="text/javascript">
+
+        var currentTaskId;
+
+        function openCommentModal(taskId) {
+            currentTaskId = taskId; // Make sure this is set correctly
+            $('#newComment').val(''); // Clear the textarea
+            loadPreviousComments(taskId); // Load previous comments
+            $('#commentModal').modal('show'); // Show the modal
+        }
+        function loadPreviousComments(taskId) {
+            $.ajax({
+                url: '@Url.Action("GetComments", "TaskTracking")', // Adjust the controller name and action as needed
+                type: 'GET',
+                data: { taskId: taskId },
+                success: function (response) {
+                    var commentsHtml = '';
+                    response.forEach(function (comment) {
+                        commentsHtml += '<div class="comment">';
+                        commentsHtml += '<p><strong>' + comment.createdBy + ':</strong> ' + comment.comment + '</p>';
+                        commentsHtml += '<p><small>' + comment.createdDateTime + '</small></p>';
+                        commentsHtml += '</div>';
+                        commentsHtml += '<hr />';
+                    });
+                    $('#previousComments').html(commentsHtml);
+                    // Update the comment count
+                    var commentCount = response.length;
+                    $('#commentCount_' + taskId).text(commentCount);  // Update the specific
+                },
+                error: function () {
+                    alert('Failed to load comments.');
+                }
+            });
+        }
+
+        function addComment() {
+            var commentText = $('#newComment').val();
+            if (commentText.trim() === '') {
+                alert('Comment cannot be empty.');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("AddComment", "TaskTracking")',
+                type: 'POST',
+                data: { taskId: currentTaskId, content: commentText },
+                success: function () {
+                    $('#newComment').val(''); // Clear the textarea
+                    loadPreviousComments(currentTaskId); // Reload comments
+                },
+                error: function () {
+                    alert('Failed to add the comment.');
+                }
+            });
+        }
+    </script>
+
+

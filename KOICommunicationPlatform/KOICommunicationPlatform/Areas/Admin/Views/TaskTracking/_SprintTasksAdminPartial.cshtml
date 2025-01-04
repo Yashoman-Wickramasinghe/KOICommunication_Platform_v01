@@ -1,0 +1,57 @@
+﻿@model SprintViewModel
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="thead">
+            <tr style="background-color: #236799;">
+                <th style="color:white;font-weight:bold;text-align:center;">Select</th>
+                <th style="color:white;font-weight:bold;text-align:center;">Sprint Id</th>
+                <th style="color:white;font-weight:bold;text-align:center;">Sprint Name</th>
+                <th style="color:white;font-weight:bold;text-align:center;">Start Date</th>
+                <th style="color:white;font-weight:bold;text-align:center;">End Date</th>
+                <th style="color:white;font-weight:bold;text-align:center;">Created By</th>
+                <th style="color:white;font-weight:bold;text-align:center;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sprint in Model.ExistingSprints)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="selectedSprint" value="@sprint.Id" onchange="sendSprintIdToServer(this.value)" />
+                    </td>
+                    <td>@sprint.Id</td>
+                    <td>@sprint.SprintName</td>
+                    <td>@sprint.StartDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@sprint.EndDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@sprint.CreatedBy</td>
+                    <td>
+                        <button type="button" class="btn btn float-right" disabled onclick="confirmDelete(@sprint.Id)" style="background-color:maroon;color:white;font-weight:bold;">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Empty container for the tasks loaded via Ajax -->
+<div id="tasksContainer">
+    <!-- Initially empty; the tasks will be loaded here based on the selected sprint -->
+</div>
+
+<script>
+    function sendSprintIdToServer(sprintId) {
+        $.ajax({
+            url: '@Url.Action("GetSprintTasks", "TaskTracking")',
+            type: 'POST',  // Use POST here
+            data: { sprintId: sprintId },
+            success: function (data) {
+                $('#tasksContainer').html(data); // Update the UI with the returned partial view HTML
+            },
+            error: function (error) {
+                console.error("Error sending Sprint ID:", error);
+                alert('Error retrieving tasks. Please try again.');
+            }
+        });
+    }
+</script>

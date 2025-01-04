@@ -1,0 +1,127 @@
+﻿@model SprintViewModel
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Task Tracking</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Share Documents</a></li>
+                    <li class="breadcrumb-item active">Task Tracking</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Task Tracking</h3>
+            </div>
+            <form id="filterForm" method="post" action="@Url.Action("ViewSprints", "TaskTracking", new { area = "Admin" })">
+            <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="tutorialDropdown">Select Tutorial</label>
+                                <select id="tutorialDropdown" name="TutorialId" class="form-control">
+                                    <option value="">-- Select Tutorial --</option>
+                                    @foreach (var item in ViewBag.TutorialsDropdown)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="groupIdDropdown">Group ID</label>
+                                <select id="groupIdDropdown" name="GroupId" class="form-control">
+                                    <option value="">-- Select Group ID --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <button type="button" id="findButton" class="btn btn-primary">Find</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Sprints Table -->
+            <div id="partialViewContainer">
+                @if (Model.ExistingSprints != null && Model.ExistingSprints.Any())
+                {
+                    <h3>Existing Sprints</h3>
+                    @await Html.PartialAsync("_SprintTasksAdminPartial", Model)
+                }
+                else
+                {
+                    <p>No existing sprints found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tutorialDropdown').change(function () {
+            var tutorialId = $(this).val();
+            if (tutorialId) {
+                $.ajax({
+                    url: '@Url.Action("GetGroupsByTutorial", "TaskTracking")',
+                    type: 'GET',
+                    data: { tutorialId: tutorialId },
+                    success: function (data) {
+                        var groupDropdown = $('#groupIdDropdown');
+                        groupDropdown.empty();
+                        groupDropdown.append('<option value="">-- Select Group ID --</option>');
+                        $.each(data, function (index, group) {
+                            groupDropdown.append('<option value="' + group.value + '">' + group.text + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#groupIdDropdown').empty();
+                $('#groupIdDropdown').append('<option value="">-- Select Group ID --</option>');
+            }
+        });
+
+        $('#findButton').on('click', function () {
+            // Log the action URL and serialized data to check if they're correct
+            console.log($('#filterForm').attr('action'));
+            console.log($('#filterForm').serialize());
+
+            $.ajax({
+                url: $('#filterForm').attr('action'), // Get the form's action URL
+                type: 'POST', // Set method to POST
+                data: $('#filterForm').serialize(), // Serialize the form data
+                success: function (response) {
+                    $('#partialViewContainer').html(response); // Load response into container
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText); // Log the error message for debugging
+                    console.log(status);
+                    console.log(error);
+                    alert('Error loading the sprints.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+   
+</script>

@@ -25,6 +25,7 @@ namespace KOICommunicationPlatform.Models.ViewModels
         public string TutorialSession { get; set; }
         public string GroupId { get; set; }
         public string? ClientName { get; set; }
+        public Guid ClientId { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;

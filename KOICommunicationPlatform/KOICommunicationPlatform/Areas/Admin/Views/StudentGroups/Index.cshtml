@@ -18,6 +18,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="card card-default">
+            <!-- Form for generating Group ID and selecting students -->
             <form id="generateGroupIdForm">
                 <div class="card-body">
                     <div class="row">
@@ -38,11 +39,6 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <style>
-                                    .d-inline {
-                                        display: inline;
-                                    }
-                                </style>
                                 <label for="studentDropdown" style="display: inline;">
                                     Select Students To Group:
                                 </label>
@@ -71,6 +67,19 @@
                             </table>
                         </div>
                     </div>
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;visibility:hidden">Generate Group ID</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card card-default mt-3">
+            <!-- New form for saving student group details -->
+            <form id="saveStudentGroupForm">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -83,7 +92,7 @@
                     </div>
                     <div class="row no-print">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Create</button>
+                            <button type="submit" class="btn btn-primary float-right" style="width:150px;margin-left: 5px;">Save Group</button>
                         </div>
                     </div>
                 </div>
@@ -98,8 +107,10 @@
             var studentDropdown = $('#studentDropdown');
             var tempStudentTable = $('#tempStudentTable tbody');
             var groupIdField = $('#groupId');
-            var generateGroupIdButton = $('button[type="submit"]');
+            var generateGroupIdButton = $('#generateGroupIdForm button[type="submit"]');
             var tutorialDropdown = $('#tutorialDropdown');
+            var saveStudentGroupForm = $('#saveStudentGroupForm');
+            var clientDropdown = $('#clientDropdown');
 
             function resetPage() {
                 // Clear group ID label
@@ -199,14 +210,14 @@
 
                     // Add student to temporary table
                     tempStudentTable.append(`
-                                <tr>
-                                    <td>${studentId}</td>
-                                    <td>${studentName}</td>
-                                    <td>Student Email</td>
-                                    <td><input type="radio" name="leader" value="${studentId}"></td>
-                                    <td><button type="button" class="btn btn-danger btn-sm remove-student" data-id="${studentId}">Remove</button></td>
-                                </tr>
-                            `);
+                        <tr data-student-id="${studentId}">
+                            <td>${studentId}</td>
+                            <td>${studentName}</td>
+                            <td>Student Email</td>
+                            <td><input type="radio" name="leader" value="${studentId}"></td>
+                            <td><button type="button" class="btn btn-danger btn-sm remove-student" data-id="${studentId}">Remove</button></td>
+                        </tr>
+                    `);
 
                     // Disable the selected option
                     selectedOption.prop('disabled', true);
@@ -249,6 +260,54 @@
                     });
                 } else {
                     alert('Please select a tutorial.');
+                }
+            });
+
+            $('#saveStudentGroupForm').submit(function (e) {
+                e.preventDefault();  // Prevent default form submission
+
+                // Get the selected tutorial ID
+                var tutorialId = $('#tutorialDropdown').val();
+
+                // Collect selected student IDs
+                var studentIds = [];
+                $('#tempStudentTable tbody tr').each(function () {
+                    var studentId = $(this).find('td:first').text();  // Assuming studentId is in the first td
+                    studentIds.push(studentId);
+                });
+
+                // Get the selected leader ID
+                var leaderId = $('input[name="leader"]:checked').val();
+
+                // Get the selected client ID (if any)
+                var clientId = $('#clientDropdown').val();
+
+                // Check if tutorial and students are selected
+                if (tutorialId && studentIds.length > 0) {
+                    // Send the data via AJAX
+                    $.ajax({
+                        url: '/Admin/StudentGroups/SaveStudentGroup',  // Backend URL
+                        type: 'POST',
+                        data: {
+                            tutorialId: tutorialId,
+                            studentIds: studentIds,
+                            leaderId: leaderId || null,  // Leader is optional
+                            clientId: clientId || null  // Client is optional
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                alert('Group created successfully with Group ID: ' + response.groupId);
+                                // Optionally redirect or clear the form
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while saving the group.');
+                        }
+                    });
+                } else {
+                    alert('Please select a tutorial and at least one student.');
                 }
             });
         });

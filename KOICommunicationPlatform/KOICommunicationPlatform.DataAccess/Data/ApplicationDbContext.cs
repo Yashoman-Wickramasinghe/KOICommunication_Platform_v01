@@ -27,11 +27,13 @@ namespace KOICommunicationPlatform.DataAccess
         public DbSet<Sprint> Sprints { get; set; }
         public DbSet<SprintTask> SprintTasks { get; set; }
         public DbSet<TaskAllocationMember> TaskAllocationMembers { get; set; }
-        public DbSet<CommentsOnTask> CommentsOnTasks { get; set; }
         public DbSet<ChatGroupHD> ChatGroupHDs { get; set; }
         public DbSet<ChatGroupDetail> ChatGroupDetails { get; set; }
         public DbSet<ClientMeeting> ClientMeetings { get; set; }
         public DbSet<Tutorial> Tutorials { get; set; }
         public DbSet<Student> Students {  get; set; }
+        public DbSet<SprintTasksPosition> SprintTasksPositions { get; set; }
+        public DbSet<SprintTaskAssignment> SprintTaskAssignments { get; set; }
+        public DbSet<CommentsOnTaskBoard> CommentsOnTaskBoards { get; set; }
     }
 }

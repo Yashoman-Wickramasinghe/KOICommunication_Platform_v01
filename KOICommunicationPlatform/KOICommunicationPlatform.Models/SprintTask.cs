@@ -13,6 +13,7 @@ namespace KOICommunicationPlatform.Models
     {
         [Key]
         public int Id { get; set; }
+        public string TaskName { get; set; }
         public string Description { get; set; }
         public string Status { get; set; } //Backlog/ToDo/InProgress/Done
         public string Priority { get; set; } //High/Medium/Low
@@ -23,6 +24,8 @@ namespace KOICommunicationPlatform.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }
         public DateTime ModifieDateTime { get; set; } = DateTime.Now;
+        public int SprintId { get; set; }
         public Sprint Sprint { get; set; }
+        public ICollection<SprintTaskAssignment> SprintTaskAssignments { get; set; }
     }
 }

@@ -67,7 +67,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge" style="background-color: red;font-weight:bold">16</span>
+                        <span class="badge badge-danger navbar-badge" style="background-color: red;font-weight:bold">0</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
@@ -125,7 +125,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge" style="background-color: #2EC0CD;color:#FFFFFF; font-weight:bold">15</span>
+                        <span class="badge badge-warning navbar-badge" style="background-color: #2EC0CD;color:#FFFFFF; font-weight:bold">0</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -320,7 +320,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a  asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
+                                    <a  asp-controller="DocumentShare" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Upload Documents</p>
                                     </a>
@@ -342,21 +342,15 @@
                                         <p>Create Task</p>
                                     </a>
                                 </li>
-                                @* <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Task</p>
-                                    </a>
-                                </li> *@
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a asp-controller="Chat" asp-action="Chats" class="nav-link">
                                 <i class="nav-icon fa fa-message"></i>
                                 <p>Chats </p>
                             </a>
-                        </li>
-
+                        </li> *@
+@* 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-handshake"></i>
@@ -380,7 +374,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> *@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -401,62 +395,31 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-file"></i>
-                                <p>Share Documents
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                           @*  <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-area="Client" asp-controller="DocumentShare" asp-action="UploadDocuments" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Upload Documents</p>
-                                    </a>
-                                </li>
-                            </ul> *@
+                           <a asp-area="Client" asp-controller="ClientDocumentUpload" asp-action="Index" class="nav-link">
+                               <i class="far fa-circle nav-icon"></i>
+                               <p>Document Upload</p>
+                           </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-list-check"></i>
-                                <p>Task Tracking
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
+                                <a asp-area="Client" asp-controller="ClientTaskView" asp-action="Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Tasks</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Task</p>
-                                    </a>
-                                </li> 
-                            </ul>
                         </li>
 
-                        <li class="nav-item">
+                      @*   <li class="nav-item">
                             <a asp-controller="Chat" asp-action="Chats" class="nav-link">
                                 <i class="nav-icon fa fa-message"></i>
                                 <p>Chats </p>
                             </a>
-                        </li>
-
+                        </li> *@
+@* 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-handshake"></i>
-                                <p>
-                                    Client Meetings
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
+                            <a asp-area="Client" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Sheduled Meetings</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-area="Client" asp-controller="ArrangeClientMeetings" asp-action="ViewClientMeeting" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Sheduled Meetings</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        </li> *@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -500,22 +463,22 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a asp-area="UniversityStudent" asp-controller="StudentTaskTracking" asp-action="Index" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>View Task</p>
+                                            <p>Create Task</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
+                            @* <li class="nav-item">
                                 <a asp-controller="Chat" asp-action="Chats" class="nav-link">
                                     <i class="nav-icon fa fa-message"></i>
                                     <p>Chats </p>
                                 </a>
-                            </li>
+                            </li> *@
 
-                            <li class="nav-item">
+                            @* <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-handshake"></i>
                                     <p>
@@ -531,7 +494,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> *@
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -584,14 +547,14 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
+                            @* <li class="nav-item">
                                 <a asp-controller="Chat" asp-action="Chats" class="nav-link">
                                     <i class="nav-icon fa fa-message"></i>
                                     <p>Chats </p>
                                 </a>
-                            </li>
+                            </li> *@
 
-                            <li class="nav-item">
+                            @* <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-handshake"></i>
                                     <p>
@@ -607,7 +570,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> *@
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -627,7 +590,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2024-2025 <a href="https://adminlte.io">KOICommunicationPlatform.com.au</a>.</strong>
+            <strong>Copyright &copy; 2024-2025 <a href="https://koi.edu.au/">KOICommunicationPlatform.com.au</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 3.2.0

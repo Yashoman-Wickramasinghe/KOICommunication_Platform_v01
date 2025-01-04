@@ -20,6 +20,11 @@ namespace KOICommunicationPlatform.Models
         IStudentGroupDetailRepository StudentGroupDetail { get; }
         IDocumentUploadRepository DocumentUpload { get; }
         ICommentsOnDocumentUploadRepository CommentsOnDocumentUpload { get; }
+        ISprintRepository Sprint {  get; }
+        ITaskBoardRepository TaskBoard { get; }
+        ISprintTaskRepository SprintTask { get; }
+        ISprintTaskAssignmentRepository SprintTaskAssignment { get; }
+        ICommentsOnTaskBoardRepository CommentsOnTaskBoard { get; }
         void Save();
     }
 }

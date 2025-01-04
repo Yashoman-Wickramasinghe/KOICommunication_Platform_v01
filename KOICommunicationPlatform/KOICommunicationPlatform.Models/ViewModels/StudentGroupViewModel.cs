@@ -13,6 +13,7 @@ namespace KOICommunicationPlatform.Models.ViewModels
         public string? StudentId { get; set; }
         public string? GivenName { get; set; }
         public string? Surname { get; set; }
+        public string? Email { get; set; }
         public bool IsActive { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
@@ -24,5 +25,6 @@ namespace KOICommunicationPlatform.Models.ViewModels
 
         // List to hold students
         public IEnumerable<SelectListItem>? StudentList { get; set; }
+
     }
 }

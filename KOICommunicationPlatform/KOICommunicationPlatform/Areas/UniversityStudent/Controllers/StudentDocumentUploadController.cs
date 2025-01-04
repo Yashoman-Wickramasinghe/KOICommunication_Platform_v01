@@ -236,7 +236,7 @@ namespace KOICommunicationPlatform.Areas.UniversityStudent.Controllers
             {
                 DocumentId = documentId,
                 Comment = content,
-                CreatedBy = User.Identity.Name, // Or however you determine the commenter's name
+                CreatedBy = User.Identity.Name, 
                 CreatedDateTime = DateTime.Now,
                 IsActive = true
             };
@@ -248,7 +248,7 @@ namespace KOICommunicationPlatform.Areas.UniversityStudent.Controllers
         }
    
 
-    private string GetFirstLetter(string sentence)
+        private string GetFirstLetter(string sentence)
         {
             if (string.IsNullOrWhiteSpace(sentence))
             {

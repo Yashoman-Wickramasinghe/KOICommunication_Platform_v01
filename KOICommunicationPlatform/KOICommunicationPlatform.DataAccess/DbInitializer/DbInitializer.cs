@@ -61,18 +61,18 @@ namespace KOICommunicationPlatform.DataAccess.DbInitializer
                 // Create admin user
                 var adminUser = new ApplicationUser
                 {
-                    UserName = "yashoman0608@gmail.com",
-                    Email = "yashoman0608@gmail.com",
-                    GivenName = "Yashoman",
-                    Surname = "Wickramasinghe",
-                    PhoneNumber = "0449620185",
+                    UserName = "admin email",
+                    Email = "admin email",
+                    GivenName = "Admin Name",
+                    Surname = "Admin Surname",
+                    PhoneNumber = "Admin Mobile",
                     UserType = SD.Website_Admin,
                     IsActive = true,
                 };
 
                 _userManager.CreateAsync(adminUser, "Admin123*").GetAwaiter().GetResult();
 
-                var user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "yashoman0608@gmail.com");
+                var user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin email");
                 _userManager.AddToRoleAsync(user, SD.Website_Admin).GetAwaiter().GetResult();
 
                 var applicationDomain = _configuration["EmailSettings:Domain"];

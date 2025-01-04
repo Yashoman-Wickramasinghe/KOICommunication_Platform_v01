@@ -130,14 +130,15 @@ namespace KOICommunicationPlatform.Areas.Admin.Controllers
             obj.ProjectDeliverable.StartDate = obj.StartDate;
             obj.ProjectDeliverable.EndDate = obj.EndDate;
             obj.ProjectDeliverable.Id = obj.Id;
+            obj.ProjectDeliverable.IsActive = true;
             if (obj.Id == 0)
                 {
-                    _unitOfWork.ProjectDeliverable.Add(obj.ProjectDeliverable);
+                _unitOfWork.ProjectDeliverable.Add(obj.ProjectDeliverable);
                 TempData["success"] = "Project Deliverable created successfully";
             }
                 else
                 {
-                    _unitOfWork.ProjectDeliverable.Update(obj.ProjectDeliverable);
+                _unitOfWork.ProjectDeliverable.Update(obj.ProjectDeliverable);
                 TempData["success"] = "Project Deliverable updated successfully";
             }
                 _unitOfWork.Save();

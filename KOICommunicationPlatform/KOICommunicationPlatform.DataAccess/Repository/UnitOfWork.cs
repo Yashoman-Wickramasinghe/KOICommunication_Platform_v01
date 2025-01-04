@@ -27,6 +27,11 @@ namespace KOICommunicationPlatform.Models
             StudentGroupDetail = new StudentGroupDetailRepository(_db);
             DocumentUpload = new DocumentUploadRepository(_db);
             CommentsOnDocumentUpload = new CommentsOnDocumentUploadRepository(_db);
+            Sprint = new SprintRepository(_db);
+            TaskBoard = new TaskBoardRepository(_db);
+            SprintTask = new SprintTaskRepository(_db);
+            SprintTaskAssignment = new SprintTaskAssignmentRepository(_db);
+            CommentsOnTaskBoard = new CommentsOnTaskBoardRepository(_db);
         }
         
         public IProjectDeliverableRepository ProjectDeliverable { get; private set; }
@@ -39,6 +44,11 @@ namespace KOICommunicationPlatform.Models
         public IStudentGroupDetailRepository StudentGroupDetail { get; private set; }
         public IDocumentUploadRepository DocumentUpload {  get; private set; }
         public ICommentsOnDocumentUploadRepository CommentsOnDocumentUpload { get; private set; }
+        public ISprintRepository Sprint { get; private set; }
+        public ITaskBoardRepository TaskBoard { get; private set; }
+        public ISprintTaskRepository SprintTask { get; private set; }
+        public ISprintTaskAssignmentRepository SprintTaskAssignment { get; private set; }
+        public ICommentsOnTaskBoardRepository CommentsOnTaskBoard { get; private set; }
         public void Save()
         {
             _db.SaveChanges();
